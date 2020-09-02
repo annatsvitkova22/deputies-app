@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "deputies-app"
+    }
+  },
+  "defaultProject": "deputies-app",
+  "cli": {
+    "analytics": false
+  }
 }
