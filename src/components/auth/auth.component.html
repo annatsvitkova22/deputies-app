@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="wrapper">
+        <div name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
+        <div class="form-group">
+            <input 
+            type="text"
+            class="form-control"
+            id="email"
+            [ngClass]="{'is-invalidClass':form.get('email').touched && form.get('email').invalid}"
+            formControlName="email"
+            required
+            />
+            <div class="label-box">
+                <label class="d-block form-label" for="email">Login</label>
+            </div>
+            <div *ngIf="form.get('email').touched && form.get('email').invalid"
+                class="invalid-feedback">
+                <span 
+                    *ngIf="form.get('email').errors.required"
+                    class="is-invalid"
+                >
+                    Login is required
+                </span>
+                <span 
+                    *ngIf="form.get('email').errors.email"
+                    class="is-invalid"
+                >
+                    Login must be a valid email address
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <input 
+            type="password"
+            class="form-control"
+            id="password"
+            [ngClass]="{'is-invalidClass':form.get('password').touched && form.get('password').invalid}"
+            formControlName="password"
+            required
+            />
+            <div class="label-box">
+                <label class="d-block form-label" for="password">Password</label>
+            </div>
+            <div *ngIf="form.get('password').touched && form.get('password').invalid"
+                class="invalid-feedback">
+                <span 
+                    *ngIf="form.get('password').errors.required"
+                    class="is-invalid"
+                >
+                    Password is required
+                </span>
+                <span 
+                    *ngIf="form.get('password').errors.minlength"
+                    class="is-invalid"
+                >
+                    Password must be a letaset 6 charector
+                </span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <p class="btn-forgot" (click)="onReset()">Forgot password</p>
+            <a [routerLink]="['/signUp']">
+                Create account
+            </a>
+        </div>
+        <div *ngIf="isError" class="is-invalid is-auth">
+            <p>{{message}}</p>
+        </div>
+        <button type="button" (click)="onSubmit()" [disabled]="!form.valid" class="btn btn-blue btn-big mt-10">Sing In</button>
+        <!-- <button type="button" (click)="onSignUp()" class="btn btn-blue btn-big mt-10"></button> -->
+        
+    </div>
+</div>

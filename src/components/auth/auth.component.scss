@@ -1,0 +1,94 @@
+@import '../../styles/variables';
+
+.wrapper {
+    margin-top: 50px;
+    padding: 15px 20px 20px;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid $gray-10;
+    border-radius: 4px;
+}
+
+.form-group {
+    padding-bottom: 25px;
+}
+
+.is-invalid {
+    color: $red;
+    font-size: 14px;
+    padding-top: 5px;
+}
+
+.label-box {
+    position: relative;
+}
+
+.label-box::before,
+.label-box::after {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: $blue;
+    content: "";
+    transition-duration: 0.2s;
+    transition-property: width;
+}
+
+.label-box::before {
+    left: 50%;
+}
+
+.label-box::after {
+    right: 50%;
+}
+.form-control:focus {
+    outline: none;
+}
+
+.form-control:focus ~ .label-box::before,
+.form-control:focus ~ .label-box::after {
+    width: 50%;
+}
+
+.form-control {
+    box-sizing: border-box;
+    padding: 5px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid $gray-3;
+}
+
+.form-label {
+    position: absolute;
+    top: -20px;
+    left: 5px;
+    color: $gray-3;
+    border-radius: 0;
+    transition: 0.2s ease all;
+    pointer-events: none;
+}
+
+.form-control:focus ~ .label-box .form-label,
+.form-control:valid ~ .label-box .form-label {
+    font-size: 14px;
+    transform: translateY(-20px);
+}
+
+.is-invalidClass {
+    border-bottom: 1px solid $red;
+}
+
+.is-auth {
+    padding-top: 15px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.btn-forgot {
+    cursor: pointer;
+    transition: all 0.3s;
+}

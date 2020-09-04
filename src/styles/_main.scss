@@ -76,9 +76,11 @@ p {
 }
 
 .btn {
+    font-size: 16px;
     padding: 7px 10px;
     border-radius: 4px;
     background-color: $white;
+    text-align: center;
     transition: all 0.3s;
     cursor: pointer;
 
