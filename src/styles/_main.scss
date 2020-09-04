@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&display=swap');
+@import 'variables';
+
+*,
+*::before,
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $white;
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1;
+    font-family: 'Rubik', sans-serif;
+    color: $black;
+}
+
+a {
+    display: inline-block;
+    color: $black;
+    text-decoration: none;
+    &:hover,
+    &:focus {
+        color: $black;
+    }
+}
+
+.list-reset {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.d-none {
+    display: none;
+}
+
+.d-block {
+    display: block;
+}
+
+.justify-content {
+    &-between {
+        justify-content: space-between;
+    }
+
+    &-center {
+        justify-content: center;
+    }
+
+    &-end {
+        justify-content: flex-end;
+    }
+}
+
+.align-items {
+    &-center {
+        align-items: center;
+    }
+}
+
+p {
+    margin: 0;
+}
+
+.container {
+    max-width: 1300px;
+    padding: 0 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    padding: 7px 10px;
+    border-radius: 4px;
+    background-color: $white;
+    transition: all 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        color: $white;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    &-blue {
+        border: 1px solid $blue;
+        color: $blue;
+
+        &:hover {
+            background-color: $blue;
+        }
+    }
+
+    &-red {
+        border: 1px solid $red;
+        color: $red;
+
+        &:hover {
+            background-color: $red;
+        }
+    }
+
+    &-green {
+        border: 1px solid $green;
+        color: $green;
+
+        &:hover {
+            background-color: $green;
+        }
+    }
+
+    &-big {
+        width: 100%;
+    }
+}
+
+.form-control {
+    width: 100%;
+    margin-top: 5px;
+    padding: 7px 10px;
+    border-radius: 4px;
+    border: 1px solid $gray-10;
+}
+
+.form-group {
+    padding:10px 0;
+
+    &:last-of-type {
+        padding: 0 0 10px;
+    }
+}
