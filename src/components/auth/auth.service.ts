@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 import { MainState } from '../../store/main.state';
 import { AddAuth } from '../../store/auth.action';
-import { AuthState, CreateUser } from '../../models';
+import { AuthState, CreateUser, AuthUser } from '../../models';
 
 @Injectable()
 export class AuthService {
@@ -35,26 +35,26 @@ export class AuthService {
         return success;
     }
 
-    async setUser(userId: string, email: string, role: string): Promise<void> {
+    async setUser(userId: string, email: string, role: string, token = null): Promise<void> {
         const authStore: AuthState = {
             isAuth: true,
             user: { role, email, userId }
         };
         this.store.dispatch(new AddAuth(authStore));
-        const getIdTokenResult = await auth().currentUser.getIdTokenResult();
-        localStorage.setItem('deputies-app', getIdTokenResult.token);
+        let getIdTokenResult: auth.IdTokenResult;
+        if (!token) {
+            getIdTokenResult = await auth().currentUser.getIdTokenResult();
+        }
+        localStorage.setItem('deputies-app', token ? token : getIdTokenResult.token);
+
+        await this.store.select('authStore').subscribe((data: AuthState) => console.log('data', data) );
     }
 
     async signUp(data: CreateUser): Promise<boolean> {
         let success: boolean = false;
         const {email, password, name}: CreateUser = data;
         await this.authFire.createUserWithEmailAndPassword(email, password).then(async result => {
-            await this.db.collection('users').doc(result.user.uid).set({
-                name,
-                email,
-                role: 'user'
-            });
-            await this.setUser(result.user.uid, email, 'user');
+            await this.writeUserToCollection(result.user.uid, name, email);
             this.router.navigate(['/']);
         }).catch(err => {
             success = true;
@@ -63,10 +63,9 @@ export class AuthService {
         return success;
     }
 
-    async ResetPassword(): Promise<string> {
+    async resetPassword(email: string): Promise<string> {
         let message: string = 'Check your email';
 
-        const email: string = await this.getAuthUser();
         await this.authFire.sendPasswordResetEmail(email).catch(err => message = err.message);
 
         return message;
@@ -76,9 +75,53 @@ export class AuthService {
         let email: string;
 
         await this.authFire.onAuthStateChanged(user => {
-            email = user.email;
+            if (user) {
+                email = user.email;
+            } else {
+                email = null;
+            }
         });
 
         return email;
+    }
+
+    async googleSingIn(): Promise<void> {
+        const provider = new auth.GoogleAuthProvider();
+        const credential = await this.authFire.signInWithPopup(provider);
+
+        const { uid, email, displayName} = credential.user;
+        if (credential.additionalUserInfo.isNewUser) {
+            await this.writeUserToCollection(uid, displayName, email);
+        }
+        await this.setUser(uid, email, 'user');
+    }
+
+    async writeUserToCollection(userId: string, name: string, email: string): Promise<boolean> {
+        try {
+            await this.db.collection('users').doc(userId).set({
+                name,
+                email,
+                role: 'user'
+            });
+        } catch (error) {
+            return error;
+        }
+
+        return true;
+    }
+
+    getUserById(id: string): AuthUser {
+        let foundUser: AuthUser;
+        this.db.collection('users').doc(id).get().subscribe( (snapshot) => {
+            const user: firebase.firestore.DocumentData = snapshot.data();
+
+            foundUser = {
+                userId: id,
+                role: user.role,
+                email: user.email
+            };
+        });
+
+        return foundUser;
     }
 }

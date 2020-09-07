@@ -144,3 +144,21 @@ p {
         padding: 0 0 10px;
     }
 }
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.is-invalid {
+    color: $red;
+}
+
+.wrapper-form {
+    margin-top: 50px;
+    padding: 20px;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid $gray-10;
+    border-radius: 4px;
+}

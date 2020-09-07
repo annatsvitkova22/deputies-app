@@ -11,12 +11,17 @@ import { AuthComponent } from './auth/auth.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
 import { AuthService } from './auth/auth.service';
 import { authReducer } from '../store/auth.reducer';
+import { GenericInputComponent } from './generic-input/generic-input.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AuthGuard } from './main/auth.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    SingUpComponent
+    SingUpComponent,
+    GenericInputComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,8 @@ import { authReducer } from '../store/auth.reducer';
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [
-    AuthService
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

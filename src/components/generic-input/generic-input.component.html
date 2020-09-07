@@ -1,0 +1,23 @@
+<div class="form-group">
+    <input class="form-control"
+        [type]="type" #input
+        (input)="onChange($event.target.value)"
+        (blur)="onTouched()"
+        [disabled]="disabled"
+        class="form-control"
+        [id] = "id"
+        [ngClass]="{'is-invalidClass':controlDir && !controlDir.control.valid 
+        && controlDir.control.touched}"
+        required
+    />
+
+    <div class="label-box">
+        <label class="d-block form-label" [for]="id" *ngIf="isRequired">{{label}}*</label>
+        <label class="d-block form-label" [for]="id" *ngIf="!isRequired">{{label}}</label>
+    </div>
+    <div class="invalid-feedback"
+            *ngIf="controlDir && !controlDir.control.valid 
+            && controlDir.control.touched">
+            <span class="is-invalid">{{errorMsg}}</span>
+    </div>
+</div>

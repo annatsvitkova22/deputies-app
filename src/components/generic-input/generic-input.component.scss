@@ -1,0 +1,70 @@
+@import '../../styles/variables';
+
+.form-group {
+    padding-bottom: 25px;
+}
+
+.is-invalid {
+    font-size: 14px;
+    padding-top: 5px;
+}
+
+.label-box {
+    position: relative;
+}
+
+.label-box::before,
+.label-box::after {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: $blue;
+    content: "";
+    transition-duration: 0.2s;
+    transition-property: width;
+}
+
+.label-box::before {
+    left: 50%;
+}
+
+.label-box::after {
+    right: 50%;
+}
+.form-control:focus {
+    outline: none;
+}
+
+.form-control:focus ~ .label-box::before,
+.form-control:focus ~ .label-box::after {
+    width: 50%;
+}
+
+.form-control {
+    box-sizing: border-box;
+    padding: 5px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid $gray-3;
+}
+
+.form-label {
+    position: absolute;
+    top: -20px;
+    left: 5px;
+    color: $gray-3;
+    border-radius: 0;
+    transition: 0.2s ease all;
+    pointer-events: none;
+}
+
+.form-control:focus ~ .label-box .form-label,
+.form-control:valid ~ .label-box .form-label {
+    font-size: 14px;
+    transform: translateY(-20px);
+}
+
+.is-invalidClass {
+    border-bottom: 1px solid $red;
+}
