@@ -26,4 +26,8 @@ export class AuthComponent implements OnInit {
   onGoogleLogin = async () => {
     await this.authService.googleSingIn();
   }
+
+  onFacebookLogin = async () => {
+    await this.authService.facebookSingIn();
+  }
 }

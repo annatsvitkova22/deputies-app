@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="wrapper-form">
+        <div name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
+        <div class="form-group">
+            <label for="title">Тема задачи</label>
+            <input 
+            type="text"
+            class="form-control"
+            id="title"
+            placeholder="Placeholder"
+            name="title"
+            [ngClass]="{'is-invalidClass':form.get('title').touched && form.get('title').invalid}"
+            formControlName="title"
+            required
+            />
+            <div *ngIf="form.get('title').touched && form.get('title').invalid"
+                class="invalid-feedback">
+                <p 
+                    *ngIf="form.get('title').errors"
+                    class="is-invalid"
+                >
+                    Login is required
+                </p>
+            </div>
+        </div>
+        <div>
+            <label for="description">Опис</label>
+            <textarea
+                class="form-control"
+                placeholder="Placeholder"
+                formControlName="description"
+                name="description">
+            </textarea
+            >
+        </div>
+        <div class="form-group">
+            <label for="district">Район</label>
+            <select 
+                class="form-control"
+                formControlName="district"
+                (ngModelChange)="onDistrictsChange($event)"
+                name="district">
+                <option value="" disabled>Обрати район</option>
+                <option *ngFor="let district of districts" [ngValue]="district">
+                    {{ district.name }}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="deputy">Вiдповiдальний депутат</label>
+            <select
+                class="form-control"
+                formControlName="deputy"
+                (ngModelChange)="onDeputyChange($event)"
+                name="deputy">
+                <option value="" disabled>Обрати...</option>
+                <option *ngFor="let deputy of deputies" [ngValue]="deputy">
+                    {{ deputy.name }}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input 
+                type="file"
+                (change)="onFileChange($event)"/>
+        </div>
+        <div class="form-group">
+            <input 
+                type="checkbox"
+                formControlName="confirmation"
+                name="confirmation"
+            />
+            <label for="confirmation">Lorem ipsum dolor sit amet consectetur adipisicing elit.</label>
+        </div>
+        <div *ngIf="isError" class="is-invalid is-auth">
+            <p>{{message}}</p>
+        </div>
+        <button type="button" (click)="onSubmit()" [disabled]="!form.valid" class="btn btn-blue btn-big">Створити запит</button>
+    </div>
+</div>

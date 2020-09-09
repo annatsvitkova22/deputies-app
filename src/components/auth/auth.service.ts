@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 import { MainState } from '../../store/main.state';
 import { AddAuth } from '../../store/auth.action';
-import { AuthState, CreateUser, AuthUser } from '../../models';
+import { AuthState, CreateUser } from '../../models';
 
 @Injectable()
 export class AuthService {
@@ -46,8 +46,6 @@ export class AuthService {
             getIdTokenResult = await auth().currentUser.getIdTokenResult();
         }
         localStorage.setItem('deputies-app', token ? token : getIdTokenResult.token);
-
-        await this.store.select('authStore').subscribe((data: AuthState) => console.log('data', data) );
     }
 
     async signUp(data: CreateUser): Promise<boolean> {
@@ -87,6 +85,15 @@ export class AuthService {
 
     async googleSingIn(): Promise<void> {
         const provider = new auth.GoogleAuthProvider();
+        this.singInBySocial(provider);
+    }
+
+    async facebookSingIn(): Promise<void> {
+        const provider = new auth.FacebookAuthProvider();
+        this.singInBySocial(provider);
+    }
+
+    async singInBySocial(provider): Promise<void> {
         const credential = await this.authFire.signInWithPopup(provider);
 
         const { uid, email, displayName} = credential.user;
@@ -110,18 +117,10 @@ export class AuthService {
         return true;
     }
 
-    getUserById(id: string): AuthUser {
-        let foundUser: AuthUser;
-        this.db.collection('users').doc(id).get().subscribe( (snapshot) => {
-            const user: firebase.firestore.DocumentData = snapshot.data();
+    async getUserId(): Promise<string>  {
+        let userId: string;
+        this.store.select('authStore').subscribe((data: AuthState) =>  userId = data.user.userId);
 
-            foundUser = {
-                userId: id,
-                role: user.role,
-                email: user.email
-            };
-        });
-
-        return foundUser;
+        return userId;
     }
 }

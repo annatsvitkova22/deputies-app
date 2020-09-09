@@ -29,15 +29,16 @@ export class AuthGuard implements CanActivate {
                     const userId: string = idTokenResult.claims.user_id;
                     await this.db.collection('users').doc(userId).get().subscribe(async (snapshot) => {
                         const user: firebase.firestore.DocumentData = snapshot.data();
+                        await this.authService.setUser(userId, user.email, user.role, idTokenResult.token);
                     });
                 }
                 isAuth = true;
             } else {
-                this.router.navigate(['/login']);
+                this.router.navigate(['/signIn']);
                 isAuth = false;
             }
         } catch (error) {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/signIn']);
             isAuth = false;
         }
 

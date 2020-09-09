@@ -14,6 +14,8 @@ import { authReducer } from '../store/auth.reducer';
 import { GenericInputComponent } from './generic-input/generic-input.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthGuard } from './main/auth.guard';
+import { AppealComponent } from './appeal/appeal.component';
+import { AppealService } from './appeal/appeal.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { AuthGuard } from './main/auth.guard';
     AuthComponent,
     SingUpComponent,
     GenericInputComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    AppealComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,8 @@ import { AuthGuard } from './main/auth.guard';
   ],
   providers: [
     AuthService,
-    AuthGuard
+    AuthGuard,
+    AppealService
   ],
   bootstrap: [AppComponent]
 })

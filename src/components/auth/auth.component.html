@@ -19,7 +19,7 @@
             </app-generic-input>
             <div class="d-flex justify-content-between">
                 <a [routerLink]="['/resetPassword']" class="btn-forgot">Forgot password</a>
-                <a [routerLink]="['/page']">
+                <a [routerLink]="['/signUp']">
                     Create account
                 </a>
             </div>
@@ -29,6 +29,7 @@
     
             <button [disabled]="!f.valid" type="submit" class="btn btn-blue btn-big mt-10">Sign in</button>
             <button type="button" (click)="onGoogleLogin()" class="btn btn-blue btn-big mt-10">Login with Google</button>
+            <button type="button" (click)="onFacebookLogin()" class="btn btn-blue btn-big mt-10">Login with Facebook</button>
         </form>
     </div>
 </div>

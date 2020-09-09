@@ -4,7 +4,6 @@
         (input)="onChange($event.target.value)"
         (blur)="onTouched()"
         [disabled]="disabled"
-        class="form-control"
         [id] = "id"
         [ngClass]="{'is-invalidClass':controlDir && !controlDir.control.valid 
         && controlDir.control.touched}"
