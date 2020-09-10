@@ -1,0 +1,16 @@
+<div class="">
+    <form class="form-signin" (ngSubmit)="onSubmit(f.value)" #f="ngForm" >
+        <app-generic-input
+            [isRequired]="true"
+            [errorMsg]="'Об`язкове поле'"
+            [label] = "'Email'"
+            [id] = "'email'"
+            [pattern]="'[A-Za-z0-9._%-+]+@[A-Za-z0-9._%-]+\\.[a-z]{2,20}'"
+            ngModel name="email">
+        </app-generic-input>
+        <div *ngIf="isError" class="is-invalid is-auth">
+            <p>{{message}}</p>
+        </div>
+        <button [disabled]="!f.valid" type="submit" class="btn btn-blue">Зберегти</button>
+    </form>
+</div>

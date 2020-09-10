@@ -20,16 +20,13 @@ export class AuthService {
     ) {}
 
     async signIn(email: string, password: string): Promise<boolean> {
-        console.log('userddddddddd', auth().currentUser);
         let success: boolean = false;
         await this.authFire.signInWithEmailAndPassword(email, password).then(async result => {
             await this.db.collection('users').doc(result.user.uid).get().subscribe(async (snapshot) => {
                 const user: firebase.firestore.DocumentData = snapshot.data();
                 await this.setUser(result.user.uid, user.email, user.role);
-                this.router.navigate(['/createDeputy']);
+                this.router.navigate(['/settings']);
             });
-
-            auth().currentUser.updateEmail('vlad.lozitskiy+0000@gmail.com');
         }).catch(err => {
             success = true;
         });

@@ -4,6 +4,7 @@ import { AngularFireModule } from '@angular/fire';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './main/app-routing.module';
 import { AppComponent } from './main/app.component';
@@ -18,6 +19,10 @@ import { AuthGuard } from './main/auth.guard';
 import { AppealComponent } from './appeal/appeal.component';
 import { AppealService } from './appeal/appeal.service';
 import { NgbdModalContent } from './modal/modal.component';
+import { SettingsService } from './settings/settings.service';
+import { SettingsComponent } from './settings/settings.component';
+import { ChangeEmailComponent } from './settings/change-email/change-email.component';
+import { ChangePasswordComponent } from './settings/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +32,10 @@ import { NgbdModalContent } from './modal/modal.component';
     GenericInputComponent,
     ResetPasswordComponent,
     AppealComponent,
-    NgbdModalContent
+    NgbdModalContent,
+    SettingsComponent,
+    ChangeEmailComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +43,7 @@ import { NgbdModalContent } from './modal/modal.component';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    HttpClientModule,
     StoreModule.forRoot({authStore: authReducer}),
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
@@ -42,6 +51,7 @@ import { NgbdModalContent } from './modal/modal.component';
     AuthService,
     AuthGuard,
     AppealService,
+    SettingsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [NgbdModalContent]

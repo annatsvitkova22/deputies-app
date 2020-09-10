@@ -145,8 +145,14 @@ p {
     }
 }
 
-.mt-10 {
-    margin-top: 10px;
+$values: (10, 20, 30, 40);
+
+@each $value in $values {
+    .mt {
+        &-#{$value} {
+            margin-top: #{$value}px;
+        }
+    }
 }
 
 .is-invalid {
@@ -161,4 +167,31 @@ p {
     margin-right: auto;
     border: 1px solid $gray-10;
     border-radius: 4px;
+}
+
+.nav-tabs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+
+    .nav-item:last-of-type {
+        margin-left: 20px;
+    }
+
+    .nav-link.active {
+        text-decoration: underline;
+    }
+}
+
+.tab-content {
+    margin-top: 50px;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+.modal-footer {
+    justify-content: center;
 }

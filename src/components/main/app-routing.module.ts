@@ -6,12 +6,14 @@ import { AuthGuard } from './auth.guard';
 import { SingUpComponent } from '../sing-up/sing-up.component';
 import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 import { AppealComponent } from '../appeal/appeal.component';
+import { SettingsComponent } from '../settings/settings.component';
 
 const routes: Routes = [
   { path: 'signUp', component: SingUpComponent },
   { path: 'signIn', component: AuthComponent },
   { path: 'resetPassword', component: ResetPasswordComponent},
   { path: 'createDeputy', component: AppealComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: '', pathMatch: 'full', component: ResetPasswordComponent, canActivate: [AuthGuard] }
 ];
 

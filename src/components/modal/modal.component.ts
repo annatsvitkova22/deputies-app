@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
@@ -14,11 +14,13 @@ import { Router } from '@angular/router';
             <h1>{{name}}</h1>
         </div>
         <div class="modal-footer">
+            <p>{{message}}</p>
         </div>
     `
 })
-export class NgbdModalContent {
+export class NgbdModalContent implements OnDestroy {
     @Input() name;
+    @Input() message;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -26,7 +28,11 @@ export class NgbdModalContent {
     ) {}
 
     onClose(): void {
-        this.router.navigate(['/signIn']);
+        
         this.activeModal.dismiss('Cross click');
+    }
+
+    ngOnDestroy(): void {
+        this.router.navigate(['/']);
     }
 }
