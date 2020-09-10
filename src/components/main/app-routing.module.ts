@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: 'signUp', component: SingUpComponent },
   { path: 'signIn', component: AuthComponent },
   { path: 'resetPassword', component: ResetPasswordComponent},
-  { path: '', pathMatch: 'full', component: AppealComponent, canActivate: [AuthGuard] }
+  { path: 'createDeputy', component: AppealComponent, canActivate: [AuthGuard] },
+  { path: '', pathMatch: 'full', component: ResetPasswordComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+
 import { AppealService } from './appeal.service';
 import { District, Deputy, ResultModel } from '../../models';
 import { AuthService } from '../auth/auth.service';
+import { NgbdModalContent } from '../modal/modal.component';
 
 @Component({
     selector: 'app-appeal',
@@ -26,17 +30,24 @@ export class AppealComponent implements OnInit {
 
     constructor(
         private appealService: AppealService,
-        private authService: AuthService
+        private authService: AuthService,
+        private modalService: NgbModal,
+        private router: Router,
     ){}
 
     async ngOnInit(): Promise<void> {
-        this.districts = await this.appealService.getDistricts();
-        this.allDeputies = await this.appealService.getDeputy();
-        this.deputies = this.allDeputies;
+        const userRole = await this.authService.getUserRole();
+        if (userRole !== 'deputy') {
+            this.districts = await this.appealService.getDistricts();
+            this.allDeputies = await this.appealService.getDeputy();
+            this.deputies = this.allDeputies;
+        } else {
+            this.router.navigate(['/']);
+        }
     }
 
     onFileChange(event): void {
-        console.log('event', event)
+        console.log('event', event);
     }
 
     async onSubmit(): Promise<void> {
@@ -47,18 +58,26 @@ export class AppealComponent implements OnInit {
             description,
             deputyId: deputy.id,
             districtId: deputy.district,
-            userId
+            userId,
+            status: 'to do'
         };
         const result: ResultModel = await this.appealService.createAppeal(appeal);
-        this.isError = !result.status;
-        this.message = result.status ? null : result.message;
+        if (result.status) {
+            const modalRef = this.modalService.open(NgbdModalContent, {
+                size: 'lg'
+            });
+            modalRef.componentInstance.name = 'Ваш запрос успешно создан';
+        } else {
+            this.isError = !result.status;
+            this.message = result.message;
+        }
     }
 
-    onDistrictsChange(value) {
+    onDistrictsChange(value): void {
         this.deputies = this.allDeputies.filter(deputy => deputy.district === value.id);
     }
 
-    onDeputyChange(value) {
+    onDeputyChange(value): void {
         if (this.form.value.district === '') {
             this.districts = this.districts.filter(district => district.id === value.district);
         }

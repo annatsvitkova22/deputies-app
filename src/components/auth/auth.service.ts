@@ -20,14 +20,16 @@ export class AuthService {
     ) {}
 
     async signIn(email: string, password: string): Promise<boolean> {
+        console.log('userddddddddd', auth().currentUser);
         let success: boolean = false;
         await this.authFire.signInWithEmailAndPassword(email, password).then(async result => {
             await this.db.collection('users').doc(result.user.uid).get().subscribe(async (snapshot) => {
                 const user: firebase.firestore.DocumentData = snapshot.data();
                 await this.setUser(result.user.uid, user.email, user.role);
+                this.router.navigate(['/createDeputy']);
             });
 
-            this.router.navigate(['/']);
+            auth().currentUser.updateEmail('vlad.lozitskiy+0000@gmail.com');
         }).catch(err => {
             success = true;
         });
@@ -53,6 +55,7 @@ export class AuthService {
         const {email, password, name}: CreateUser = data;
         await this.authFire.createUserWithEmailAndPassword(email, password).then(async result => {
             await this.writeUserToCollection(result.user.uid, name, email);
+            result.user.sendEmailVerification();
             this.router.navigate(['/']);
         }).catch(err => {
             success = true;
@@ -122,5 +125,12 @@ export class AuthService {
         this.store.select('authStore').subscribe((data: AuthState) =>  userId = data.user.userId);
 
         return userId;
+    }
+
+    async getUserRole(): Promise<string>  {
+        let userRole: string;
+        this.store.select('authStore').subscribe((data: AuthState) =>  userRole = data.user.role);
+
+        return userRole;
     }
 }

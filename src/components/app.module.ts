@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './main/app-routing.module';
 import { AppComponent } from './main/app.component';
@@ -16,6 +17,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { AuthGuard } from './main/auth.guard';
 import { AppealComponent } from './appeal/appeal.component';
 import { AppealService } from './appeal/appeal.service';
+import { NgbdModalContent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -24,21 +26,24 @@ import { AppealService } from './appeal/appeal.service';
     SingUpComponent,
     GenericInputComponent,
     ResetPasswordComponent,
-    AppealComponent
+    AppealComponent,
+    NgbdModalContent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
     StoreModule.forRoot({authStore: authReducer}),
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [
     AuthService,
     AuthGuard,
-    AppealService
+    AppealService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [NgbdModalContent]
 })
 export class AppModule { }

@@ -20,6 +20,9 @@ export class AuthGuard implements CanActivate {
     async canActivate(): Promise<boolean> {
         let isAuth: boolean;
         try {
+            const currentUser = await auth().onAuthStateChanged(function (user) {
+                console.log('user', user)
+            });
             const idTokenResult = await auth().currentUser.getIdTokenResult(true);
             const timeNow = Math.round(new Date().getTime() / 1000);
             if (idTokenResult && idTokenResult.claims.exp > timeNow) {
