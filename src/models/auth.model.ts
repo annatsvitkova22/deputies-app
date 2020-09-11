@@ -14,3 +14,9 @@ export interface CreateUser {
     password: string;
     name: string;
 }
+
+export interface ChangeEmail {
+    userId: string;
+    oldUserEmail: string;
+    newUserEmail: string;
+}

@@ -124,6 +124,13 @@ export class AuthService {
         return userId;
     }
 
+    async getUserEmail(): Promise<string>  {
+        let userEmail: string;
+        this.store.select('authStore').subscribe((data: AuthState) =>  userEmail = data.user.email);
+
+        return userEmail;
+    }
+
     async getUserRole(): Promise<string>  {
         let userRole: string;
         this.store.select('authStore').subscribe((data: AuthState) =>  userRole = data.user.role);

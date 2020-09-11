@@ -1,30 +1,48 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { auth } from 'firebase';
+import { throwError, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
+
 import { AuthService } from '../auth/auth.service';
-import { ResultModel } from '../../models';
+import { ResultModel, ChangeEmail } from '../../models';
 
 @Injectable()
 export class SettingsService {
-    httpClient: any;
+    private changeEmail: string = 'https://us-central1-deputy-app.cloudfunctions.net/updateEmail';
 
     constructor(
-        private db: AngularFirestore,
-        private authService: AuthService
+        private authService: AuthService,
+        private httpClient: HttpClient,
     ) {}
 
     async updateEmail(email): Promise<boolean> {
         try {
-            await auth().currentUser.updateEmail(email).then(async () => {
-                auth().currentUser.sendEmailVerification();
-                // const userId = await this.authService.getUserId();
-                // await this.db.collection('users').doc(userId).update({email});
+            const userId = await this.authService.getUserId();
+            const oldUserEmail = await this.authService.getUserEmail();
+            const data: ChangeEmail = {
+                userId,
+                oldUserEmail,
+                newUserEmail: email
+            };
+
+            await this.sendEmailDeputy(data).toPromise().then((res: boolean) => {
+                return res;
             });
         } catch (error) {
             return false;
         }
 
         return true;
+    }
+
+    sendEmailDeputy(data: ChangeEmail): Observable<any> {
+        return this.httpClient.post(this.changeEmail, data)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    errorHandler(error: HttpErrorResponse) {
+        return throwError(error.message || 'Server Error');
     }
 
     async updatePassword(password, oldPassword): Promise<ResultModel> {
@@ -52,7 +70,6 @@ export class SettingsService {
                 message: 'Помилка оновлення паролю'
             };
         }
-        console.log('result', result)
         return result;
     }
 }
