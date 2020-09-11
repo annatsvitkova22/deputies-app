@@ -195,3 +195,9 @@ $values: (10, 20, 30, 40);
 .modal-footer {
     justify-content: center;
 }
+
+ngb-datepicker.dropdown-menu {
+    left: auto !important;
+    right: 0;
+    background-color: azure;
+}

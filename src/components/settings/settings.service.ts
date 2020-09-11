@@ -3,9 +3,10 @@ import { auth } from 'firebase';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse, HttpClient } from '@angular/common/http';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 import { AuthService } from '../auth/auth.service';
-import { ResultModel, ChangeEmail } from '../../models';
+import { ResultModel, ChangeEmail, Party, UserModel, UserFormModel } from '../../models';
 
 @Injectable()
 export class SettingsService {
@@ -14,6 +15,7 @@ export class SettingsService {
     constructor(
         private authService: AuthService,
         private httpClient: HttpClient,
+        private db: AngularFirestore,
     ) {}
 
     async updateEmail(email): Promise<boolean> {
@@ -70,6 +72,98 @@ export class SettingsService {
                 message: 'Помилка оновлення паролю'
             };
         }
+        return result;
+    }
+
+    async getParties(): Promise<Party[]> {
+        const parties: Party[] = [];
+        await this.db.collection('parties').get().toPromise().then(async (snapshots) => {
+            snapshots.forEach(snapshot => {
+                const district: Party = {
+                    id: snapshot.id,
+                    name: snapshot.data().name
+                };
+                parties.push(district);
+            });
+        });
+
+        return parties;
+    }
+
+    async getUser(): Promise<UserModel> {
+        let user: UserModel;
+        const userId: string = await this.authService.getUserId();
+        await this.db.collection('users').doc(userId).get().toPromise().then(async (snapshot) => {
+            const data = snapshot.data();
+            if (data.role === 'deputy') {
+                user = {
+                    id: snapshot.id,
+                    name: data.name,
+                    surname: data.surname,
+                    patronymic: data.patronymic,
+                    party: data.party,
+                    district: data.district,
+                    imageUrl: data.imageUrl,
+                    date: data.date,
+                };
+            } else {
+                user = {
+                    id: snapshot.id,
+                    name: data.name,
+                    imageUrl: data.imageUrl,
+                    date: data.date,
+                };
+            }
+        });
+        return user;
+    }
+
+    async updateDeputy(data: UserFormModel, imageUrl: string = null): Promise<ResultModel> {
+        let result: ResultModel;
+        const { name, surname, patronymic, district, party, description, date} = data;
+        const userId: string = await this.authService.getUserId();
+        await this.db.collection('users').doc(userId).update({
+            name,
+            surname,
+            patronymic,
+            district: district.id,
+            party: party.id,
+            description,
+            imageUrl,
+            date
+        }).then(async (snapshot) => {
+            result = {
+                status: true,
+                message: 'Вашу сторiнку оновлено'
+            };
+        }).catch(err => {
+            result = {
+                status: false,
+                message: 'Вибачте, оновлення не застосувались, спробуйте ще раз'
+            };
+        }) ;
+        return result;
+    }
+
+    async updateUser(data: UserFormModel, imageUrl: string = null): Promise<ResultModel> {
+        let result: ResultModel;
+        const { name, surname, date} = data;
+        const userId: string = await this.authService.getUserId();
+        await this.db.collection('users').doc(userId).update({
+            name: name + ' ' + surname,
+            date,
+            imageUrl
+        }).then(async (snapshot) => {
+            result = {
+                status: true,
+                message: 'Вашу сторiнку оновлено'
+            };
+        }).catch(err => {
+            result = {
+                status: false,
+                message: 'Вибачте, оновлення не застосувались, спробуйте ще раз'
+            };
+        }) ;
         return result;
     }
 }

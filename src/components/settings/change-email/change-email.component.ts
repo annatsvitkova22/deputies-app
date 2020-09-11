@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { SettingsService } from '../settings.service';
 import { NgbdModalContent } from '../../modal/modal.component';
@@ -18,12 +18,12 @@ export class ChangeEmailComponent {
     ){}
 
     onSubmit = async (data) => {
-        const result = await this.settingsService.updateEmail(data.email);
+        const result: boolean = await this.settingsService.updateEmail(data.email);
         if (!result) {
             this.isError = !result;
             this.message = 'Помилка! Перевiрьте пошту, можливо строрiнка з таким email вже iснує';
         } else {
-            const modalRef = this.modalService.open(NgbdModalContent, {
+            const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent, {
                 size: 'lg'
             });
             modalRef.componentInstance.name = 'Ваш email успiшно змiнено';

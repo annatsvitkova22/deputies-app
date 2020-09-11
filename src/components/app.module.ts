@@ -23,6 +23,7 @@ import { SettingsService } from './settings/settings.service';
 import { SettingsComponent } from './settings/settings.component';
 import { ChangeEmailComponent } from './settings/change-email/change-email.component';
 import { ChangePasswordComponent } from './settings/change-password/change-password.component';
+import { ChangeInfoComponent } from './settings/change-info/change-info.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
     NgbdModalContent,
     SettingsComponent,
     ChangeEmailComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ChangeInfoComponent
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { SettingsService } from '../settings.service';
 import { NgbdModalContent } from '../../modal/modal.component';
+import { ResultModel } from '../../../models';
 
 @Component({
     selector: 'app-change-password',
@@ -17,15 +18,15 @@ export class ChangePasswordComponent {
         private modalService: NgbModal,
     ){}
 
-    onSubmit = async (data) => {
+    onSubmit = async (data): Promise<void> => {
         if (data.repeatPassword === data.password) {
-            const result = await this.settingsService.updatePassword(data.password, data.oldPassword);
+            const result: ResultModel = await this.settingsService.updatePassword(data.password, data.oldPassword);
 
             if (!result.status) {
                 this.isError = !result.status;
                 this.message = result.message;
             } else {
-                const modalRef = this.modalService.open(NgbdModalContent, {
+                const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent, {
                     size: 'lg'
                 });
                 modalRef.componentInstance.name = 'Ваш пароль успiшно змiнено';
