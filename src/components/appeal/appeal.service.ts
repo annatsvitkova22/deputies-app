@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as moment from 'moment';
 
-import { District, Deputy, ResultModel } from '../../models';
+import { District, Deputy, ResultModel, Appeal } from '../../models';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class AppealService {
 
     constructor(
         private db: AngularFirestore,
+        private authService: AuthService,
     ) {}
 
     async getDistricts(): Promise<District[]> {
@@ -41,7 +44,18 @@ export class AppealService {
         return deputies;
     }
 
-    async createAppeal(appeal): Promise<ResultModel> {
+    async createAppeal(data): Promise<ResultModel> {
+        const {title, description, deputy } = data;
+        const userId: string = await this.authService.getUserId();
+        const appeal: Appeal = {
+            title,
+            description,
+            deputyId: deputy.id,
+            districtId: deputy.district,
+            userId,
+            status: 'to do',
+            date: moment().format('DD.MM.YYYY'),
+        };
         let result: ResultModel;
         await this.db.collection('appeals').add(appeal).then(async (res) => {
             if (res.id) {

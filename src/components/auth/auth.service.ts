@@ -7,16 +7,21 @@ import { Router } from '@angular/router';
 
 import { MainState } from '../../store/main.state';
 import { AddAuth } from '../../store/auth.action';
-import { AuthState, CreateUser } from '../../models';
+import { AuthState, CreateUser, SocialProfile } from '../../models';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class AuthService {
+    private checkTokenPath: string = 'https://us-central1-deputy-app.cloudfunctions.net/checkToken';
 
     constructor(
         private authFire: AngularFireAuth,
         private db: AngularFirestore,
         private router: Router,
         private store: Store<MainState>,
+        private httpClient: HttpClient,
     ) {}
 
     async signIn(email: string, password: string): Promise<boolean> {
@@ -95,20 +100,23 @@ export class AuthService {
 
     async singInBySocial(provider): Promise<void> {
         const credential = await this.authFire.signInWithPopup(provider);
-
+        console.log('credential', credential)
         const { uid, email, displayName} = credential.user;
+        const profile: SocialProfile = credential.additionalUserInfo.profile as SocialProfile;
+        console.log('imageUrl', profile.picture)
         if (credential.additionalUserInfo.isNewUser) {
-            await this.writeUserToCollection(uid, displayName, email);
+            await this.writeUserToCollection(uid, displayName, email, profile.picture);
         }
         await this.setUser(uid, email, 'user');
     }
 
-    async writeUserToCollection(userId: string, name: string, email: string): Promise<boolean> {
+    async writeUserToCollection(userId: string, name: string, email: string, imageUrl: string = null): Promise<boolean> {
         try {
             await this.db.collection('users').doc(userId).set({
                 name,
                 email,
-                role: 'user'
+                role: 'user',
+                imageUrl
             });
         } catch (error) {
             return error;
@@ -136,5 +144,24 @@ export class AuthService {
         this.store.select('authStore').subscribe((data: AuthState) =>  userRole = data.user.role);
 
         return userRole;
+    }
+
+    async checkToken(): Promise<boolean> {
+        let isValid: boolean;
+        await this.getTokenResponse().toPromise().then((res) => {
+            isValid = true;
+        }).catch(err => isValid = false);
+
+        return isValid;
+    }
+
+    getTokenResponse(): Observable<any> {
+        return this.httpClient.post(this.checkTokenPath, {
+            token: localStorage.getItem('deputies-app'),
+        }).pipe(catchError(this.errorHandler));
+    }
+
+    errorHandler(error: HttpErrorResponse) {
+        return throwError(error.error.message || 'Server Error');
     }
 }

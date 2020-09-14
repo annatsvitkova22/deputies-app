@@ -25,6 +25,8 @@ export class ChangeInfoComponent implements OnInit {
     parties: Party[];
     imageUrl: string;
     userRole: string;
+    isLoader: boolean = true;
+    class: string;
 
     constructor(
         private appealService: AppealService,
@@ -63,6 +65,7 @@ export class ChangeInfoComponent implements OnInit {
                 date: user.date ? user.date : ''
             });
         }
+        this.isLoader = false;
     }
 
     onFileChange(event): void {

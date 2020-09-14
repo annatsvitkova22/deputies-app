@@ -1,4 +1,6 @@
-<div class="">
+
+<app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
+<div class="" *ngIf="!isLoader">
     <div name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
     <div class="form-group">
         <input 
@@ -11,7 +13,7 @@
     </div>
     <div class="form-group">
         <label for="name">Iм'я</label>
-        <input 
+        <input
         type="text"
         class="form-control"
         id="name"

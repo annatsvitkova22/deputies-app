@@ -6,24 +6,12 @@ import { StoreModule } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppRoutingModule } from './main/app-routing.module';
-import { AppComponent } from './main/app.component';
+import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
+  GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
+  AppealService, NgbdModalContent, SettingsService, SettingsComponent, ChangePasswordComponent, ChangeInfoComponent,
+  LoaderComponent } from './index';
 import { environment } from '../environments/environment';
-import { AuthComponent } from './auth/auth.component';
-import { SingUpComponent } from './sing-up/sing-up.component';
-import { AuthService } from './auth/auth.service';
 import { authReducer } from '../store/auth.reducer';
-import { GenericInputComponent } from './generic-input/generic-input.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { AuthGuard } from './main/auth.guard';
-import { AppealComponent } from './appeal/appeal.component';
-import { AppealService } from './appeal/appeal.service';
-import { NgbdModalContent } from './modal/modal.component';
-import { SettingsService } from './settings/settings.service';
-import { SettingsComponent } from './settings/settings.component';
-import { ChangeEmailComponent } from './settings/change-email/change-email.component';
-import { ChangePasswordComponent } from './settings/change-password/change-password.component';
-import { ChangeInfoComponent } from './settings/change-info/change-info.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +25,8 @@ import { ChangeInfoComponent } from './settings/change-info/change-info.componen
     SettingsComponent,
     ChangeEmailComponent,
     ChangePasswordComponent,
-    ChangeInfoComponent
+    ChangeInfoComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

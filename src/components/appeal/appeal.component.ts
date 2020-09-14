@@ -51,22 +51,12 @@ export class AppealComponent implements OnInit {
     }
 
     async onSubmit(): Promise<void> {
-        const {title, description, deputy } = this.form.value;
-        const userId: string = await this.authService.getUserId();
-        const appeal = {
-            title,
-            description,
-            deputyId: deputy.id,
-            districtId: deputy.district,
-            userId,
-            status: 'to do'
-        };
-        const result: ResultModel = await this.appealService.createAppeal(appeal);
+        const result: ResultModel = await this.appealService.createAppeal(this.form.value);
         if (result.status) {
             const modalRef = this.modalService.open(NgbdModalContent, {
                 size: 'lg'
             });
-            modalRef.componentInstance.name = 'Ваш запрос успешно создан';
+            modalRef.componentInstance.name = 'Вашу заявку успiшно створено';
         } else {
             this.isError = !result.status;
             this.message = result.message;

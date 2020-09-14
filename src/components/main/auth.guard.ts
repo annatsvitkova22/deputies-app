@@ -14,29 +14,41 @@ export class AuthGuard implements CanActivate {
         private router: Router,
         private store: Store<MainState>,
         private db: AngularFirestore,
-        private authService: AuthService
+        private authService: AuthService,
     ) {}
 
     async canActivate(): Promise<boolean> {
         let isAuth: boolean;
         try {
-            const currentUser = await auth().onAuthStateChanged(function (user) {
-                console.log('user', user)
-            });
-            const idTokenResult = await auth().currentUser.getIdTokenResult(true);
-            const timeNow = Math.round(new Date().getTime() / 1000);
-            if (idTokenResult && idTokenResult.claims.exp > timeNow) {
-                let userStore;
-                this.store.select('authStore').subscribe((data: AuthState) => userStore = data );
-                if (!userStore.isAuth) {
-                    const userId: string = idTokenResult.claims.user_id;
-                    await this.db.collection('users').doc(userId).get().subscribe(async (snapshot) => {
-                        const user: firebase.firestore.DocumentData = snapshot.data();
-                        await this.authService.setUser(userId, user.email, user.role, idTokenResult.token);
+            const isValidToken: boolean = await this.authService.checkToken();
+            if (isValidToken) {
+                const idTokenResult: auth.IdTokenResult = await new Promise((resolve) => {
+                    auth().onAuthStateChanged(user => {
+                        if (user) {
+                            resolve(user.getIdTokenResult());
+                        } else {
+                            this.router.navigate(['/signIn']);
+                            resolve(null);
+                        }
                     });
+                });
+                if (idTokenResult) {
+                    let userStore;
+                    const userId: string = idTokenResult.claims.user_id;
+                    this.store.select('authStore').subscribe((data: AuthState) => userStore = data );
+
+                    if (!userStore.isAuth) {
+                        await this.db.collection('users').doc(userId).get().toPromise().then(async (snapshot) => {
+                            const user: firebase.firestore.DocumentData = snapshot.data();
+                            await this.authService.setUser(userId, user.email, user.role, idTokenResult.token);
+                        });
+                    } else {
+                        localStorage.setItem('deputies-app', idTokenResult.token);
+                    }
+                    isAuth = true;
                 }
-                isAuth = true;
             } else {
+                auth().signOut();
                 this.router.navigate(['/signIn']);
                 isAuth = false;
             }
@@ -44,7 +56,6 @@ export class AuthGuard implements CanActivate {
             this.router.navigate(['/signIn']);
             isAuth = false;
         }
-
         return isAuth;
     }
 }

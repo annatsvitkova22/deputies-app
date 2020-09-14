@@ -51,3 +51,16 @@ export interface DateModel {
     month: number;
     year: number;
 }
+
+export interface SocialProfile {
+    email: string;
+    family_name?: string;
+    given_name?: string;
+    granted_scopes: string;
+    hd: string;
+    id: string;
+    locale: string;
+    name: string;
+    picture?: string;
+    verified_email: boolean;
+}

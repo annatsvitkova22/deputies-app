@@ -11,6 +11,7 @@ import { AuthService } from '../auth/auth.service';
 export class ResetPasswordComponent implements OnInit {
     isError: boolean;
     message: string;
+    id: string;
 
     constructor(
         private authService: AuthService,
