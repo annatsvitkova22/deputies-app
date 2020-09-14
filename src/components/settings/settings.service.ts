@@ -10,6 +10,7 @@ import { ResultModel, ChangeEmail, Party, UserModel, UserFormModel } from '../..
 
 @Injectable()
 export class SettingsService {
+    // tslint:disable-next-line: no-inferrable-types
     private changeEmail: string = 'https://us-central1-deputy-app.cloudfunctions.net/updateEmail';
 
     constructor(
@@ -43,6 +44,7 @@ export class SettingsService {
             .pipe(catchError(this.errorHandler));
     }
 
+    // tslint:disable-next-line: typedef
     errorHandler(error: HttpErrorResponse) {
         return throwError(error.message || 'Server Error');
     }

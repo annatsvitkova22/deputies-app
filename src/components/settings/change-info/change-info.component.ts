@@ -25,6 +25,7 @@ export class ChangeInfoComponent implements OnInit {
     parties: Party[];
     imageUrl: string;
     userRole: string;
+    // tslint:disable-next-line: no-inferrable-types
     isLoader: boolean = true;
     class: string;
 
@@ -47,8 +48,8 @@ export class ChangeInfoComponent implements OnInit {
 
             this.districts = await this.appealService.getDistricts();
             this.parties = await this.settingsService.getParties();
-            const party = this.parties.find(party => party.id === user.party);
-            const district = this.districts.find(district => district.id === user.district);
+            const party = this.parties.find((part: Party) => part.id === user.party);
+            const district = this.districts.find((distric: District) => distric.id === user.district);
             this.form.patchValue({
                 name: user.name,
                 surname: user.surname,

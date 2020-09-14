@@ -11,7 +11,19 @@ export interface Party {
 export interface Deputy {
     id: string;
     name: string;
-    district: string;
+    description?: string;
+    district?: string;
+    party?: string;
+    imageUrl?: string;
+    date?: CustomDate;
+    rating?: number;
+    shortName?: string;
+}
+
+export interface CustomDate {
+    day: number;
+    month: number;
+    year: number;
 }
 
 export interface Appeal {
@@ -22,4 +34,18 @@ export interface Appeal {
     userId: string;
     status: string;
     date: string;
+}
+
+export interface AppealCard {
+    title: string;
+    description: string;
+    deputyName: string;
+    deputyImageUrl?: string;
+    shortName?: string;
+    party: string;
+    userName: string;
+    status: string;
+    date: string;
+    countFiles: number;
+    countComments: number;
 }

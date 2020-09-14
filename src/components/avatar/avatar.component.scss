@@ -1,0 +1,41 @@
+@import '../../styles/variables';
+
+.avatar {
+    border-radius: 50%;
+    max-width: 46px;
+    max-height: 46px;
+    height: 100%;
+    width: 100%;
+
+    &__big {
+        max-width: 130px;
+        max-height: 130px;
+    }
+
+    &-small {
+        max-width: 36px;
+        max-height: 36px;
+    }
+}
+
+.avatar-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: $gray-4;
+    color: $white;
+    width: 46px;
+    height: 46px;
+
+    &__big {
+        width: 130px;
+        height: 130px;
+        font-size: 24px;
+    }
+
+    &-small {
+        width: 36px;
+        height: 36px;
+    }
+}

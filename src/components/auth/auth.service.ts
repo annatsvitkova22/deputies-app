@@ -100,10 +100,8 @@ export class AuthService {
 
     async singInBySocial(provider): Promise<void> {
         const credential = await this.authFire.signInWithPopup(provider);
-        console.log('credential', credential)
         const { uid, email, displayName} = credential.user;
         const profile: SocialProfile = credential.additionalUserInfo.profile as SocialProfile;
-        console.log('imageUrl', profile.picture)
         if (credential.additionalUserInfo.isNewUser) {
             await this.writeUserToCollection(uid, displayName, email, profile.picture);
         }

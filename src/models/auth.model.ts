@@ -1,4 +1,4 @@
-import { District, Party } from "./deputies.model";
+import { District, Party } from './deputies.model';
 
 export interface AuthUser {
     userId: string;

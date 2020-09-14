@@ -15,7 +15,9 @@ export class GenericInputComponent implements ControlValueAccessor, Validator, O
   @ViewChild('input') input: ElementRef;
   disabled;
 
-  @Input() type = 'text';
+  // tslint:disable-next-line: no-inferrable-types
+  @Input() type: string = 'text';
+  // tslint:disable-next-line: no-inferrable-types
   @Input() isRequired: boolean = false;
   @Input() pattern: string = null;
   @Input() label: string = null;

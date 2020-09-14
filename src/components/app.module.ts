@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
   AppealService, NgbdModalContent, SettingsService, SettingsComponent, ChangePasswordComponent, ChangeInfoComponent,
-  LoaderComponent } from './index';
+  LoaderComponent, DeputyComponent, DeputyService, AppealCardComponent, AvatarComponent } from './index';
 import { environment } from '../environments/environment';
 import { authReducer } from '../store/auth.reducer';
 
@@ -27,6 +27,9 @@ import { authReducer } from '../store/auth.reducer';
     ChangePasswordComponent,
     ChangeInfoComponent,
     LoaderComponent,
+    DeputyComponent,
+    AppealCardComponent,
+    AvatarComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { authReducer } from '../store/auth.reducer';
     AuthService,
     AuthGuard,
     AppealService,
-    SettingsService
+    SettingsService,
+    DeputyService
   ],
   bootstrap: [AppComponent],
   entryComponents: [NgbdModalContent]

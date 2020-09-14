@@ -1,7 +1,9 @@
-export * from './appeal/appeal.component';
+export * from './appeal/create-appeal/appeal.component';
 export * from './appeal/appeal.service';
 export * from './auth/auth.component';
 export * from './auth/auth.service';
+export * from './deputy/deputy.component';
+export * from './deputy/deputy.service';
 export * from './generic-input/generic-input.component';
 export * from './main/app.component';
 export * from './main/auth.guard';
@@ -15,3 +17,5 @@ export * from './settings/settings.component';
 export * from './settings/settings.service';
 export * from './sing-up/sing-up.component';
 export * from './loader/loader.component';
+export * from './appeal/appeal-card/appeal-card.component';
+export * from './avatar/avatar.component';

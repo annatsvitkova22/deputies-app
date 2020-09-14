@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
                         if (user) {
                             resolve(user.getIdTokenResult());
                         } else {
-                            this.router.navigate(['/signIn']);
+                            this.router.navigate(['/sign-in']);
                             resolve(null);
                         }
                     });
@@ -49,11 +49,11 @@ export class AuthGuard implements CanActivate {
                 }
             } else {
                 auth().signOut();
-                this.router.navigate(['/signIn']);
+                this.router.navigate(['/sign-in']);
                 isAuth = false;
             }
         } catch (error) {
-            this.router.navigate(['/signIn']);
+            this.router.navigate(['/sign-in']);
             isAuth = false;
         }
         return isAuth;

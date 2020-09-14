@@ -3,10 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
-import { AppealService } from './appeal.service';
-import { District, Deputy, ResultModel } from '../../models';
-import { AuthService } from '../auth/auth.service';
-import { NgbdModalContent } from '../modal/modal.component';
+import { AppealService } from '.././appeal.service';
+import { District, Deputy, ResultModel } from '../../../models';
+import { AuthService } from '../../auth/auth.service';
+import { NgbdModalContent } from '../../modal/modal.component';
 
 @Component({
     selector: 'app-appeal',
