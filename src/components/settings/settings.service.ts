@@ -122,8 +122,9 @@ export class SettingsService {
 
     async updateDeputy(data: UserFormModel, imageUrl: string = null): Promise<ResultModel> {
         let result: ResultModel;
-        const { name, surname, patronymic, district, party, description, date} = data;
+        const { name, surname, patronymic, district, party, description } = data;
         const userId: string = await this.authService.getUserId();
+        const date = data.date ? data.date : null;
         await this.db.collection('users').doc(userId).update({
             name,
             surname,
@@ -149,8 +150,9 @@ export class SettingsService {
 
     async updateUser(data: UserFormModel, imageUrl: string = null): Promise<ResultModel> {
         let result: ResultModel;
-        const { name, surname, date} = data;
+        const { name, surname } = data;
         const userId: string = await this.authService.getUserId();
+        const date = data.date ? data.date : null;
         await this.db.collection('users').doc(userId).update({
             name: name + ' ' + surname,
             date,

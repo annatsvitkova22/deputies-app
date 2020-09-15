@@ -53,7 +53,7 @@ export class AppealService {
             deputyId: deputy.id,
             districtId: deputy.district,
             userId,
-            status: 'to do',
+            status: 'Новий запит',
             date: moment().format('DD.MM.YYYY'),
         };
         let result: ResultModel;

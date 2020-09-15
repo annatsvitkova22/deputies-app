@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card card-shadow">
     <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <app-avatar [imageUrl]="appeal.deputyImageUrl" [name]="appeal.shortName" [class]="appeal.deputyImageUrl ? 'avatar__small' : 'avatar-name__small'"></app-avatar>
@@ -7,13 +7,13 @@
                 <p class="font-weight-500 tx-small tx-color-1">{{appeal.party}}</p>
             </div>
         </div>
-        <p>{{appeal.status}}</p>
+        <p class="card__status tx-blue font-weight-500">{{appeal.status}}</p>
     </div>
-    <div class="mt-20">
+    <div class="card__description mt-20">
         <p class="font-weight-500 tx-normal tx-color-2">{{appeal.title}}</p>
         <p class="tx-medium tx-color-1 mt-8">{{appeal.description}}</p>
     </div>
-    <div class="d-flex justify-content-between mt-40">
+    <div class="d-flex justify-content-between mt-20">
         <p class="font-weight-500 tx-small tx-color-3">Автор: {{appeal.userName}}</p>
         <div>
             <p class="tx-small tx-color-1">{{appeal.date}}</p>

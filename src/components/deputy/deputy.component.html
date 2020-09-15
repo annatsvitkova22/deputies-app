@@ -1,23 +1,25 @@
 <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
 <div *ngIf="!isLoader" class="container">
     <div class="deputy">
-        <div class="deputy-main">
+        <div class="deputy-main card-shadow">
             <app-avatar [imageUrl]="deputy.imageUrl" [name]="deputy.shortName" [class]="deputy.imageUrl ? 'avatar__big' : 'avatar-name__big'"></app-avatar>
             <h4 class="deputy-main__name">{{deputy.name}}</h4>
-            <p *ngIf="deputy.party">{{deputy.party}}</p>
-            <p *ngIf="deputy.district">{{deputy.district}}</p>
+            <p class="deputy-main__party" *ngIf="deputy.party">{{deputy.party}}</p>
+            <p class="deputy-main__district" *ngIf="deputy.district">{{deputy.district}}</p>
             <h3 *ngIf="deputy.rating">{{deputy.rating}}</h3>
             <a [routerLink]="['/create-appeal']" class="btn btn-blue btn-big mt-10">
                 Створити запит
             </a>
         </div>
         <div class="deputy-info">
-            <h3 class="deputy-info__title">
-                Загальнi вiдомостi
-            </h3>
-            <p class="deputy-info__description" *ngIf="deputy.description">
-                {{deputy.description}}
-            </p>
+            <div class="card-shadow wrapper mb-40">
+                <h2 class="deputy-info__title font-weight-600">
+                    Загальнi вiдомостi
+                </h2>
+                <p class="deputy-info__description tx-medium tx-color-3" *ngIf="deputy.description">
+                    {{deputy.description}}
+                </p>
+            </div>
             <div class="deputy-info__appeals">
                 <app-appeal-card
                     [appeal]="appeal"

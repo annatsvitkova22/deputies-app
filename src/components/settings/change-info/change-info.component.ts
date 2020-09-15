@@ -40,30 +40,29 @@ export class ChangeInfoComponent implements OnInit {
         const user = await this.settingsService.getUser();
         this.userRole = await this.authService.getUserRole();
         this.imageUrl = user.imageUrl ? user.imageUrl : null;
+        this.model = user.date;
         if (this.userRole === 'deputy') {
             this.form.addControl('patronymic', new FormControl('', Validators.required));
-            this.form.addControl('description', new FormControl(''));
+            this.form.addControl('description', new FormControl(null));
             this.form.addControl('district', new FormControl('', Validators.required));
             this.form.addControl('party', new FormControl('', Validators.required));
 
             this.districts = await this.appealService.getDistricts();
             this.parties = await this.settingsService.getParties();
-            const party = this.parties.find((part: Party) => part.id === user.party);
-            const district = this.districts.find((distric: District) => distric.id === user.district);
+            const party: Party = this.parties.find((part: Party) => part.id === user.party);
+            const district: District = this.districts.find((distric: District) => distric.id === user.district);
             this.form.patchValue({
                 name: user.name,
                 surname: user.surname,
                 patronymic: user.patronymic,
                 district: district ? district : '',
                 party: party ? party : '',
-                date: user.date ? user.date : ''
             });
         } else {
             const name: string[] = user.name.split(' ');
             this.form.patchValue({
                 name: name[0],
                 surname: name.length === 2 ? name[1] : '',
-                date: user.date ? user.date : ''
             });
         }
         this.isLoader = false;

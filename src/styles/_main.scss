@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 @import 'variables';
 
 *,
@@ -8,11 +8,11 @@
 }
 
 body {
-    background-color: $white;
+    background-color: $gray-1;
     overflow-x: hidden;
     font-size: 16px;
     line-height: 1;
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: $black;
 }
 
@@ -77,7 +77,7 @@ p {
 
 .btn {
     font-size: 16px;
-    padding: 7px 10px;
+    padding: 12px 10px;
     border-radius: 4px;
     background-color: $white;
     text-align: center;
@@ -129,6 +129,16 @@ p {
     }
 }
 
+.card-shadow {
+    background: $white;
+    box-shadow: 0px 2px 10px rgba(78, 81, 87, 0.05);
+    border-radius: 5px;
+}
+
+.wrapper {
+    padding: 20px;
+}
+
 .form-control {
     width: 100%;
     margin-top: 5px;
@@ -145,12 +155,18 @@ p {
     }
 }
 
-$values: (8, 10, 20, 30, 40);
+$values: (8, 10, 18, 20, 30, 40);
 
 @each $value in $values {
     .mt {
         &-#{$value} {
             margin-top: #{$value}px;
+        }
+    }
+
+    .mb {
+        &-#{$value} {
+            margin-bottom: #{$value}px;
         }
     }
 }
