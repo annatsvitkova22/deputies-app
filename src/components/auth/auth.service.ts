@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 import { MainState } from '../../store/main.state';
 import { AddAuth } from '../../store/auth.action';
-import { AuthState, CreateUser, SocialProfile } from '../../models';
+import { AuthState, CreateUser, SocialProfile, UserAvatal } from '../../models';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -29,7 +29,9 @@ export class AuthService {
         await this.authFire.signInWithEmailAndPassword(email, password).then(async result => {
             await this.db.collection('users').doc(result.user.uid).get().subscribe(async (snapshot) => {
                 const user: firebase.firestore.DocumentData = snapshot.data();
-                await this.setUser(result.user.uid, user.email, user.role);
+                const name: string[] = user.name.split(' ');
+                const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
+                await this.setUser(result.user.uid, user.email, user.role, user.imageUrl, shortName);
                 this.router.navigate(['/settings']);
             });
         }).catch(err => {
@@ -39,10 +41,10 @@ export class AuthService {
         return success;
     }
 
-    async setUser(userId: string, email: string, role: string, token = null): Promise<void> {
+    async setUser(userId: string, email: string, role: string, imageUrl: string, shortName: string, token = null): Promise<void> {
         const authStore: AuthState = {
             isAuth: true,
-            user: { role, email, userId }
+            user: { role, email, userId, imageUrl, shortName }
         };
         this.store.dispatch(new AddAuth(authStore));
         let getIdTokenResult: auth.IdTokenResult;
@@ -101,11 +103,13 @@ export class AuthService {
     async singInBySocial(provider): Promise<void> {
         const credential = await this.authFire.signInWithPopup(provider);
         const { uid, email, displayName} = credential.user;
+        const name: string[] = displayName.split(' ');
+        const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
         const profile: SocialProfile = credential.additionalUserInfo.profile as SocialProfile;
         if (credential.additionalUserInfo.isNewUser) {
             await this.writeUserToCollection(uid, displayName, email, profile.picture);
         }
-        await this.setUser(uid, email, 'user');
+        await this.setUser(uid, email, 'user', profile.picture, shortName);
     }
 
     async writeUserToCollection(userId: string, name: string, email: string, imageUrl: string = null): Promise<boolean> {
@@ -142,6 +146,18 @@ export class AuthService {
         this.store.select('authStore').subscribe((data: AuthState) =>  userRole = data.user.role);
 
         return userRole;
+    }
+
+    async getUserImage(): Promise<UserAvatal>  {
+        let userImage: UserAvatal;
+        this.store.select('authStore').subscribe((data: AuthState) =>  {
+            userImage = {
+                imageUrl: data.user.imageUrl ? data.user.imageUrl : null,
+                shortName: data.user.shortName
+            };
+        });
+
+        return userImage;
     }
 
     async checkToken(): Promise<boolean> {

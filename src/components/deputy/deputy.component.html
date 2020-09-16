@@ -2,7 +2,7 @@
 <div *ngIf="!isLoader" class="container">
     <div class="deputy">
         <div class="deputy-main card-shadow">
-            <app-avatar [imageUrl]="deputy.imageUrl" [name]="deputy.shortName" [class]="deputy.imageUrl ? 'avatar__big' : 'avatar-name__big'"></app-avatar>
+            <app-avatar [imageUrl]="deputy.imageUrl" [name]="deputy.shortName" [class]="'avatar__big'"></app-avatar>
             <h4 class="deputy-main__name">{{deputy.name}}</h4>
             <p class="deputy-main__party" *ngIf="deputy.party">{{deputy.party}}</p>
             <p class="deputy-main__district" *ngIf="deputy.district">{{deputy.district}}</p>

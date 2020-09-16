@@ -19,3 +19,5 @@ export * from './sing-up/sing-up.component';
 export * from './loader/loader.component';
 export * from './appeal/appeal-card/appeal-card.component';
 export * from './avatar/avatar.component';
+export * from './header/header.component';
+

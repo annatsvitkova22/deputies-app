@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Deputy, AppealCard, Appeal, Party } from '../../models';
+import { Deputy, AppealCard } from '../../models';
 
 @Injectable()
 export class DeputyService {
@@ -14,9 +14,15 @@ export class DeputyService {
         await this.db.collection('users').doc(deputyId).get().toPromise().then(async (snapshot) => {
             const data: firebase.firestore.DocumentData = snapshot.data();
             const shortName: string = data.surname.substr(0, 1).toUpperCase() + data.name.substr(0, 1).toUpperCase();
-            let party: string = await this.getName(data.party, 'parties');
-            const district: string = await this.getName(data.district, 'districts');
-            if (party !== 'Безпартiйний') {
+            let party: string;
+            let district: string;
+            if (data.party) {
+                party = await this.getName(data.party, 'parties');
+            }
+            if (data.district) {
+                district = await this.getName(data.district, 'districts');
+            }
+            if (party !== 'Безпартiйний' && party) {
                 party = 'Партія «' + party + '»';
             }
 
@@ -51,32 +57,36 @@ export class DeputyService {
     }
 
     async getAppeal(deputyId: string, deputy: Deputy): Promise<AppealCard[]> {
-        let appeals: AppealCard[] = [];
-        const promises = []
-        await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId)).get().toPromise().then(async (snapshots) => {
-            promises.push(new Promise((resolve) => {
-                snapshots.forEach(async snapshot => {
-                    const data: firebase.firestore.DocumentData = snapshot.data();
-                    await this.db.collection('users').doc(data.userId).get().toPromise().then(span => {
-                        const user: firebase.firestore.DocumentData = span.data();
-                        const appeal: AppealCard = {
-                            title: data.title,
-                            description: data.description,
-                            deputyName: deputy.name,
-                            deputyImageUrl: deputy.imageUrl,
-                            shortName: deputy.shortName,
-                            party: deputy.party,
-                            userName: user.name,
-                            status: data.status,
-                            date: data.date,
-                            countFiles: 0,
-                            countComments: 0
-                        };
-                        appeals.push(appeal);
-                        resolve();
+        const appeals: AppealCard[] = [];
+        const promises = [];
+        // tslint:disable-next-line: max-line-length
+        await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId) && ref.orderBy('date', 'asc')).get().toPromise().then(async (snapshots) => {
+            console.log('sdfsdfsdfdsf', snapshots.size)
+            if (snapshots.size) {
+                promises.push(new Promise((resolve) => {
+                    snapshots.forEach(async snapshot => {
+                        const data: firebase.firestore.DocumentData = snapshot.data();
+                        await this.db.collection('users').doc(data.userId).get().toPromise().then(span => {
+                            const user: firebase.firestore.DocumentData = span.data();
+                            const appeal: AppealCard = {
+                                title: data.title,
+                                description: data.description,
+                                deputyName: deputy.name,
+                                deputyImageUrl: deputy.imageUrl,
+                                shortName: deputy.shortName,
+                                party: deputy.party,
+                                userName: user.name,
+                                status: data.status,
+                                date: data.date,
+                                countFiles: 0,
+                                countComments: 0
+                            };
+                            appeals.push(appeal);
+                            resolve();
+                        });
                     });
-                });
-            }));
+                }));
+            }
         }).catch(err => {
             console.log('err', err);
         });

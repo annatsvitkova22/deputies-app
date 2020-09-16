@@ -34,6 +34,8 @@ export interface Appeal {
     userId: string;
     status: string;
     date: string;
+    fileUrl?: string;
+    fileImageUrl: string;
 }
 
 export interface AppealCard {
@@ -48,4 +50,9 @@ export interface AppealCard {
     date: string;
     countFiles: number;
     countComments: number;
+}
+
+export interface LoadedFile {
+    downloadURL: string;
+    path: string;
 }

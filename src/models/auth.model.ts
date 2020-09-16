@@ -4,6 +4,8 @@ export interface AuthUser {
     userId: string;
     role: string;
     email: string;
+    imageUrl: string;
+    shortName: string;
 }
 
 export interface AuthState {
@@ -63,4 +65,9 @@ export interface SocialProfile {
     name: string;
     picture?: string;
     verified_email: boolean;
+}
+
+export interface UserAvatal {
+    imageUrl: string;
+    shortName: string;
 }

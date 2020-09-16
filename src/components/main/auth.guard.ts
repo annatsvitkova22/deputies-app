@@ -40,7 +40,15 @@ export class AuthGuard implements CanActivate {
                     if (!userStore.isAuth) {
                         await this.db.collection('users').doc(userId).get().toPromise().then(async (snapshot) => {
                             const user: firebase.firestore.DocumentData = snapshot.data();
-                            await this.authService.setUser(userId, user.email, user.role, idTokenResult.token);
+                            let shortName: string;
+                            if (user.role === 'deputy') {
+                                shortName = user.surname.substr(0, 1).toUpperCase() + user.name.substr(0, 1).toUpperCase();
+                            } else {
+                                const name: string[] = user.name.split(' ');
+                                shortName = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
+                            }
+                            // tslint:disable-next-line: max-line-length
+                            await this.authService.setUser(userId, user.email, user.role, user.imageUrl, shortName, idTokenResult.token);
                         });
                     } else {
                         localStorage.setItem('deputies-app', idTokenResult.token);

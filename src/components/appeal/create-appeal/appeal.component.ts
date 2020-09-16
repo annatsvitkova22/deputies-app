@@ -27,6 +27,7 @@ export class AppealComponent implements OnInit {
     districts: District[];
     allDeputies: Deputy[];
     deputies: Deputy[];
+    file: File;
 
     constructor(
         private appealService: AppealService,
@@ -46,12 +47,12 @@ export class AppealComponent implements OnInit {
         }
     }
 
-    onFileChange(event): void {
-        console.log('event', event);
+    async onFileChange(event): Promise<void> {
+        this.file = event.target.files[0];
     }
 
     async onSubmit(): Promise<void> {
-        const result: ResultModel = await this.appealService.createAppeal(this.form.value);
+        const result: ResultModel = await this.appealService.createAppeal(this.form.value, this.file);
         if (result.status) {
             const modalRef = this.modalService.open(NgbdModalContent, {
                 size: 'lg'

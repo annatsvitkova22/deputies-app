@@ -28,8 +28,6 @@ export class DeputyComponent implements OnInit {
 
         this.deputy = await this.deputyService.getDeputy(this.deputyId);
         this.appeals = await this.deputyService.getAppeal(this.deputyId, this.deputy);
-        console.log('this.deputy', this.deputy);
-        console.log('this.appeals', this.appeals);
         this.isLoader = false;
     }
 

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import * as moment from 'moment';
 
-import { District, Deputy, ResultModel, Appeal } from '../../models';
+import { District, Deputy, ResultModel, Appeal, LoadedFile } from '../../models';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class AppealService {
     constructor(
         private db: AngularFirestore,
         private authService: AuthService,
+        private storage: AngularFireStorage
     ) {}
 
     async getDistricts(): Promise<District[]> {
@@ -44,9 +46,13 @@ export class AppealService {
         return deputies;
     }
 
-    async createAppeal(data): Promise<ResultModel> {
+    async createAppeal(data, file: File = null): Promise<ResultModel> {
         const {title, description, deputy } = data;
         const userId: string = await this.authService.getUserId();
+        let fileInfo: LoadedFile;
+        if (file) {
+            fileInfo = await this.uploadFile(file);
+        }
         const appeal: Appeal = {
             title,
             description,
@@ -55,6 +61,8 @@ export class AppealService {
             userId,
             status: 'Новий запит',
             date: moment().format('DD.MM.YYYY'),
+            fileUrl: fileInfo.path ? fileInfo.path : null,
+            fileImageUrl: fileInfo.downloadURL ? fileInfo.downloadURL : null,
         };
         let result: ResultModel;
         await this.db.collection('appeals').add(appeal).then(async (res) => {
@@ -71,5 +79,18 @@ export class AppealService {
         });
 
         return result;
+    }
+
+   async uploadFile(file: File): Promise<LoadedFile> {
+        const path = `appeals/${Date.now()}_${file.name}`;
+        const ref = this.storage.ref(path);
+        await this.storage.upload(path, file);
+        const downloadURL: string = await ref.getDownloadURL().toPromise();
+        const resultFile: LoadedFile = {
+            downloadURL,
+            path
+        };
+
+        return resultFile;
     }
 }
