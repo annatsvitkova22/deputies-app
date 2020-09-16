@@ -8,6 +8,7 @@ import { ResetPasswordComponent } from '../reset-password/reset-password.compone
 import { AppealComponent } from '../appeal/create-appeal/appeal.component';
 import { SettingsComponent } from '../settings/settings.component';
 import { DeputyComponent } from '../deputy/deputy.component';
+import { MainComponent } from '../../pages/main/main.component';
 
 const routes: Routes = [
   { path: 'sign-up', component: SingUpComponent },
@@ -16,7 +17,7 @@ const routes: Routes = [
   { path: 'create-appeal', component: AppealComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'deputy/:id', component: DeputyComponent },
-  { path: '', pathMatch: 'full', component: AppealComponent, canActivate: [AuthGuard] }
+  { path: '', pathMatch: 'full', component: MainComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

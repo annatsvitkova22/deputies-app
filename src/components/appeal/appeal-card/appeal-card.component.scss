@@ -1,22 +1,82 @@
 @import '../../../styles/variables';
 
 .card {
-    padding: 20px;
-    margin-bottom: 20px;
+    max-width: 620px;
+    width: 100%;
+    padding: 24px 24px 25px;
+    margin-bottom: 12px;
+
+    &__deputy {
+        margin-left: 12px;
+    }
 
     &__name {
-        margin-left: 16px;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.09;
+        padding-bottom: 5px;
+        color: $gray-7;
+    }
+
+    &__party {
+        text-transform: capitalize;
+        line-height: 1.37;
     }
 
     &__status {
-        background: rgba(0, 82, 255, 0.2);
-        border-radius: 5px;
-        padding: 5px 23px 6px;
+        background: $blue-1;
+        border-radius: 4px;
+        padding: 4px 24px;
         font-size: 12px;
+        line-height: 1.63;
+
+        &--yellow {
+            background-color: $orange-1;
+            color: $orange;
+            padding: 4px 12px;
+        }
+
+        &--green {
+            background-color: rgba(31, 215, 88, 0.11);
+            color: $green-1;
+        }
+    }
+
+    &__content {
+        font-size: 14px;
+        line-height: 1.46;
+        letter-spacing: 0.01em;
+        color: $gray-8;
+        margin-top: 13px;
     }
 
     &__description {
-        padding-bottom: 21px;
-        border-bottom: 1px solid rgba($color: $gray-2, $alpha: 0.7);
+        padding-bottom: 19px;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+
+        &:first-of-type {
+            margin-left: 10px;
+        }
+    }
+
+    &__author {
+        font-weight: 500;
+        line-height: 1.4;
+        color: $gray-7;
+        padding-left: 8px;
+    }
+
+    &__social {
+        padding-left: 10px;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1.37;
+        text-transform: capitalize;
+        color: $gray-11;
+        padding-left: 10px;
     }
 }

@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
 @import 'variables';
 
 *,
@@ -70,7 +69,7 @@ p {
 }
 
 .container {
-    max-width: 990px;
+    max-width: 970px;
     padding: 0 15px;
     margin-left: auto;
     margin-right: auto;
@@ -81,7 +80,8 @@ p {
     border-radius: 40px;
     background-color: $white;
     font-weight: 600;
-    line-height: 143%;
+    line-height: 1.43;
+    text-align: center;
     transition: all 0.3s;
     cursor: pointer;
 
@@ -134,8 +134,7 @@ p {
 
 .card-shadow {
     background: $white;
-    box-shadow: 0px 2px 10px rgba(78, 81, 87, 0.05);
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 .wrapper {
@@ -158,7 +157,7 @@ p {
     }
 }
 
-$values: (8, 10, 18, 20, 30, 40);
+$values: (4, 5, 8, 10, 18, 20, 30, 40);
 
 @each $value in $values {
     .mt {
@@ -176,6 +175,10 @@ $values: (8, 10, 18, 20, 30, 40);
 
 .w-100 {
     width: 100%;
+}
+
+.w-50 {
+    width: 50%;
 }
 
 .is-invalid {
@@ -224,4 +227,65 @@ ngb-datepicker.dropdown-menu {
     left: auto !important;
     right: 0;
     background-color: azure;
+}
+
+.cuppa-dropdown .selected-list .c-btn {
+    border: 1px solid $gray-11;
+    background-color: $white;
+    border-radius: 30px;
+    padding: 8px 48px 8px 20px;
+}
+
+.pure-checkbox input[type=checkbox]+label:before {
+    border: 1px solid $gray-13;
+    border-radius: 4px !important;
+}
+
+.list-area {
+    width: 243px;
+    background-color: $white;
+    border-radius: 16px 18px 0px 0px;
+}
+
+.selected-list, .dropdown-list, .cuppa-dropdown, .c-btn {
+    &:focus {
+        outline: none !important;
+    }
+}
+
+.selected-item.pure-checkbox input[type=checkbox]+label:before {
+    background-color: $gray-7 !important;
+}
+
+.pure-checkbox input[type=checkbox]+label:after {
+    border-color: $white !important;
+}
+
+.countplaceholder {
+    display: none;
+}
+
+.c-remove.clear-all {
+    display: none;
+}
+
+.selected-list .c-angle-down, .selected-list .c-angle-up {
+    right: 20px !important;
+}
+
+.selected-list .c-angle-down svg, .selected-list .c-angle-up svg {
+    fill: $gray-7 !important;
+}
+
+.multi-select {
+    position: relative;
+}
+
+.selected-list .c-list .c-token .c-remove {
+    display: none;
+}
+
+.cuppa-dropdown .selected-list .c-list .c-token {
+    margin: 0;
+    padding: 0;
 }

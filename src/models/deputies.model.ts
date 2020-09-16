@@ -11,6 +11,7 @@ export interface Party {
 export interface Deputy {
     id: string;
     name: string;
+    patronymic?: string;
     description?: string;
     district?: string;
     party?: string;
@@ -46,6 +47,8 @@ export interface AppealCard {
     shortName?: string;
     party: string;
     userName: string;
+    shortNameUser?: string;
+    userImageUrl?: string;
     status: string;
     date: string;
     countFiles: number;

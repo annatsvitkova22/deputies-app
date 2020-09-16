@@ -5,13 +5,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
   AppealService, NgbdModalContent, SettingsService, SettingsComponent, ChangePasswordComponent, ChangeInfoComponent,
-  LoaderComponent, DeputyComponent, DeputyService, AppealCardComponent, AvatarComponent, HeaderComponent } from './index';
+  LoaderComponent, DeputyComponent, DeputyService, AppealCardComponent, AvatarComponent, HeaderComponent, MultiSelectComponent } from './index';
 import { environment } from '../environments/environment';
 import { authReducer } from '../store/auth.reducer';
+import { MainComponent } from '../pages/main/main.component';
+import { DeputyCardComponent } from './deputy-card/deputy-card.component';
+import { MainService } from '../pages/main/main.service';
 
 @NgModule({
   declarations: [
@@ -30,9 +34,13 @@ import { authReducer } from '../store/auth.reducer';
     DeputyComponent,
     AppealCardComponent,
     AvatarComponent,
-    HeaderComponent
+    HeaderComponent,
+    MainComponent,
+    DeputyCardComponent,
+    MultiSelectComponent
   ],
   imports: [
+    AngularMultiSelectModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -47,7 +55,8 @@ import { authReducer } from '../store/auth.reducer';
     AuthGuard,
     AppealService,
     SettingsService,
-    DeputyService
+    DeputyService,
+    MainService
   ],
   bootstrap: [AppComponent],
   entryComponents: [NgbdModalContent]
