@@ -1,0 +1,24 @@
+@import '../../styles/variables';
+
+.deputy-info__appeals {
+    margin-top: 24px;
+}
+
+.tab {
+    background: $gray-14;
+    border-radius: 46px;
+    padding: 2px;
+
+    &__item {
+        text-align: center;
+        width: 25%;
+        padding: 6px 0;
+        border-radius: 46px;
+        transition: all 0.3s;
+        cursor: pointer;
+
+        &--active {
+            background: $white;
+        }
+    }
+}

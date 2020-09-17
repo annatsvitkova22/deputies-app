@@ -27,7 +27,7 @@
                 </a>
             </div>
             <div class="deputy-info">
-                <div class="deputy-info__wrapper card-shadow mb-40">
+                <div class="deputy-info__wrapper card-shadow">
                     <h2 class="deputy-info__title font-weight-600">
                         Загальнi вiдомостi
                     </h2>
@@ -35,13 +35,7 @@
                         {{deputy.description}}
                     </p>
                 </div>
-                <div class="deputy-info__appeals">
-                    <app-appeal-card
-                        [appeal]="appeal"
-                        *ngFor="let appeal of appeals"
-                    >
-                    </app-appeal-card>
-                </div>
+                <app-tab [appeals]="appeals"></app-tab>
             </div>
         </div>
     </div>

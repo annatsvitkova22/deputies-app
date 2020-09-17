@@ -22,3 +22,4 @@ export * from './avatar/avatar.component';
 export * from './header/header.component';
 export * from './deputy-card/deputy-card.component';
 export * from './multi-select/multi-select.component';
+export * from './tab/tab.component';

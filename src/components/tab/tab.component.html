@@ -1,0 +1,19 @@
+<div>
+    <ul class="tab list-reset d-flex w-100 justify-content-between">
+        <li
+            class="tab__item"
+            *ngFor="let tab of tabs"
+            (click)="handlerFilter(tab)"
+            [ngClass]="type==tab ?  'tab__item--active' : ''" 
+        >
+            {{tab}}
+        </li >
+    </ul>
+    <div class="deputy-info__appeals">
+        <app-appeal-card
+            [appeal]="appeal"
+            *ngFor="let appeal of appeals"
+        >
+        </app-appeal-card>
+    </div>
+</div>

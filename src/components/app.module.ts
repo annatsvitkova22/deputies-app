@@ -10,7 +10,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
   AppealService, NgbdModalContent, SettingsService, SettingsComponent, ChangePasswordComponent, ChangeInfoComponent,
-  LoaderComponent, DeputyComponent, DeputyService, AppealCardComponent, AvatarComponent, HeaderComponent, MultiSelectComponent } from './index';
+  LoaderComponent, DeputyComponent, DeputyService, AppealCardComponent, AvatarComponent, HeaderComponent, MultiSelectComponent,
+  TabComponent } from './index';
 import { environment } from '../environments/environment';
 import { authReducer } from '../store/auth.reducer';
 import { MainComponent } from '../pages/main/main.component';
@@ -38,7 +39,8 @@ import { settingsReducer } from '../store/settings.reducer';
     HeaderComponent,
     MainComponent,
     DeputyCardComponent,
-    MultiSelectComponent
+    MultiSelectComponent,
+    TabComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,9 @@
+@import '../../styles/variables';
+
 .wrap-settings {
     max-width: 590px;
     padding: 20px;
-    background-color: white;
+    background-color: $white;
 }
 
 .settings-title {

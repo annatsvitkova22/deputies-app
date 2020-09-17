@@ -271,7 +271,6 @@ ngb-datepicker.dropdown-menu {
         background-color: $white;
         border-radius: 16px 18px 0px 0px;
         padding: 10px 0 12px;
-        box-shadow:  16px 0px 12px -12px rgba(50, 50, 71, 0.08),20px 0px 24px -24px rgba(50, 50, 71, 0.08), -16px 0px 12px -12px rgba(50, 50, 71, 0.08),-16px 0px 24px -16px rgba(50, 50, 71, 0.08);
     }
 
 }
@@ -348,4 +347,18 @@ ngb-datepicker.dropdown-menu {
 
 .selected-list .c-angle-down, .selected-list .c-angle-up {
     top: 43% !important;
+}
+
+.list-area {
+    &:after {
+        content: '';
+        position: absolute;
+        pointer-events: none;
+        top: 10px;
+        height: calc(100% + 58px);
+        width: 243px;
+        border-radius: 16px 18px 0px 0px;
+        box-shadow: 0px 12px 12px rgba(50, 50, 71, 0.08), 
+        0px 16px 24px rgba(50, 50, 71, 0.08);
+    }
 }
