@@ -1,16 +1,26 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Store } from '@ngrx/store';
 
-import { AppealCard, Deputy } from '../../models';
+import { AppealCard, Deputy, Settings } from '../../models';
 import { DeputyService } from '../../components/deputy/deputy.service';
+import { MainState } from '../../store/main.state';
 
 @Injectable()
 export class MainService {
 
     constructor(
         private db: AngularFirestore,
-        private deputyService: DeputyService
+        private deputyService: DeputyService,
+        private store: Store<MainState>,
     ) {}
+
+    async getSettings(): Promise<Settings> {
+        let result: Settings;
+        this.store.select('settingsStore').subscribe((data: Settings) =>  result = data);
+
+        return result;
+    }
 
     async getAppeal(settings): Promise<AppealCard[]> {
         const appeals: AppealCard[] = [];

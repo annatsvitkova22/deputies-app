@@ -15,7 +15,7 @@
     }
 
     &__deputy {
-        padding-top: 28px;
+        padding-top: 34px;
     }
 
     &__deputy-title {
@@ -25,5 +25,10 @@
         letter-spacing: 0.02em;
         color: $gray-7;
         margin-bottom: 35px;
+    }
+
+    &__deputy-list {
+        max-height: 650px;
+        overflow-y: scroll;
     }
 }

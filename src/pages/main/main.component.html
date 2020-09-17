@@ -5,8 +5,9 @@
         <div class="d-flex justify-content-between">
             <div>
                 <div class="main__settings d-flex justify-content-between">
-                    <div>
-                        <app-multi></app-multi>
+                    <div class="main__selects d-flex">
+                        <app-multi [selectedItems]="settings.districts" [dropdownList]="districts" [type]="districts" [text]="'Район'"></app-multi>
+                        <app-multi [type]="'statuses'" [text]="'Статус'"></app-multi>
                     </div>
                     <div class="d-flex align-items-center">
                         <span class="main__settings-sort">Сортувати</span>
@@ -23,11 +24,13 @@
             </div>
             <div class="main__deputy">
                 <p class="main__deputy-title">Депутати</p>
-                <app-deputy-card
-                    [deputy]="deputy"
-                    *ngFor="let deputy of deputies"
-                >
-                </app-deputy-card>
+                <div class="main__deputy-list">
+                    <app-deputy-card
+                        [deputy]="deputy"
+                        *ngFor="let deputy of deputies"
+                    >
+                    </app-deputy-card>
+                </div>
             </div>
         </div>
     </div>

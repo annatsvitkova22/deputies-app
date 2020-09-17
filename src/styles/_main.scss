@@ -76,18 +76,15 @@ p {
 }
 
 .btn {
-    padding: 11px 32px;
-    border-radius: 40px;
-    background-color: $white;
+    padding: 12px 32px;
+    border-radius: 8px;
+    background-color: $gray-17;
     font-weight: 600;
     line-height: 1.43;
+    border: none;
     text-align: center;
     transition: all 0.3s;
     cursor: pointer;
-
-    &:hover {
-        color: $white;
-    }
 
     &:focus {
         outline: none;
@@ -96,6 +93,26 @@ p {
     &:disabled {
         cursor: not-allowed;
         opacity: 0.5;
+    }
+
+    &__small {
+        padding: 6px 11px;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1.67;
+        letter-spacing: 0.01em;
+    }
+
+    &-dark {
+        border: 1px solid $gray-7;
+        background-color: $gray-7;
+        color: $white;
+
+        &:hover {
+            background-color: $white;
+            border: 1px solid $gray-7;
+            color: $gray-7;
+        }
     }
 
     &-blue {
@@ -117,6 +134,7 @@ p {
     }
 
     &-green {
+        border: 1px solid $green;
         background-color: $green;
         color: $white;
 
@@ -230,21 +248,45 @@ ngb-datepicker.dropdown-menu {
 }
 
 .cuppa-dropdown .selected-list .c-btn {
-    border: 1px solid $gray-11;
     background-color: $white;
     border-radius: 30px;
     padding: 8px 48px 8px 20px;
+
+    &:focus {
+        border: 1px solid $gray-11;
+    }
 }
 
 .pure-checkbox input[type=checkbox]+label:before {
     border: 1px solid $gray-13;
     border-radius: 4px !important;
+    width: 18px !important;
+    height: 18px !important;
 }
 
-.list-area {
-    width: 243px;
-    background-color: $white;
-    border-radius: 16px 18px 0px 0px;
+.dropdown-list {
+    .list-area {
+        border: none;
+        width: 243px;
+        background-color: $white;
+        border-radius: 16px 18px 0px 0px;
+        padding: 10px 0 12px;
+        box-shadow:  16px 0px 12px -12px rgba(50, 50, 71, 0.08),20px 0px 24px -24px rgba(50, 50, 71, 0.08), -16px 0px 12px -12px rgba(50, 50, 71, 0.08),-16px 0px 24px -16px rgba(50, 50, 71, 0.08);
+    }
+
+}
+
+.dropdown-list ul li {
+    padding: 10px 16px !important;
+}
+
+.pure-checkbox input[type=checkbox]+label {
+    padding-left: 26px !important;
+    font-weight: 500 !important;
+    line-height: 1.43;
+    text-align: center;
+    letter-spacing: 0.01em;
+    color: $gray-7;
 }
 
 .selected-list, .dropdown-list, .cuppa-dropdown, .c-btn {
@@ -259,6 +301,8 @@ ngb-datepicker.dropdown-menu {
 
 .pure-checkbox input[type=checkbox]+label:after {
     border-color: $white !important;
+    width: 12px !important;
+    height: 6px !important;
 }
 
 .countplaceholder {
@@ -288,4 +332,20 @@ ngb-datepicker.dropdown-menu {
 .cuppa-dropdown .selected-list .c-list .c-token {
     margin: 0;
     padding: 0;
+}
+
+.arrow-down, .arrow-up {
+    display: none;
+}
+
+.badge-label, .c-btn:first-child {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.43;
+    text-align: center;
+    letter-spacing: 0.01em;
+}
+
+.selected-list .c-angle-down, .selected-list .c-angle-up {
+    top: 43% !important;
 }

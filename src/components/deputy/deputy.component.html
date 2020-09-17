@@ -1,32 +1,48 @@
 <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
-<div *ngIf="!isLoader" class="container">
-    <div class="deputy">
-        <div class="deputy-main card-shadow">
-            <app-avatar [imageUrl]="deputy.imageUrl" [name]="deputy.shortName" [class]="'avatar__big'"></app-avatar>
-            <h4 class="deputy-main__name">{{deputy.name}}</h4>
-            <p class="deputy-main__party" *ngIf="deputy.party">{{deputy.party}}</p>
-            <p class="deputy-main__district" *ngIf="deputy.district">{{deputy.district}}</p>
-            <h3 *ngIf="deputy.rating">{{deputy.rating}}</h3>
-            <a [routerLink]="['/create-appeal']" class="btn btn-blue btn-big mt-10">
-                Створити запит
-            </a>
-        </div>
-        <div class="deputy-info">
-            <div class="card-shadow wrapper mb-40">
-                <h2 class="deputy-info__title font-weight-600">
-                    Загальнi вiдомостi
-                </h2>
-                <p class="deputy-info__description tx-medium tx-color-3" *ngIf="deputy.description">
-                    {{deputy.description}}
-                </p>
+<!-- <app-header *ngIf="!isLoader"></app-header> -->
+<main *ngIf="!isLoader" class="main">
+    <div class="container">
+        <div class="deputy">
+            <div class="deputy-main card-shadow">
+                <app-avatar [imageUrl]="deputy.imageUrl" [name]="deputy.shortName" [class]="'avatar__big'"></app-avatar>
+                <h4 class="deputy-main__name">{{deputy.name}}</h4>
+                <p class="deputy-main__party" *ngIf="deputy.party">{{deputy.party}}</p>
+                <p class="deputy-main__district" *ngIf="deputy.district">{{deputy.district}}</p>
+                <div class="d-flex">
+                    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.08254 0.614086C6.4307 -0.188794 7.56929 -0.188796 7.91745 0.614084L8.79321 2.63367C9.08301 3.30198 9.71325 3.75988 10.4384 3.82898L12.6298 4.03779C13.5009 4.1208 13.8528 5.20367 13.1968 5.78289L11.5467 7.23988C11.0006 7.72202 10.7599 8.46291 10.9183 9.17392L11.3968 11.3226C11.5871 12.1767 10.666 12.846 9.91237 12.4011L8.01678 11.282C7.38951 10.9116 6.61049 10.9116 5.98321 11.282L4.08762 12.4011C3.33403 12.846 2.41289 12.1767 2.60314 11.3226L3.08172 9.17392C3.24009 8.46291 2.99936 7.72202 2.45331 7.23988L0.803197 5.78289C0.147199 5.20367 0.499044 4.1208 1.37021 4.03779L3.56158 3.82898C4.28674 3.75988 4.91698 3.30198 5.20678 2.63368L6.08254 0.614086Z" fill="#5BCF0C"/>
+                    </svg>
+                    <p class="deputy-main__rating">{{deputy.rating}}</p>
+                </div>
+                <ul class="deputy-main__appeals list-reset d-flex justify-content-between w-100">
+                    <li 
+                        *ngFor="let countAppeal of countAppeals"
+                    >
+                        <p class="deputy-main__appeal">{{countAppeal.name}}</p>
+                        <h2 class="deputy-main__count">{{countAppeal.count}}</h2>
+                    </li>
+                </ul>
+                <a [routerLink]="['/create-appeal']" class="btn btn-big">
+                    Створити запит
+                </a>
             </div>
-            <div class="deputy-info__appeals">
-                <app-appeal-card
-                    [appeal]="appeal"
-                    *ngFor="let appeal of appeals"
-                >
-                </app-appeal-card>
+            <div class="deputy-info">
+                <div class="deputy-info__wrapper card-shadow mb-40">
+                    <h2 class="deputy-info__title font-weight-600">
+                        Загальнi вiдомостi
+                    </h2>
+                    <p class="deputy-info__description tx-medium tx-color-3" *ngIf="deputy.description">
+                        {{deputy.description}}
+                    </p>
+                </div>
+                <div class="deputy-info__appeals">
+                    <app-appeal-card
+                        [appeal]="appeal"
+                        *ngFor="let appeal of appeals"
+                    >
+                    </app-appeal-card>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</main>

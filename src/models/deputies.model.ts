@@ -59,3 +59,12 @@ export interface LoadedFile {
     downloadURL: string;
     path: string;
 }
+export interface Select {
+    id: string;
+    name: string;
+}
+
+export interface CountAppeals {
+    name: string;
+    count: number;
+}

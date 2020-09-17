@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Deputy, AppealCard } from '../../models';
+import { Deputy, AppealCard, CountAppeals } from '../../models';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Injectable()
 export class DeputyService {
@@ -35,7 +36,7 @@ export class DeputyService {
                 date: data.date ? data.date : null,
                 imageUrl: data.imageUrl ? data.imageUrl : null,
                 shortName: data.imageUrl ? null : shortName,
-                rating: data.rating ? data.rating : null,
+                rating: data.rating ? data.rating : 0,
             };
         }).catch(err => {
             console.log('err', err);
@@ -56,47 +57,53 @@ export class DeputyService {
         return name;
     }
 
-    async getAppeal(deputyId: string, deputy: Deputy): Promise<AppealCard[]> {
-        const appeals: AppealCard[] = [];
-        const promises = [];
-        // tslint:disable-next-line: max-line-length
-        await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId) && ref.orderBy('date', 'asc')).get().toPromise().then(async (snapshots) => {
-            if (snapshots.size) {
-                promises.push(new Promise((resolve) => {
-                    snapshots.forEach(async snapshot => {
-                        const data: firebase.firestore.DocumentData = snapshot.data();
-                        await this.db.collection('users').doc(data.userId).get().toPromise().then(span => {
-                            const user: firebase.firestore.DocumentData = span.data();
-                            const name: string[] = user.name.split(' ');
-                            // tslint:disable-next-line: max-line-length
-                            const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
-                            const appeal: AppealCard = {
-                                title: data.title,
-                                description: data.description,
-                                deputyName: deputy.name,
-                                deputyImageUrl: deputy.imageUrl,
-                                shortName: deputy.shortName,
-                                party: deputy.party,
-                                userName: user.name,
-                                userImageUrl: user.imageUrl,
-                                shortNameUser: shortName,
-                                status: data.status,
-                                date: data.date,
-                                countFiles: 0,
-                                countComments: 0
-                            };
-                            appeals.push(appeal);
-                            resolve();
-                        });
-                    });
-                }));
-            }
-        }).catch(err => {
-            console.log('err', err);
-        });
-        await Promise.all(promises);
+    // setFilter(ref: any): any {
+    //     ref.where
+    // }
 
-        return appeals;
+    async getAppeal(deputyId: string, deputy: Deputy): Promise<AppealCard[]> {
+        // tslint:disable-next-line: max-line-length
+        let appealspans: any = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId) && ref.orderBy('date', 'asc')).get().toPromise();
+        if (appealspans.size) {
+            appealspans = appealspans.docs.map(appeal => async () => {
+                const data = appeal.data();
+                const span = await this.db.collection('users').doc(data.userId).get().toPromise();
+                const user: firebase.firestore.DocumentData = span.data();
+                const name: string[] = user.name.split(' ');
+                // tslint:disable-next-line: max-line-length
+                const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
+                const ap: AppealCard = {
+                    title: data.title,
+                    description: data.description,
+                    deputyName: deputy.name,
+                    deputyImageUrl: deputy.imageUrl,
+                    shortName: deputy.shortName,
+                    party: deputy.party,
+                    userName: user.name,
+                    userImageUrl: user.imageUrl,
+                    shortNameUser: shortName,
+                    status: data.status,
+                    date: data.date,
+                    countFiles: 0,
+                    countComments: 0
+                };
+                return ap;
+            });
+            return Promise.all(appealspans.map(fn => fn()));
+        }
+        return [];
+    }
+
+    getCountAppeal(appeals: AppealCard[]): CountAppeals[] {
+        const inProcess: AppealCard[] = appeals.filter(appeal => appeal.status === 'В Роботi');
+        const done: AppealCard[] = appeals.filter(appeal => appeal.status === 'Виконано');
+        const countAppeals: CountAppeals[] = [
+            {name: 'Запитів', count: appeals.length},
+            {name: 'В Роботі', count: inProcess.length},
+            {name: 'Виконано', count: done.length},
+        ];
+
+        return countAppeals;
     }
 
     async getAllDeputy(): Promise<Deputy[]> {
@@ -108,7 +115,6 @@ export class DeputyService {
                 promises.push(new Promise((resolve) => {
                     snapshots.forEach(async snapshot => {
                         const data: firebase.firestore.DocumentData = snapshot.data();
-                        console.log('data', data)
                         const shortName: string = data.surname.substr(0, 1).toUpperCase() + data.name.substr(0, 1).toUpperCase();
                         let party: string;
                         let district: string;

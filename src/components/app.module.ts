@@ -16,6 +16,7 @@ import { authReducer } from '../store/auth.reducer';
 import { MainComponent } from '../pages/main/main.component';
 import { DeputyCardComponent } from './deputy-card/deputy-card.component';
 import { MainService } from '../pages/main/main.service';
+import { settingsReducer } from '../store/settings.reducer';
 
 @NgModule({
   declarations: [
@@ -40,14 +41,14 @@ import { MainService } from '../pages/main/main.service';
     MultiSelectComponent
   ],
   imports: [
-    AngularMultiSelectModule,
     BrowserModule,
+    AngularMultiSelectModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
     HttpClientModule,
-    StoreModule.forRoot({authStore: authReducer}),
+    StoreModule.forRoot({authStore: authReducer, settingsStore: settingsReducer}),
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   providers: [

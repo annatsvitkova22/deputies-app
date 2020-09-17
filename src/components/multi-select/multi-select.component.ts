@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Store } from '@ngrx/store';
+
+import { Select, Settings } from '../../models';
+import { EditSettings } from '../../store/settings.action';
+import { MainState } from '../../store/main.state';
+import { MainService } from '../../pages/main/main.service';
 
 @Component({
     selector: 'app-multi',
@@ -8,44 +14,101 @@ import { NgForm } from '@angular/forms';
 })
 export class MultiSelectComponent implements OnInit {
 
-    dropdownList = [];
-    selectedItems = [];
+    @Input() dropdownList: Select[];
+    @Input() type: string;
+    @Input() selectedItems: Select[];
+    @Input() text: string;
     dropdownSettings = {};
+    // tslint:disable-next-line: no-inferrable-types
+    isDrop: boolean = false;
+    buttonText: string;
+    counter: number;
 
-    constructor() { }
+    constructor(
+        private store: Store<MainState>,
+        private mainService: MainService
+    ) { }
 
-    ngOnInit() {
-        this.dropdownList = [
-            { "id": 1, "countryName": "India" },
-            { "id": 2, "countryName": "Singapore" },
-            { "id": 3, "countryName": "Australia" },
-            { "id": 4, "countryName": "Canada" }
-        ];
-
+    ngOnInit(): void {
+        console.log('selectedItems', this.selectedItems)
+        this.counter = 0;
+        this.buttonText = 'Очистити';
+        if (this.type === 'statuses') {
+            this.dropdownList = [
+                {id: 'До виконання', name: 'До виконання'},
+                {id: 'В Роботі', name: 'В Роботі'},
+                {id: 'Виконано', name: 'Виконано'},
+            ]
+        }
         this.dropdownSettings = {
             singleSelection: false,
-            text: 'Район',
+            text: this.text,
             enableCheckAll: false,
             enableSearchFilter: false,
-            labelKey: 'countryName',
-            classes: 'multi-select',
+            labelKey: 'name',
+            classes: 'multi-select' + ' select-' + this.type,
             badgeShowLimit: 1
         };
-
     }
 
-    onItemSelect(item: any) {
-        console.log('onItemSelect');
-        console.log(this.selectedItems);
-    }
-    OnItemDeSelect(item: any) {
-        console.log('OnItemDeSelect');
-        console.log(this.selectedItems);
+    handlerOpen(): void {
+        this.isDrop = true;
     }
 
-    resetForm(f: NgForm) {
+    handlerClose(): void {
+        this.isDrop = false;
+    }
+
+    onItemSelect(item: any): void {
+        this.counter++;
+        this.buttonText = 'Очистити(' + this.counter + ')';
+    }
+    OnItemDeSelect(item: any): void {
+        this.counter--;
+        if (this.selectedItems.length) {
+            this.buttonText = 'Очистити(' + this.counter + ')';
+        } else {
+            this.buttonText = 'Очистити';
+        }
+    }
+
+    async resetForm(f: NgForm): Promise<void> {
         f.reset();
-        this.selectedItems = [];
+        this.buttonText = 'Очистити';
+        this.counter = 0;
+        this.dispatchToStore();
     }
 
+    async dispatchToStore() {
+        let settings: Settings;
+        const settingsStore = await this.mainService.getSettings();
+        if (this.type === 'districts') {
+            settings = {
+                sorting: settingsStore.sorting,
+                districts: this.selectedItems,
+                statuses: settingsStore.statuses,
+                date: settingsStore.date
+            };
+        } else if (this.type === 'statuses') {
+            const statuses: string[] = [];
+            if (this.selectedItems) {
+                this.selectedItems.map(item => {
+                    statuses.push(item.name);
+                });
+            }
+            settings = {
+                sorting: settingsStore.sorting,
+                districts: settingsStore.districts,
+                statuses: statuses.length ? statuses : null,
+                date: settingsStore.date
+            };
+        }
+        this.store.dispatch(new EditSettings(settings));
+    }
+
+    saveOptions(): void {
+        this.dispatchToStore();
+        console.log('this.selectedItems', this.selectedItems);
+        this.store.select('settingsStore').subscribe((data: Settings) =>  console.log('data', data));
+    }
 }
