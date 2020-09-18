@@ -9,6 +9,10 @@ import { AppealComponent } from '../appeal/create-appeal/appeal.component';
 import { SettingsComponent } from '../settings/settings.component';
 import { DeputyComponent } from '../deputy/deputy.component';
 import { MainComponent } from '../../pages/main/main.component';
+import { DeputiesComponent } from '../../pages/deputies/deputies.component';
+import { ProfileComponent } from '../../pages/profile/profile.component';
+import { EditComponent } from '../../pages/edit/edit.component';
+import { AuthSimpleGuard } from './auth-simple.guard';
 
 const routes: Routes = [
   { path: 'sign-up', component: SingUpComponent },
@@ -16,8 +20,11 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent},
   { path: 'create-appeal', component: AppealComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: 'deputy/:id', component: DeputyComponent },
-  { path: '', pathMatch: 'full', component: MainComponent, canActivate: [AuthGuard] }
+  { path: 'deputies', component: DeputiesComponent, canActivate: [AuthSimpleGuard] },
+  { path: 'deputy/:id', component: DeputyComponent, canActivate: [AuthSimpleGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'edit', component: EditComponent, canActivate: [AuthGuard] },
+  { path: '', pathMatch: 'full', component: MainComponent, canActivate: [AuthSimpleGuard] }
 ];
 
 @NgModule({

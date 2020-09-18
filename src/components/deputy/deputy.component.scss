@@ -4,64 +4,6 @@
     display: flex;
     margin-top: 28px;
 
-    &-main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 24px;
-        margin-right: 20px;
-        height: max-content;
-
-        &__name {
-            width: max-content;
-            margin-top: 18px;
-            font-weight: 600;
-            font-size: 15px;
-            line-height: 1.28;
-            color: $black-1;
-        }
-
-        &__party {
-            font-size: 13px;
-            line-height: 1.62;
-            padding-top: 9px;
-            color: $gray-16;
-        }
-
-        &__district {
-            font-size: 13px;
-            line-height: 1.68;
-            color: $gray-16;
-            padding: 2px 0 12px;
-        }
-
-        &__rating {
-            font-weight: 500;
-            padding-left: 4px;
-        }
-    
-        &__appeals {
-            padding: 24px 0;
-        }
-
-        &__count {
-            padding-top: 3px;
-            font-size: 24px;
-            line-height: 29px;
-            letter-spacing: 0.01em;
-            text-transform: uppercase;
-        }
-
-        &__appeal {
-            font-weight: 500;
-            font-size: 10px;
-            line-height: 12px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: $gray-9;
-        }
-    }
-
     &-info {
         width: 100%;
 

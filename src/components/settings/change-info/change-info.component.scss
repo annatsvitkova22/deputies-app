@@ -1,3 +1,5 @@
+@import '../../../styles/variables';
+
 .avatar {
     max-width: 100px;
 }
@@ -13,12 +15,48 @@
 }
 
 .calendar {
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEUSURBVEiJ7ZQxToVAEIY/YCHGxN6XGOIpnpaEsBSeQC9ArZbm9TZ6ADyBNzAhQGGl8Riv4BLAWAgmkpBYkH1b8FWT2WK/zJ8ZJ4qiI6XUI3ANnGKWBnht2/ZBDRK3hgVGNsCd7/ui+JkEIrKtqurLpEWaphd933+IyI3LEIdpCYCiKD6HcuOa/nwOa0ScJEnk0BJg0UTUWJRl6RxCYEzEmomsIlPU3IPW+grIAbquy+q6fluy/28RIBeRMwDXdXMgXLj/B2uimRXpui4D9sBeRLKl+1N+L+t6RwbWrZliTTTr1oxYtzVWiTQAcRxvTX+eJMnlUDaO1vpZRO5NS0x48sIwfPc87xg4B04MCzQi8hIEwe4bl1DnFMCN2zsAAAAASUVORK5CYII=') !important;
+    background-image: url('../../../static/calendar-small.svg') !important;
     background-repeat: no-repeat;
-    background-size: 23px;
+    background-color: $white;
+    background-size: 24px;
     background-position: center;
     width: 2.75rem;
-    color: #6c757d;
-    border-color: #6c757d;
-    height: 31px;
+    margin-right: 3px;
+    height: 38px;
+}
+
+.upload-file {
+    margin: 0 8px 0 25px;
+}
+
+.password-title {
+    margin-top: 36px;
+}
+
+.select-arrow {
+    position: relative;
+    appearance: none;
+
+    &::after{
+        position: absolute;
+        content: 'after';
+        bottom: 0;
+        right: 0;
+        height: 10px;
+        width: 1.5px;
+        background-color: $black;
+        transform: rotate(45deg);
+    }
+}
+
+option {
+    padding: 8px 16px !important;
+    border: 0;
+    border-bottom: 1px solid $black !important;
+    color: red !important;
+    appearance: none !important;
+}
+
+.textarea {
+    height: 92px;
 }

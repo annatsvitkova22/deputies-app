@@ -1,0 +1,38 @@
+@import '../../../styles/variables';
+
+.account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    margin-right: 20px;
+    height: max-content;
+    min-width: 280px;
+
+    &__name {
+        width: max-content;
+        margin-top: 18px;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.28;
+        color: $black-1;
+    }
+
+    &__party {
+        font-size: 13px;
+        line-height: 1.62;
+        padding-top: 9px;
+        color: $gray-16;
+    }
+
+    &__district {
+        font-size: 13px;
+        line-height: 1.68;
+        color: $gray-16;
+        padding: 2px 0 12px;
+    }
+
+    &__appeals {
+        padding: 24px 0;
+    }
+}

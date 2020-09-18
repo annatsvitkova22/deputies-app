@@ -8,6 +8,19 @@ export interface Party {
     name: string;
 }
 
+export interface UserAccount {
+    id: string;
+    name: string;
+    email?: string;
+    patronymic?: string;
+    description?: string;
+    district?: string;
+    party?: string;
+    imageUrl?: string;
+    date?: CustomDate;
+    rating?: number;
+    shortName?: string;
+}
 export interface Deputy {
     id: string;
     name: string;
@@ -46,7 +59,7 @@ export interface AppealCard {
     deputyImageUrl?: string;
     shortName?: string;
     party: string;
-    userName: string;
+    userName?: string;
     shortNameUser?: string;
     userImageUrl?: string;
     status: string;

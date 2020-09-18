@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Deputy, AppealCard, CountAppeals } from '../../models';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { UserAccount, Deputy, AppealCard, CountAppeals, UserAvatal } from '../../models';
 
 @Injectable()
 export class DeputyService {
@@ -61,9 +60,44 @@ export class DeputyService {
     //     ref.where
     // }
 
-    async getAppeal(deputyId: string, deputy: Deputy): Promise<AppealCard[]> {
+    async getAppealByUser(userId: string, userAvatar: UserAvatal, userName: string ): Promise<AppealCard[]> {
+        let appealspans: any = await this.db.collection('appeals', ref => ref.where('userId', '==', userId)).get().toPromise();
+        if (appealspans.size) {
+            appealspans = appealspans.docs.map(appeal => async () => {
+                const data = appeal.data();
+                const span = await this.db.collection('users').doc(data.deputyId).get().toPromise();
+                const deputy: firebase.firestore.DocumentData = span.data();
+                let party: string;
+                if (data.party) {
+                    party = await this.getName(data.party, 'parties');
+                }
+                // tslint:disable-next-line: max-line-length
+                const shortName: string = deputy.surname[1].substr(0, 1).toUpperCase() + deputy.name[0].substr(0, 1).toUpperCase();
+                const findAppeal: AppealCard = {
+                    title: data.title,
+                    description: data.description,
+                    deputyName: deputy.surname + ' ' + deputy.name + ' ' + deputy.patronymic,
+                    deputyImageUrl: deputy.imageUrl,
+                    shortName,
+                    party: party ? party : null,
+                    userImageUrl: userAvatar.imageUrl,
+                    shortNameUser: userAvatar.shortName,
+                    userName,
+                    status: data.status,
+                    date: data.date,
+                    countFiles: 0,
+                    countComments: 0
+                };
+                return findAppeal;
+            });
+            return Promise.all(appealspans.map(fn => fn()));
+        }
+        return [];
+    }
+
+    async getAppeal(deputyId: string, deputy: UserAccount): Promise<AppealCard[]> {
         // tslint:disable-next-line: max-line-length
-        let appealspans: any = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId) && ref.orderBy('date', 'asc')).get().toPromise();
+        let appealspans: any = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId)).get().toPromise();
         if (appealspans.size) {
             appealspans = appealspans.docs.map(appeal => async () => {
                 const data = appeal.data();
@@ -107,47 +141,52 @@ export class DeputyService {
     }
 
     async getAllDeputy(): Promise<Deputy[]> {
-        const deputies: Deputy[] = [];
-        const promises = [];
-        // tslint:disable-next-line: max-line-length
-        await this.db.collection('users', ref => ref.where('role', '==', 'deputy')).get().toPromise().then(async (snapshots) => {
-            if (snapshots.size) {
-                promises.push(new Promise((resolve) => {
-                    snapshots.forEach(async snapshot => {
-                        const data: firebase.firestore.DocumentData = snapshot.data();
-                        const shortName: string = data.surname.substr(0, 1).toUpperCase() + data.name.substr(0, 1).toUpperCase();
-                        let party: string;
-                        let district: string;
-                        if (data.party) {
-                            party = await this.getName(data.party, 'parties');
-                        }
-                        if (data.district) {
-                            district = await this.getName(data.district, 'districts');
-                        }
-                        if (party !== 'Безпартiйний' && party) {
-                            party = 'Партія «' + party + '»';
-                        }
-                        const name: string =  data.surname + ' ' + data.name;
-                        const deputy: Deputy = {
-                            id: snapshot.id,
-                            name,
-                            patronymic: data.patronymic,
-                            party: party ? party : null,
-                            rating: data.rating ? data.rating : 0,
-                            district: district ? district : null,
-                            imageUrl: data.imageUrl ? data.imageUrl : null,
-                            shortName
-                        };
-                        deputies.push(deputy);
-                        resolve();
-                    });
-                }));
-            }
-        }).catch(err => {
-            console.log('err', err);
-        });
-        await Promise.all(promises);
+        let deputies: any = await this.db.collection('users', ref => ref.where('role', '==', 'deputy')).get().toPromise();
+        if (deputies.size) {
+            deputies = deputies.docs.map(deputyRes => async () => {
+                const data = deputyRes.data();
+                const shortName: string = data.surname.substr(0, 1).toUpperCase() + data.name.substr(0, 1).toUpperCase();
+                let party: string;
+                let district: string;
+                if (data.party) {
+                    party = await this.getName(data.party, 'parties');
+                }
+                if (data.district) {
+                    district = await this.getName(data.district, 'districts');
+                }
+                if (party !== 'Безпартiйний' && party) {
+                    party = 'Партія «' + party + '»';
+                }
+                const name: string =  data.surname + ' ' + data.name;
+                const deputy: Deputy = {
+                    id: deputyRes.id,
+                    name,
+                    patronymic: data.patronymic,
+                    party: party ? party : null,
+                    rating: data.rating ? data.rating : 0,
+                    district: district ? district : null,
+                    imageUrl: data.imageUrl ? data.imageUrl : null,
+                    shortName
+                };
+                return deputy;
+            });
+            return Promise.all(deputies.map(fn => fn()));
+        }
+        return [];
+    }
 
-        return deputies;
+    async getAppealsCountById(deputyId: string): Promise<CountAppeals[]> {
+        const appeals = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId)).get().toPromise();
+        // tslint:disable-next-line: max-line-length
+        const inProcess = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId).where('status', '==', 'В Роботі')).get().toPromise();
+        // tslint:disable-next-line: max-line-length
+        const done = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId).where('status', '==', 'Виконано')).get().toPromise();
+        const countAppeals: CountAppeals[] = [
+            {name: 'Запитів', count: appeals.size},
+            {name: 'В Роботі', count: inProcess.size},
+            {name: 'Виконано', count: done.size}
+        ];
+
+        return countAppeals;
     }
 }

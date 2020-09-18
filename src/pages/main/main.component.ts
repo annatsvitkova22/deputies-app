@@ -29,7 +29,7 @@ export class MainComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         this.settings = await this.mainService.getSettings();
-        // console.log('this.settings', this.settings)
+        console.log('this.settings', this.settings)
         this.districts = await this.appealService.getDistricts();
         this.deputies = await this.deputyService.getAllDeputy();
         this.appeals = await this.mainService.getAppeal(this.settings);

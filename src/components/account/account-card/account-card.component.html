@@ -1,0 +1,24 @@
+<div class="account card-shadow">
+    <app-avatar [imageUrl]="user.imageUrl" [name]="user.shortName" [class]="'avatar__big'"></app-avatar>
+    <h4 class="account__name">{{user.name}}</h4>
+    <p class="account__party" *ngIf="user.email">{{user.email}}</p>
+    <p class="account__party" *ngIf="user.party">{{user.party}}</p>
+    <p class="account__district" *ngIf="user.district">{{user.district}}</p>
+    <div *ngIf="!user.email" class="d-flex">
+        <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.08254 0.614086C6.4307 -0.188794 7.56929 -0.188796 7.91745 0.614084L8.79321 2.63367C9.08301 3.30198 9.71325 3.75988 10.4384 3.82898L12.6298 4.03779C13.5009 4.1208 13.8528 5.20367 13.1968 5.78289L11.5467 7.23988C11.0006 7.72202 10.7599 8.46291 10.9183 9.17392L11.3968 11.3226C11.5871 12.1767 10.666 12.846 9.91237 12.4011L8.01678 11.282C7.38951 10.9116 6.61049 10.9116 5.98321 11.282L4.08762 12.4011C3.33403 12.846 2.41289 12.1767 2.60314 11.3226L3.08172 9.17392C3.24009 8.46291 2.99936 7.72202 2.45331 7.23988L0.803197 5.78289C0.147199 5.20367 0.499044 4.1208 1.37021 4.03779L3.56158 3.82898C4.28674 3.75988 4.91698 3.30198 5.20678 2.63368L6.08254 0.614086Z" fill="#5BCF0C"/>
+        </svg>
+        <p class="account-rating">{{user.rating}}</p>
+    </div>
+    <ul class="account__appeals list-reset d-flex justify-content-between w-100">
+        <li 
+            *ngFor="let countAppeal of countAppeals"
+        >
+            <p class="appeal-name">{{countAppeal.name}}</p>
+            <h2 class="appeal-count">{{countAppeal.count}}</h2>
+        </li>
+    </ul>
+    <a [routerLink]="[link]" class="btn btn-big">
+        {{linkName}}
+    </a>
+</div>

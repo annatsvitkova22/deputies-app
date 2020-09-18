@@ -1,126 +1,115 @@
 
 <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
-<div class="" *ngIf="!isLoader">
+<div *ngIf="!isLoader">
     <div name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
-    <div class="form-group">
-        <input 
-            type="file"
-            accept="image/x-png,image/gif,image/jpeg"
-            (change)="onFileChange($event)"
-            *ngIf="!imageUrl"
-        />
-        <img *ngIf="imageUrl" [src]="imageUrl" alt="avatar" class="avatar"/>
-    </div>
-    <div class="form-group">
-        <label for="name">Iм'я</label>
-        <input
-        type="text"
-        class="form-control"
-        id="name"
-        placeholder="Placeholder"
-        name="name"
-        [ngClass]="{'is-invalidClass':form.get('name').touched && form.get('name').invalid}"
-        formControlName="name"
-        required
-        />
-        <div *ngIf="form.get('name').touched && form.get('name').invalid"
-            class="invalid-feedback">
-            <p 
-                *ngIf="form.get('name').errors"
-                class="is-invalid"
+        <div class="d-flex align-items-center mt-24 mb-24">
+            <app-avatar [imageUrl]="userAvatar.imageUrl" [name]="userAvatar.shortName" [class]="'avatar__extra-large'"></app-avatar>
+            <div>
+                <button  (click)="fileInput.click()" class="upload-file btn btn__small btn-dark">Завантажити</button>
+                <button (click)="onDeleteFile()" class="btn btn__small">Видалити</button>
+                <input 
+                    type="file"
+                    accept="image/x-png,image/gif,image/jpeg"
+                    (change)="onFileChange($event)"
+                    #fileInput
+                    style="display: none;"
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <input
+            type="text"
+            class="input"
+            id="name"
+            placeholder="Iм`я"
+            name="name"
+            [ngClass]="{'is-invalidClass':form.get('name').touched && form.get('name').invalid}"
+            formControlName="name"
+            required
+            />
+            <div *ngIf="form.get('name').touched && form.get('name').invalid"
+                class="invalid-feedback">
+                <p 
+                    *ngIf="form.get('name').errors"
+                    class="is-invalid"
+                >
+                    Обов`язкове поле
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <input 
+            type="text"
+            class="input"
+            id="surname"
+            placeholder="Прiзвище"
+            name="surname"
+            [ngClass]="{'is-invalidClass':form.get('surname').touched && form.get('surname').invalid}"
+            formControlName="surname"
+            />
+        </div>
+        <div *ngIf="userRole == 'deputy'" class="form-group">
+            <input 
+            type="text"
+            class="input"
+            id="patronymic"
+            placeholder="По батьковi"
+            name="patronymic"
+            [ngClass]="{'is-invalidClass':form.get('patronymic').touched && form.get('patronymic').invalid}"
+            formControlName="patronymic"
+            required
+            />
+            <div *ngIf="form.get('patronymic').touched && form.get('patronymic').invalid"
+                class="invalid-feedback">
+                <p 
+                    *ngIf="form.get('patronymic').errors"
+                    class="is-invalid"
+                >
+                    Обов`язкове поле
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+            <input class="input" placeholder="yyyy-mm-dd"
+                    formControlName="date"
+                    name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+            </div>
+            </div>
+        </div>
+        <div *ngIf="userRole == 'deputy'" class="form-group">
+            <select
+                class="input"
+                formControlName="party"
+                name="party">
+                <option value="" disabled>Партiя</option>
+                <option *ngFor="let party of parties" [ngValue]="party">
+                    {{ party.name }}
+                </option>
+            </select>
+        </div>
+        <div *ngIf="userRole == 'deputy'" class="form-group">
+            <select 
+                class="input select-arrow"
+                formControlName="district"
+                name="district">
+                <option value="" disabled>Район</option>
+                <option *ngFor="let district of districts" [ngValue]="district">
+                    {{ district.name }}
+                </option>
+            </select>
+        </div>
+        <div *ngIf="userRole == 'deputy'">
+            <textarea
+                class="input textarea"
+                placeholder="Короткий опис"
+                formControlName="description"
+                name="description">
+            </textarea
             >
-                Обов`язкове поле
-            </p>
         </div>
+        <!-- <button type="button" (click)="onSubmit()" [disabled]="!form.valid" class="btn btn-blue btn-big mt-10">Зберегти</button> -->
     </div>
-    <div class="form-group">
-        <label for="surname">Прiзвище</label>
-        <input 
-        type="text"
-        class="form-control"
-        id="surname"
-        placeholder="Placeholder"
-        name="surname"
-        [ngClass]="{'is-invalidClass':form.get('surname').touched && form.get('surname').invalid}"
-        formControlName="surname"
-        required
-        />
-        <div *ngIf="form.get('surname').touched && form.get('surname').invalid"
-            class="invalid-feedback">
-            <p 
-                *ngIf="form.get('surname').errors"
-                class="is-invalid"
-            >
-                Обов`язкове поле
-            </p>
-        </div>
-    </div>
-    <div *ngIf="userRole == 'deputy'" class="form-group">
-        <label for="patronymic">По батьковi</label>
-        <input 
-        type="text"
-        class="form-control"
-        id="patronymic"
-        placeholder="Placeholder"
-        name="patronymic"
-        [ngClass]="{'is-invalidClass':form.get('patronymic').touched && form.get('patronymic').invalid}"
-        formControlName="patronymic"
-        required
-        />
-        <div *ngIf="form.get('patronymic').touched && form.get('patronymic').invalid"
-            class="invalid-feedback">
-            <p 
-                *ngIf="form.get('patronymic').errors"
-                class="is-invalid"
-            >
-                Обов`язкове поле
-            </p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="dp">Дата народження</label>
-        <div class="input-group">
-        <input class="form-control" placeholder="yyyy-mm-dd"
-                formControlName="date"
-                name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
-        </div>
-        </div>
-    </div>
-    <div *ngIf="userRole == 'deputy'" class="form-group">
-        <label for="party">Партiя</label>
-        <select
-            class="form-control"
-            formControlName="party"
-            name="party">
-            <option value="" disabled>Обрати...</option>
-            <option *ngFor="let party of parties" [ngValue]="party">
-                {{ party.name }}
-            </option>
-        </select>
-    </div>
-    <div *ngIf="userRole == 'deputy'" class="form-group">
-        <label for="district">Район</label>
-        <select 
-            class="form-control"
-            formControlName="district"
-            name="district">
-            <option value="" disabled>Обрати район</option>
-            <option *ngFor="let district of districts" [ngValue]="district">
-                {{ district.name }}
-            </option>
-        </select>
-    </div>
-    <div *ngIf="userRole == 'deputy'">
-        <label for="description">Короткий опис</label>
-        <textarea
-            class="form-control"
-            placeholder="Placeholder"
-            formControlName="description"
-            name="description">
-        </textarea
-        >
-    </div>
-    <button type="button" (click)="onSubmit()" [disabled]="!form.valid" class="btn btn-blue btn-big mt-10">Зберегти</button>
 </div>

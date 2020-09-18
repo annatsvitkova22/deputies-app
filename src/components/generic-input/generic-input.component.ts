@@ -23,6 +23,7 @@ export class GenericInputComponent implements ControlValueAccessor, Validator, O
   @Input() label: string = null;
   @Input() id: string;
   @Input() errorMsg: string;
+  @Input() placeholder: string;
 
   constructor(@Self() public controlDir: NgControl) {
     this.controlDir.valueAccessor = this;

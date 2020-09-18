@@ -3,31 +3,31 @@
         <form (ngSubmit)="onSubmit(f.value)" #f="ngForm" >
             <app-generic-input
                 [isRequired]="true"
-                [errorMsg]="'Please enter your name'"
-                [label] = "'Full name'"
+                [errorMsg]="'Будь-ласка введіть ваше Ім’я'"
+                [placeholder] = "'Ім’я*'"
                 [id] = "'name'"
                 ngModel name="name">
             </app-generic-input>
             <app-generic-input
                 [isRequired]="true"
-                [errorMsg]="'Please enter your email'"
-                [label] = "'Login'"
+                [errorMsg]="'Будь-ласка введіть ваш Email'"
+                [placeholder] = "'Ел. адреса*'"
                 [id] = "'email'"
                 [pattern]="'[A-Za-z0-9._%-+]+@[A-Za-z0-9._%-]+\\.[a-z]{2,20}'"
                 ngModel name="email">
             </app-generic-input>
             <app-generic-input
                 [isRequired]="true"
-                [errorMsg]="'Please enter your password'"
-                [label] = "'Password'"
+                [errorMsg]="'Будь-ласка введіть ваш пароль'"
+                [placeholder] = "'Пароль'"
                 [id] = "'password'"
                 [type] = "'password'"
                 ngModel name="password">
             </app-generic-input>
             <app-generic-input
                 [isRequired]="true"
-                [errorMsg]="'Please enter your password'"
-                [label] = "'Repeat Password'"
+                [errorMsg]="'Будь-ласка введіть ваш пароль ще раз'"
+                [placeholder] = "'Повторіть пароль'"
                 [id] = "'repeatPassword'"
                 [type] = "'password'"
                 ngModel name="repeatPassword">
@@ -35,9 +35,9 @@
             <div *ngIf="isError" class="is-invalid is-auth">
                 <p>{{message}}</p>
             </div>
-            <button [disabled]="!f.valid" type="submit" class="btn btn-blue btn-big">Create account</button>
+            <button [disabled]="!f.valid" type="submit" class="btn btn-blue btn-big">Реєстрація</button>
             <a [routerLink]="['/sign-in']" class="btn btn-blue btn-big mt-10">
-                Sing In
+                Увійти
             </a>
         </form>
     </div>

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 import { MainState } from '../../store/main.state';
 import { AddAuth } from '../../store/auth.action';
-import { AuthState, CreateUser, SocialProfile, UserAvatal } from '../../models';
+import { AuthState, CreateUser, SocialProfile, UserAvatal, AuthUser } from '../../models';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -158,6 +158,26 @@ export class AuthService {
         });
 
         return userImage;
+    }
+
+    async getUserById(): Promise<AuthUser> {
+        let userInfo: AuthUser;
+        const userId: string = await this.getUserId()
+        // tslint:disable-next-line: max-line-length
+        await this.db.collection('users').doc(userId).get().toPromise().then(async span => {
+            const data: firebase.firestore.DocumentData = span.data();
+            const userImage = await this.getUserImage();
+            userInfo = {
+                userId,
+                name: data.name,
+                role: data.role,
+                email: data.email,
+                imageUrl: userImage.imageUrl,
+                shortName: userImage.shortName
+            };
+        });
+
+        return userInfo;
     }
 
     async checkToken(): Promise<boolean> {

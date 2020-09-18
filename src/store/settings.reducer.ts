@@ -16,7 +16,7 @@ export const settingsReducer = (state = initialState, action: SettingsAction) =>
             const {payload}: EditSettings = action;
             const newState = {
                 ...state,
-                sorting: payload.sorting,
+                sorting: payload.sorting ? payload.sorting : null,
                 districts: payload.districts ? payload.districts : null,
                 statuses: payload.statuses ? payload.statuses : null,
                 date: payload.date ? payload.date : moment({h: 0, m: 0, s: 0, ms: 0}).valueOf(),

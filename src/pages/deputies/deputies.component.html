@@ -1,0 +1,16 @@
+<app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
+<app-header *ngIf="!isLoader"></app-header>
+<main *ngIf="!isLoader" class="main">
+    <div class="container container__small">
+        <div class="mt-28 mb-28">
+
+        </div>
+        <div>
+            <app-small-card
+                    [deputy]="deputy"
+                    *ngFor="let deputy of deputies"
+            >
+            </app-small-card>
+        </div>
+    </div>
+</main>

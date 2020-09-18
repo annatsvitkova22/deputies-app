@@ -1,8 +1,9 @@
 import { District, Party } from './deputies.model';
 
 export interface AuthUser {
-    userId: string;
+    userId?: string;
     role: string;
+    name?: string;
     email: string;
     imageUrl: string;
     shortName: string;

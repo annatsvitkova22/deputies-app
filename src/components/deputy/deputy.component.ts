@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DeputyService } from './deputy.service';
-import { Deputy, AppealCard, CountAppeals } from '../../models';
+import { AppealCard, CountAppeals, UserAccount } from '../../models';
 
 @Component({
     selector: 'app-deputy',
@@ -10,7 +10,7 @@ import { Deputy, AppealCard, CountAppeals } from '../../models';
 })
 export class DeputyComponent implements OnInit {
     deputyId: string;
-    deputy: Deputy;
+    deputy: UserAccount;
     shortName: string;
     appeals: AppealCard[];
     // tslint:disable-next-line: no-inferrable-types
@@ -32,5 +32,4 @@ export class DeputyComponent implements OnInit {
         this.countAppeals = await this.deputyService.getCountAppeal(this.appeals);
         this.isLoader = false;
     }
-
 }

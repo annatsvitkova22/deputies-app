@@ -16,7 +16,7 @@ export class MultiSelectComponent implements OnInit {
 
     @Input() dropdownList: Select[];
     @Input() type: string;
-    @Input() selectedItems: Select[];
+    selectedItems: Select[];
     @Input() text: string;
     dropdownSettings = {};
     // tslint:disable-next-line: no-inferrable-types
@@ -30,7 +30,6 @@ export class MultiSelectComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        console.log('selectedItems', this.selectedItems)
         this.counter = 0;
         this.buttonText = 'Очистити';
         if (this.type === 'statuses') {
@@ -38,7 +37,7 @@ export class MultiSelectComponent implements OnInit {
                 {id: 'До виконання', name: 'До виконання'},
                 {id: 'В Роботі', name: 'В Роботі'},
                 {id: 'Виконано', name: 'Виконано'},
-            ]
+            ];
         }
         this.dropdownSettings = {
             singleSelection: false,
@@ -46,7 +45,7 @@ export class MultiSelectComponent implements OnInit {
             enableCheckAll: false,
             enableSearchFilter: false,
             labelKey: 'name',
-            classes: 'multi-select' + ' select-' + this.type,
+            classes: 'multi-select',
             badgeShowLimit: 1
         };
     }
@@ -73,19 +72,24 @@ export class MultiSelectComponent implements OnInit {
     }
 
     async resetForm(f: NgForm): Promise<void> {
+        console.log('data', f.value)
         f.reset();
         this.buttonText = 'Очистити';
         this.counter = 0;
         this.dispatchToStore();
     }
 
-    async dispatchToStore() {
+    async dispatchToStore(): Promise<void> {
         let settings: Settings;
         const settingsStore = await this.mainService.getSettings();
         if (this.type === 'districts') {
+            const districts: Select[] = []
+            this.selectedItems.map(item => {
+                districts.push(item);
+            });
             settings = {
                 sorting: settingsStore.sorting,
-                districts: this.selectedItems,
+                districts,
                 statuses: settingsStore.statuses,
                 date: settingsStore.date
             };
@@ -108,7 +112,6 @@ export class MultiSelectComponent implements OnInit {
 
     saveOptions(): void {
         this.dispatchToStore();
-        console.log('this.selectedItems', this.selectedItems);
         this.store.select('settingsStore').subscribe((data: Settings) =>  console.log('data', data));
     }
 }

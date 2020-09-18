@@ -13,9 +13,20 @@
         color: $white;
     }
 
-    &__medium {
-        width: 42px;
-        height: 42px;
+    &__big {
+        width: 128px;
+        height: 128px;
+        font-size: 24px;
+    }
+
+    &__extra-large {
+        width: 96px;
+        height: 96px;
+    }
+
+    &__large {
+        width: 76px;
+        height: 76px;
     }
 
     &__normal {
@@ -23,10 +34,9 @@
         height: 46px;
     }
 
-    &__big {
-        width: 128px;
-        height: 128px;
-        font-size: 24px;
+    &__medium {
+        width: 42px;
+        height: 42px;
     }
 
     &__small {

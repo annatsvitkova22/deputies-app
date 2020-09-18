@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModal, NgbDateStruct, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppealService } from '../../appeal/appeal.service';
-import { District, UserFormModel, ResultModel } from '../../../models';
+import { District, UserFormModel, ResultModel, UserAvatal } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
 import { SettingsService } from '../settings.service';
 import { Party } from '../../../models';
@@ -17,13 +17,13 @@ import { NgbdModalContent } from '../../modal/modal.component';
 export class ChangeInfoComponent implements OnInit {
     form = new FormGroup({
         name: new FormControl('', [Validators.required]),
-        surname: new FormControl('', [Validators.required]),
+        surname: new FormControl(''),
         date: new FormControl(''),
     });
     model: NgbDateStruct;
     districts: District[];
     parties: Party[];
-    imageUrl: string;
+    userAvatar: UserAvatal;
     userRole: string;
     // tslint:disable-next-line: no-inferrable-types
     isLoader: boolean = true;
@@ -39,7 +39,7 @@ export class ChangeInfoComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         const user = await this.settingsService.getUser();
         this.userRole = await this.authService.getUserRole();
-        this.imageUrl = user.imageUrl ? user.imageUrl : null;
+        this.userAvatar = await this.authService.getUserImage();
         this.model = user.date;
         if (this.userRole === 'deputy') {
             this.form.addControl('patronymic', new FormControl('', Validators.required));
@@ -73,17 +73,21 @@ export class ChangeInfoComponent implements OnInit {
         const reader: FileReader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
-            this.imageUrl = reader.result as string;
+            this.userAvatar.imageUrl = reader.result as string;
         };
+    }
+
+    onDeleteFile(): void {
+        this.userAvatar.imageUrl = null;
     }
 
     async onSubmit(): Promise<void> {
         const data: UserFormModel = this.form.value;
         let result: ResultModel;
         if (this.userRole === 'deputy') {
-            result = await this.settingsService.updateDeputy(data, this.imageUrl);
+            result = await this.settingsService.updateDeputy(data, this.userAvatar.imageUrl);
         } else {
-            result = await this.settingsService.updateUser(data, this.imageUrl);
+            result = await this.settingsService.updateUser(data, this.userAvatar.imageUrl);
         }
 
         const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent, {

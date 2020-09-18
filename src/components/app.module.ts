@@ -11,14 +11,17 @@ import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthSer
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
   AppealService, NgbdModalContent, SettingsService, SettingsComponent, ChangePasswordComponent, ChangeInfoComponent,
   LoaderComponent, DeputyComponent, DeputyService, AppealCardComponent, AvatarComponent, HeaderComponent, MultiSelectComponent,
-  TabComponent } from './index';
+  TabComponent, AccountCardComponent, SmallCardComponent } from './index';
 import { environment } from '../environments/environment';
 import { authReducer } from '../store/auth.reducer';
 import { MainComponent } from '../pages/main/main.component';
 import { DeputyCardComponent } from './deputy-card/deputy-card.component';
 import { MainService } from '../pages/main/main.service';
 import { settingsReducer } from '../store/settings.reducer';
-
+import { DeputiesComponent } from '../pages/deputies/deputies.component';
+import { ProfileComponent } from '../pages/profile/profile.component';
+import { EditComponent } from '../pages/edit/edit.component';
+import { AuthSimpleGuard } from './main/auth-simple.guard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +43,12 @@ import { settingsReducer } from '../store/settings.reducer';
     MainComponent,
     DeputyCardComponent,
     MultiSelectComponent,
-    TabComponent
+    TabComponent,
+    AccountCardComponent,
+    SmallCardComponent,
+    DeputiesComponent,
+    ProfileComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +67,8 @@ import { settingsReducer } from '../store/settings.reducer';
     AppealService,
     SettingsService,
     DeputyService,
-    MainService
+    MainService,
+    AuthSimpleGuard
   ],
   bootstrap: [AppComponent],
   entryComponents: [NgbdModalContent]

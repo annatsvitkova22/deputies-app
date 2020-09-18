@@ -1,13 +1,13 @@
 @import '../../../styles/variables';
 
 .card {
-    max-width: 620px;
     width: 100%;
     padding: 24px 24px 25px;
     margin-bottom: 12px;
 
     &__deputy {
         margin-left: 12px;
+        width: max-content;
     }
 
     &__name {
