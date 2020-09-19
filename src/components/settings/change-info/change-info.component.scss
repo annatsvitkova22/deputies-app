@@ -23,6 +23,7 @@
     width: 2.75rem;
     margin-right: 3px;
     height: 38px;
+    padding: 12px 26px;
 }
 
 .upload-file {
@@ -33,30 +34,21 @@
     margin-top: 36px;
 }
 
-.select-arrow {
-    position: relative;
-    appearance: none;
-
-    &::after{
-        position: absolute;
-        content: 'after';
-        bottom: 0;
-        right: 0;
-        height: 10px;
-        width: 1.5px;
-        background-color: $black;
-        transform: rotate(45deg);
-    }
-}
-
-option {
-    padding: 8px 16px !important;
-    border: 0;
-    border-bottom: 1px solid $black !important;
-    color: red !important;
-    appearance: none !important;
-}
-
 .textarea {
     height: 92px;
+}
+
+@media only screen and (max-width: 560px) {
+    .upload-file {
+        margin: 0 0 8px;
+    }
+    .avatar-btn {
+        display: flex;
+        flex-direction: column;
+        margin-left: 58px;
+    }
+
+    .btn__small {
+        padding: 5px 12px;
+    }
 }

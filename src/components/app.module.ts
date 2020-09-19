@@ -6,10 +6,11 @@ import { StoreModule } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
-  AppealService, NgbdModalContent, SettingsService, SettingsComponent, ChangePasswordComponent, ChangeInfoComponent,
+  AppealService, NgbdModalContent, SettingsService, ChangePasswordComponent, ChangeInfoComponent,
   LoaderComponent, DeputyComponent, DeputyService, AppealCardComponent, AvatarComponent, HeaderComponent, MultiSelectComponent,
   TabComponent, AccountCardComponent, SmallCardComponent } from './index';
 import { environment } from '../environments/environment';
@@ -31,7 +32,6 @@ import { AuthSimpleGuard } from './main/auth-simple.guard';
     ResetPasswordComponent,
     AppealComponent,
     NgbdModalContent,
-    SettingsComponent,
     ChangeEmailComponent,
     ChangePasswordComponent,
     ChangeInfoComponent,
@@ -52,6 +52,7 @@ import { AuthSimpleGuard } from './main/auth-simple.guard';
   ],
   imports: [
     BrowserModule,
+    NgSelectModule,
     AngularMultiSelectModule,
     AppRoutingModule,
     FormsModule,

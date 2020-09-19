@@ -13,7 +13,6 @@ export * from './reset-password/reset-password.component';
 export * from './settings/change-email/change-email.component';
 export * from './settings/change-password/change-password.component';
 export * from './settings/change-info/change-info.component';
-export * from './settings/settings.component';
 export * from './settings/settings.service';
 export * from './sing-up/sing-up.component';
 export * from './loader/loader.component';

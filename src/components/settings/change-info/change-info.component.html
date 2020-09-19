@@ -4,7 +4,7 @@
     <div name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
         <div class="d-flex align-items-center mt-24 mb-24">
             <app-avatar [imageUrl]="userAvatar.imageUrl" [name]="userAvatar.shortName" [class]="'avatar__extra-large'"></app-avatar>
-            <div>
+            <div class="avatar-btn">
                 <button  (click)="fileInput.click()" class="upload-file btn btn__small btn-dark">Завантажити</button>
                 <button (click)="onDeleteFile()" class="btn btn__small">Видалити</button>
                 <input 
@@ -80,26 +80,20 @@
             </div>
         </div>
         <div *ngIf="userRole == 'deputy'" class="form-group">
-            <select
+            <ng-select [items]="parties"
                 class="input"
-                formControlName="party"
-                name="party">
-                <option value="" disabled>Партiя</option>
-                <option *ngFor="let party of parties" [ngValue]="party">
-                    {{ party.name }}
-                </option>
-            </select>
+                bindLabel="name"
+                placeholder="Партiя"
+                formControlName="party">
+            </ng-select>
         </div>
         <div *ngIf="userRole == 'deputy'" class="form-group">
-            <select 
-                class="input select-arrow"
-                formControlName="district"
-                name="district">
-                <option value="" disabled>Район</option>
-                <option *ngFor="let district of districts" [ngValue]="district">
-                    {{ district.name }}
-                </option>
-            </select>
+            <ng-select [items]="districts"
+                class="input"
+                bindLabel="name"
+                placeholder="Район"
+                formControlName="district">
+            </ng-select>
         </div>
         <div *ngIf="userRole == 'deputy'">
             <textarea
@@ -110,6 +104,5 @@
             </textarea
             >
         </div>
-        <!-- <button type="button" (click)="onSubmit()" [disabled]="!form.valid" class="btn btn-blue btn-big mt-10">Зберегти</button> -->
     </div>
 </div>

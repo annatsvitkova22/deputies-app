@@ -6,7 +6,6 @@ import { AuthGuard } from './auth.guard';
 import { SingUpComponent } from '../sing-up/sing-up.component';
 import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 import { AppealComponent } from '../appeal/create-appeal/appeal.component';
-import { SettingsComponent } from '../settings/settings.component';
 import { DeputyComponent } from '../deputy/deputy.component';
 import { MainComponent } from '../../pages/main/main.component';
 import { DeputiesComponent } from '../../pages/deputies/deputies.component';
@@ -19,7 +18,6 @@ const routes: Routes = [
   { path: 'sign-in', component: AuthComponent },
   { path: 'reset-password', component: ResetPasswordComponent},
   { path: 'create-appeal', component: AppealComponent, canActivate: [AuthGuard] },
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'deputies', component: DeputiesComponent, canActivate: [AuthSimpleGuard] },
   { path: 'deputy/:id', component: DeputyComponent, canActivate: [AuthSimpleGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },

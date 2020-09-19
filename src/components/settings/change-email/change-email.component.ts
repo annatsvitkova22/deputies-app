@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { SettingsService } from '../settings.service';
-import { NgbdModalContent } from '../../modal/modal.component';
 
 @Component({
     selector: 'app-change-email',
@@ -11,23 +10,25 @@ import { NgbdModalContent } from '../../modal/modal.component';
 export class ChangeEmailComponent {
     isError: boolean;
     message: string;
+    form = new FormGroup({
+        email: new FormControl('', [Validators.required, Validators.email])
+    });
 
     constructor(
         private settingsService: SettingsService,
-        private modalService: NgbModal,
     ){}
 
-    onSubmit = async (data) => {
-        const result: boolean = await this.settingsService.updateEmail(data.email);
+    onSubmit = async (email: string): Promise<boolean> => {
+        const result: boolean = await this.settingsService.updateEmail(email);
         if (!result) {
             this.isError = !result;
             this.message = 'Помилка! Перевiрьте пошту, можливо строрiнка з таким email вже iснує';
-        } else {
-            const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent, {
-                size: 'lg'
-            });
-            modalRef.componentInstance.name = 'Ваш email успiшно змiнено';
-            modalRef.componentInstance.message = 'Вам прийшло повiдомлення на пошту';
         }
+
+        return result;
+    }
+
+    getForm(): string {
+        return this.form.value.email;
     }
 }

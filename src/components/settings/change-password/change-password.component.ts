@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { SettingsService } from '../settings.service';
-import { NgbdModalContent } from '../../modal/modal.component';
-import { ResultModel } from '../../../models';
+import { ResultModel, ChangePassword } from '../../../models';
 
 @Component({
     selector: 'app-change-password',
@@ -12,28 +11,38 @@ import { ResultModel } from '../../../models';
 export class ChangePasswordComponent {
     isError: boolean;
     message: string;
+    form = new FormGroup({
+        oldPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        repeatPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    });
 
     constructor(
         private settingsService: SettingsService,
-        private modalService: NgbModal,
     ){}
 
-    onSubmit = async (data): Promise<void> => {
+    onSubmit = async (data): Promise<ResultModel> => {
         if (data.repeatPassword === data.password) {
             const result: ResultModel = await this.settingsService.updatePassword(data.password, data.oldPassword);
 
             if (!result.status) {
                 this.isError = !result.status;
                 this.message = result.message;
-            } else {
-                const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent, {
-                    size: 'lg'
-                });
-                modalRef.componentInstance.name = 'Ваш пароль успiшно змiнено';
             }
+
+            return result;
         } else {
             this.isError = true;
             this.message = 'Пароли не совпадают';
+            const result: ResultModel = {
+                status: false
+            };
+
+            return result;
         }
+    }
+
+    getForm(): ChangePassword {
+        return this.form.value;
     }
 }

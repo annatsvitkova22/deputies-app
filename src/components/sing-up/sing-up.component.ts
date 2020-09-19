@@ -27,4 +27,12 @@ export class SingUpComponent implements OnInit {
             this.isError = true;
         }
     }
+
+    onGoogleLogin = async () => {
+        await this.authService.googleSingIn();
+    }
+
+    onFacebookLogin = async () => {
+        await this.authService.facebookSingIn();
+    }
 }

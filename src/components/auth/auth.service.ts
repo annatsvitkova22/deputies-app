@@ -32,7 +32,7 @@ export class AuthService {
                 const name: string[] = user.name.split(' ');
                 const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
                 await this.setUser(result.user.uid, user.email, user.role, user.imageUrl, shortName);
-                this.router.navigate(['/settings']);
+                this.router.navigate(['/']);
             });
         }).catch(err => {
             success = true;
@@ -56,11 +56,12 @@ export class AuthService {
 
     async signUp(data: CreateUser): Promise<boolean> {
         let success: boolean = false;
-        const {email, password, name}: CreateUser = data;
+        const {email, password, name, surname}: CreateUser = data;
+        const fullName: string = surname + ' ' + name;
         await this.authFire.createUserWithEmailAndPassword(email, password).then(async result => {
-            await this.writeUserToCollection(result.user.uid, name, email);
+            await this.writeUserToCollection(result.user.uid, fullName, email);
             result.user.sendEmailVerification();
-            this.router.navigate(['/']);
+            this.router.navigate(['/sign-in']);
         }).catch(err => {
             success = true;
         });

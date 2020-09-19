@@ -1,24 +1,26 @@
 <div class="card card-shadow">
-    <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
+    <div class="card__top d-flex justify-content-between align-items-center">
+        <div class="card__dep d-flex align-items-center">
             <app-avatar [imageUrl]="appeal.deputyImageUrl" [name]="appeal.shortName"></app-avatar>
             <div class="card__deputy">
                 <p class="card__name">{{appeal.deputyName}}</p>
                 <p class="card__party font-weight-500 tx-small tx-color-6">{{appeal.party}}</p>
             </div>
         </div>
-        <p class="card__status tx-blue font-weight-600" [ngClass]="statusColor">{{appeal.status}}</p>
+        <div class="card__status-block">
+            <p class="card__status tx-blue font-weight-600" [ngClass]="statusColor">{{appeal.status}}</p>
+        </div>
     </div>
     <div class="card__description mt-20">
         <p class="line-height-128 tx-normal tx-color-2">{{appeal.title}}</p>
         <p class="card__content">{{appeal.description}}</p>
     </div>
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="card__bottom d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <app-avatar [imageUrl]="appeal.userImageUrl" [name]="appeal.shortNameUser" [class]="'avatar__extra-small'"></app-avatar>
             <p class="card__author">{{appeal.userName}}</p>
         </div>
-        <ul class="list-reset d-flex justify-content-between w-50">
+        <ul class="card__list list-reset d-flex justify-content-between">
             <li class="card__item">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" clipRule="evenodd" d="M18.1818 9.74167C17.3769 13.4413 13.4603 16.2486 8.75 16.2486C8.07053 16.2486 7.40757 16.1902 6.76808 16.0791C8.06607 17.205 9.96623 17.9153 12.0833 17.9153C13.248 17.9153 14.3471 17.7003 15.3163 17.3194C15.7622 17.1442 17.1937 17.5995 18.1797 17.9554C18.5768 18.0987 18.9874 17.723 18.8814 17.3144C18.636 16.3686 18.3521 15.0534 18.5606 14.6942C18.9502 14.0231 19.1667 13.2802 19.1667 12.4986C19.1667 11.4919 18.8075 10.5493 18.1818 9.74167Z" fill="#A6B1C4"/>

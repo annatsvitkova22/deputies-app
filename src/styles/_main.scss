@@ -13,16 +13,16 @@ body {
     font-size: 14px;
     line-height: 1;
     font-family: 'Inter', sans-serif;
-    color: $black;
+    color: $black-main;
 }
 
 a {
     display: inline-block;
-    color: $black;
+    color: $black-main;
     text-decoration: none;
     &:hover,
     &:focus {
-        color: $black;
+        color: $black-main;
     }
 }
 
@@ -77,6 +77,10 @@ p {
     &__small {
         max-width: 650px;
     }
+
+    &__extra-small {
+        max-width: 490px;
+    }
 }
 
 .btn {
@@ -123,11 +127,16 @@ p {
         border: 1px solid $blue;
         background-color: $blue;
         color: $white;
+        padding: 9px 32px;
 
         &:hover {
             background-color: $white;
             border: 1px solid $blue;
             color: $blue;
+
+            path {
+                fill: $blue;
+            }
         }
     }
 
@@ -135,11 +144,16 @@ p {
         border: 1px solid $red;
         background-color: $red;
         color: $white;
+        padding: 11px 32px;
 
         &:hover {
             background-color: $white;
             border: 1px solid $red;
             color: $red;
+
+            path {
+                fill: $red;
+            }
         }
     }
 
@@ -158,6 +172,10 @@ p {
     &-big {
         width: 100%;
     }
+}
+
+.tx-center {
+    text-align: center;
 }
 
 .card-shadow {
@@ -187,7 +205,7 @@ p {
     }
 }
 
-$values: (4, 6, 8, 10, 14, 16, 18, 20, 24, 28, 30, 36, 40);
+$values: (4, 6, 8, 10, 14, 12, 16, 18, 20, 24, 28, 30, 32, 36, 40);
 
 @each $value in $values {
     .mt {
@@ -216,14 +234,45 @@ $values: (4, 6, 8, 10, 14, 16, 18, 20, 24, 28, 30, 36, 40);
 }
 
 .wrapper-form {
-    background-color: $white;
-    margin-top: 50px;
-    padding: 20px;
-    max-width: 350px;
-    margin-left: auto;
-    margin-right: auto;
-    border: 1px solid $gray-10;
-    border-radius: 4px;
+    padding: 35px 70px 45px;
+    margin-top: 28px;
+}
+
+.auth-title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.39;
+    letter-spacing: 0.01em;
+    color: $black-1;
+}
+
+.auth-or {
+    margin: 13px 0 3px;
+}
+
+path {
+    transition: all 0.3s;
+}
+
+.social-btn {
+    vertical-align: middle;
+
+    &--google {
+        margin-left: 10px;
+    }
+
+    &--facebook {
+        margin-left: 16px;
+    }
+}
+
+.auth-btn-link {
+    font-size: 13px;
+    line-height: 16px;
+    text-decoration-line: underline;
+    color: $blue-2;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 .nav-tabs {
@@ -406,4 +455,83 @@ ngb-datepicker.dropdown-menu {
 
 .form-group {
     margin-bottom: 24px;
+}
+
+.ng-dropdown-panel .scroll-host {
+    background: $white;
+    box-shadow: 0px 12px 12px rgba(50, 50, 71, 0.08), 0px 16px 44px rgba(50, 50, 71, 0.08);
+    border-radius: 16px 18px 18px 18px;
+    padding: 12px 16px;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+    padding: 8px 0;
+    font-weight: 500;
+    line-height: 1.43;
+    letter-spacing: 0.01em;
+}
+
+.ng-option-selected {
+    font-weight: 600 !important;
+}
+
+.ng-select .ng-clear-wrapper {
+    display: none;
+}
+
+.ng-arrow-wrapper {
+    position: relative;
+
+    &:after, &:before {
+        position: absolute;
+        content: "";
+        bottom: 5px;
+        height: 11px;
+        width: 1.5px;
+        background-color: $black;
+        transition: all 0.3s;
+    }
+
+    &:after {
+        right: 8px;
+        transform: rotate(45deg);
+    }
+
+    &:before {
+        right: 15px;
+        transform: rotate(-45deg);
+    }
+}
+
+.ng-select.ng-select-opened>.ng-select-container .ng-arrow-wrapper {
+    &:after {
+        transform: rotate(-45deg);
+    }
+
+    &:before {
+        right: 15px;
+        transform: rotate(-135deg);
+    }
+}
+
+.ng-select .ng-has-value .ng-placeholder {
+    display: none;
+}
+
+@media only screen and (max-width: 560px) {
+    .wrapper-form {
+        padding: 24px 24px 36px;
+    }
+
+    .btn {
+        padding: 12px 20px;
+
+        &-blue {
+            padding: 9px 20px;
+        }
+
+        &-red {
+            padding: 11px 20px;
+        }
+    }
 }

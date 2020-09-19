@@ -18,6 +18,7 @@ export interface CreateUser {
     email: string;
     password: string;
     name: string;
+    surname: string;
 }
 
 export interface ChangeEmail {
@@ -49,6 +50,11 @@ export interface UserFormModel {
     date?: DateModel;
 }
 
+export interface UserAvatarForm {
+    userForm: UserFormModel;
+    userAvatar: UserAvatal;
+}
+
 export interface DateModel {
     day: number;
     month: number;
@@ -71,4 +77,10 @@ export interface SocialProfile {
 export interface UserAvatal {
     imageUrl: string;
     shortName: string;
+}
+
+export interface ChangePassword {
+    oldPassword: string;
+    password: string;
+    repeatPassword: string;
 }

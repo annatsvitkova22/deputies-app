@@ -1,17 +1,23 @@
-<div class="">
-    <form (ngSubmit)="onSubmit(f.value)" #f="ngForm" >
-        <h3 class="mb-16 mt-36">Пошта</h3>
-        <app-generic-input
-            [isRequired]="true"
-            [errorMsg]="'Об`язкове поле'"
-            [placeholder] = "'Email'"
-            [id] = "'email'"
-            [pattern]="'[A-Za-z0-9._%-+]+@[A-Za-z0-9._%-]+\\.[a-z]{2,20}'"
-            ngModel name="email">
-        </app-generic-input>
-        <div *ngIf="isError" class="is-invalid is-auth">
-            <p>{{message}}</p>
+<form [formGroup]="form">
+    <h3 class="mb-16 mt-36">Пошта</h3>
+    <div class="form-group">
+        <input
+            type="text"
+            class="input"
+            placeholder="Email"
+            [ngClass]="{'is-invalidClass':form.get('email').touched && form.get('email').invalid}"
+            formControlName="email"
+            name="email"
+            required
+        />
+        <div *ngIf="form.get('email').touched && form.get('email').invalid"
+            class="invalid-feedback">
+            <p 
+                *ngIf="form.get('email').errors"
+                class="is-invalid"
+            >
+                Обов`язкове поле
+            </p>
         </div>
-        <!-- <button [disabled]="!f.valid" type="submit" class="btn btn-blue">Зберегти</button> -->
-    </form>
-</div>
+    </div>
+</form>

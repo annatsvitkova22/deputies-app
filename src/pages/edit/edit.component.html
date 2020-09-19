@@ -5,10 +5,10 @@
         <div class="wrapper card-shadow">
             <h2 class="main-title">Налаштування</h2>
             <p class="title">Загальна iнформацiя</p>
-            <app-change-info></app-change-info>
-            <app-change-email></app-change-email>
-            <app-change-password></app-change-password>
-            <button type="button" class="btn btn-big btn-green mt-8">Зберегти</button>
+            <app-change-info #infoChild></app-change-info>
+            <app-change-email #emailChild></app-change-email>
+            <app-change-password #passwordChild></app-change-password>
+            <button (click)="onSave()" type="button" class="btn btn-big btn-green mt-8">Зберегти</button>
         </div>
     </div>
 </main>

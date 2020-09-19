@@ -43,7 +43,7 @@ export class GenericInputComponent implements ControlValueAccessor, Validator, O
     control.updateValueAndValidity();
   }
 
-  onChange(event) { }
+  onChange(event) {}
 
   onTouched() { }
 

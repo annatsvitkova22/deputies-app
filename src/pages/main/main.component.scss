@@ -33,3 +33,9 @@
         overflow-y: scroll;
     }
 }
+
+@media only screen and (max-width: 860px) {
+    .main__deputy {
+        display: none;
+    }
+}

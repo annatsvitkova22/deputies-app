@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NgbModal, NgbDateStruct, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppealService } from '../../appeal/appeal.service';
-import { District, UserFormModel, ResultModel, UserAvatal } from '../../../models';
+import { District, ResultModel, UserAvatal, UserAvatarForm } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
 import { SettingsService } from '../settings.service';
 import { Party } from '../../../models';
@@ -32,8 +32,7 @@ export class ChangeInfoComponent implements OnInit {
     constructor(
         private appealService: AppealService,
         private authService: AuthService,
-        private settingsService: SettingsService,
-        private modalService: NgbModal
+        private settingsService: SettingsService
     ){}
 
     async ngOnInit(): Promise<void> {
@@ -44,8 +43,8 @@ export class ChangeInfoComponent implements OnInit {
         if (this.userRole === 'deputy') {
             this.form.addControl('patronymic', new FormControl('', Validators.required));
             this.form.addControl('description', new FormControl(null));
-            this.form.addControl('district', new FormControl('', Validators.required));
-            this.form.addControl('party', new FormControl('', Validators.required));
+            this.form.addControl('district', new FormControl(null, Validators.required));
+            this.form.addControl('party', new FormControl(null, Validators.required));
 
             this.districts = await this.appealService.getDistricts();
             this.parties = await this.settingsService.getParties();
@@ -55,8 +54,8 @@ export class ChangeInfoComponent implements OnInit {
                 name: user.name,
                 surname: user.surname,
                 patronymic: user.patronymic,
-                district: district ? district : '',
-                party: party ? party : '',
+                district: district ? district : null,
+                party: party ? party : null,
             });
         } else {
             const name: string[] = user.name.split(' ');
@@ -81,18 +80,22 @@ export class ChangeInfoComponent implements OnInit {
         this.userAvatar.imageUrl = null;
     }
 
-    async onSubmit(): Promise<void> {
-        const data: UserFormModel = this.form.value;
+    async onSubmit(data: UserAvatarForm): Promise<ResultModel> {
         let result: ResultModel;
         if (this.userRole === 'deputy') {
-            result = await this.settingsService.updateDeputy(data, this.userAvatar.imageUrl);
+            result = await this.settingsService.updateDeputy(data.userForm, data.userAvatar.imageUrl);
         } else {
-            result = await this.settingsService.updateUser(data, this.userAvatar.imageUrl);
+            result = await this.settingsService.updateUser(data.userForm, data.userAvatar.imageUrl);
         }
+        return result;
+    }
 
-        const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent, {
-            size: 'lg'
-        });
-        modalRef.componentInstance.name = result.message;
+    getForm(): UserAvatarForm {
+        const data: UserAvatarForm = {
+            userForm: this.form.value,
+            userAvatar: this.userAvatar
+        };
+
+        return data;
     }
 }
