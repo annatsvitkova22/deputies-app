@@ -48,8 +48,8 @@ export interface Appeal {
     userId: string;
     status: string;
     date: string;
-    fileUrl?: string;
-    fileImageUrl: string;
+    fileUrl?: string[];
+    fileImageUrl?: string[];
 }
 
 export interface AppealCard {
@@ -69,9 +69,12 @@ export interface AppealCard {
 }
 
 export interface LoadedFile {
-    downloadURL: string;
-    path: string;
+    imageUrl?: string;
+    pathFile?: string;
+    name?: string;
+    size?: string;
 }
+
 export interface Select {
     id: string;
     name: string;

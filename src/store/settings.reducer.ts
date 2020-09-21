@@ -7,7 +7,7 @@ const initialState: Settings = {
     sorting: null,
     districts: null,
     statuses: null,
-    date: moment({h: 0, m: 0, s: 0, ms: 0}).valueOf()
+    date: null,
 };
 
 export const settingsReducer = (state = initialState, action: SettingsAction) => {
@@ -19,7 +19,7 @@ export const settingsReducer = (state = initialState, action: SettingsAction) =>
                 sorting: payload.sorting ? payload.sorting : null,
                 districts: payload.districts ? payload.districts : null,
                 statuses: payload.statuses ? payload.statuses : null,
-                date: payload.date ? payload.date : moment({h: 0, m: 0, s: 0, ms: 0}).valueOf(),
+                date: payload.date ? payload.date : null,
             };
 
             return newState;

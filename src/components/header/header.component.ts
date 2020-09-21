@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
         {name: 'Депутати', path: '/deputies'},
         {name: 'Про проект', path: '/about'}
     ];
+    isOpen: boolean;
 
     constructor(
         private authService: AuthService,
@@ -25,14 +26,18 @@ export class HeaderComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         const userAvatar: UserAvatal = await this.authService.getUserImage();
-        if (userAvatar.imageUrl) {
+        if (userAvatar && userAvatar.imageUrl) {
             this.imageUrl = userAvatar.imageUrl;
-        } else {
+        } else if (userAvatar && userAvatar.shortName) {
             this.shortName = userAvatar.shortName;
         }
     }
 
     isCurrentRoute(route: string): boolean {
         return this.router.url === route;
+    }
+
+    onOpenMenu(): void {
+        this.isOpen = !this.isOpen;
     }
 }

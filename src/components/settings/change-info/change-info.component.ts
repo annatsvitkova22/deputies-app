@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NgbDateStruct, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppealService } from '../../appeal/appeal.service';
 import { District, ResultModel, UserAvatal, UserAvatarForm } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
 import { SettingsService } from '../settings.service';
 import { Party } from '../../../models';
-import { NgbdModalContent } from '../../modal/modal.component';
 
 @Component({
     selector: 'app-change-info',

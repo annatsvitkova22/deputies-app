@@ -3,7 +3,7 @@ import { AuthState } from '../models';
 
 const initialState: AuthState = {
     user: null,
-    isAuth: false
+    isAuth: false,
 };
 
 export const authReducer = (state = initialState, action: AuthAction) => {
@@ -12,7 +12,7 @@ export const authReducer = (state = initialState, action: AuthAction) => {
             const newState = {
                 ...state,
                 isAuth: action.payload.isAuth,
-                user: action.payload.user
+                user: action.payload.user,
             };
 
             return newState;
@@ -20,7 +20,7 @@ export const authReducer = (state = initialState, action: AuthAction) => {
             const deletedState = {
                 ...state,
                 isAuth: false,
-                user: null
+                user: null,
             };
 
             return deletedState;

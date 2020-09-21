@@ -152,10 +152,12 @@ export class AuthService {
     async getUserImage(): Promise<UserAvatal>  {
         let userImage: UserAvatal;
         this.store.select('authStore').subscribe((data: AuthState) =>  {
-            userImage = {
-                imageUrl: data.user.imageUrl ? data.user.imageUrl : null,
-                shortName: data.user.shortName
-            };
+            if (data.user) {
+                userImage = {
+                    imageUrl: data.user.imageUrl ? data.user.imageUrl : null,
+                    shortName: data.user.shortName ? data.user.shortName : null
+                };
+            }
         });
 
         return userImage;

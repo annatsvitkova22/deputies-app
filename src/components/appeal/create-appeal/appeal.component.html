@@ -1,14 +1,14 @@
 <app-header></app-header>
-<div class="container">
-    <div class="wrapper-form">
+<div class="container container__extra-small">
+    <div class="wrapper-form card-shadow">
         <div name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
-        <div class="form-group">
-            <label for="title">Тема задачи</label>
+            <h2 class="main-title mb-36">Запит до депутата</h2>
+            <div class="form-group">
             <input 
             type="text"
-            class="form-control"
+            class="input"
             id="title"
-            placeholder="Placeholder"
+            placeholder="Тема запиту"
             name="title"
             [ngClass]="{'is-invalidClass':form.get('title').touched && form.get('title').invalid}"
             formControlName="title"
@@ -24,58 +24,53 @@
                 </p>
             </div>
         </div>
-        <div>
-            <label for="description">Опис</label>
+        <div class="form-group">
             <textarea
-                class="form-control"
-                placeholder="Placeholder"
+                class="input textarea"
+                placeholder="Опис"
                 formControlName="description"
                 name="description">
             </textarea
             >
         </div>
         <div class="form-group">
-            <label for="district">Район</label>
-            <select 
-                class="form-control"
-                formControlName="district"
+            <ng-select [items]="districts"
+                class="input"
+                bindLabel="name"
+                placeholder="Район"
                 (ngModelChange)="onDistrictsChange($event)"
-                name="district">
-                <option value="" disabled>Обрати район</option>
-                <option *ngFor="let district of districts" [ngValue]="district">
-                    {{ district.name }}
-                </option>
-            </select>
+                formControlName="district">
+            </ng-select>
         </div>
-        <div class="form-group">
-            <label for="deputy">Вiдповiдальний депутат</label>
-            <select
-                class="form-control"
+        <div class="form-select">
+            <ng-select [items]="deputies"
+                class="input"
+                bindLabel="name"
+                placeholder="Виберіть депутата"
                 formControlName="deputy"
                 (ngModelChange)="onDeputyChange($event)"
-                name="deputy">
-                <option value="" disabled>Обрати...</option>
-                <option *ngFor="let deputy of deputies" [ngValue]="deputy">
-                    {{ deputy.name }}
-                </option>
-            </select>
+                >
+            </ng-select>
+        </div>
+        <div *ngIf="loadedFiles.length">
+            <app-uploaded-file 
+                (deleteFileName)="deleteFile($event)"
+                [file]="loadedFile"
+                *ngFor="let loadedFile of loadedFiles"
+            ></app-uploaded-file>
         </div>
         <div class="form-group">
+            <button  (click)="uploadInput.click()" class="upload-file btn btn__small">Завантажити файли</button>
             <input 
                 type="file"
-                (change)="onFileChange($event)"/>
-        </div>
-        <div class="form-group">
-            <input 
-                type="checkbox"
-                formControlName="confirmation"
-                name="confirmation"
+                (change)="onFileChange($event)"
+                #uploadInput
+                style="display: none;"
             />
-            <label for="confirmation">Lorem ipsum dolor sit amet consectetur adipisicing elit.</label>
         </div>
         <div *ngIf="isError" class="is-invalid is-auth">
             <p>{{message}}</p>
         </div>
-        <button type="button" (click)="onSubmit()" [disabled]="!form.valid" class="btn btn-blue btn-big">Створити запит</button>
+        <button type="button" (click)="onSubmit()" [disabled]="!form.valid" class="btn btn-green btn-big mt-8">Створити запит</button>
     </div>
 </div>

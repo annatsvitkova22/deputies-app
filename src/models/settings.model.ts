@@ -1,8 +1,8 @@
-import { District } from './deputies.model';
+import { District, Select } from './deputies.model';
 
 export interface Settings {
     sorting?: string;
     districts?: District[];
-    statuses?: string[];
+    statuses?: Select[];
     date?: number;
 }

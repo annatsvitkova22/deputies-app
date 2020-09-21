@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { UserAccount, Deputy, AppealCard, CountAppeals, UserAvatal } from '../../models';
+import { UserAccount, Deputy, AppealCard, CountAppeals, UserAvatal, Settings } from '../../models';
 
 @Injectable()
 export class DeputyService {
@@ -56,9 +56,6 @@ export class DeputyService {
         return name;
     }
 
-    // setFilter(ref: any): any {
-    //     ref.where
-    // }
 
     async getAppealByUser(userId: string, userAvatar: UserAvatal, userName: string ): Promise<AppealCard[]> {
         let appealspans: any = await this.db.collection('appeals', ref => ref.where('userId', '==', userId)).get().toPromise();
@@ -129,7 +126,7 @@ export class DeputyService {
     }
 
     getCountAppeal(appeals: AppealCard[]): CountAppeals[] {
-        const inProcess: AppealCard[] = appeals.filter(appeal => appeal.status === 'В Роботi');
+        const inProcess: AppealCard[] = appeals.filter(appeal => appeal.status === 'В Роботі');
         const done: AppealCard[] = appeals.filter(appeal => appeal.status === 'Виконано');
         const countAppeals: CountAppeals[] = [
             {name: 'Запитів', count: appeals.length},
@@ -140,8 +137,23 @@ export class DeputyService {
         return countAppeals;
     }
 
-    async getAllDeputy(): Promise<Deputy[]> {
-        let deputies: any = await this.db.collection('users', ref => ref.where('role', '==', 'deputy')).get().toPromise();
+    sortingDeputy(ref, settings: Settings) {
+        let deputyRef = ref.where('role', '==', 'deputy');
+        if (settings && settings.sorting && settings.sorting === '1') {
+            deputyRef = deputyRef.orderBy('rating', 'desc');
+        }
+        if (settings && settings.sorting && settings.sorting === '2') {
+            deputyRef = deputyRef.orderBy('countAppeals', 'desc');
+        }
+        if (settings && settings.sorting && settings.sorting === '3') {
+            deputyRef = deputyRef.orderBy('countConfirmAppeals', 'desc');
+        }
+
+        return deputyRef;
+    }
+
+    async getAllDeputy(settings: Settings = null): Promise<Deputy[]> {
+        let deputies: any = await this.db.collection('users', ref => this.sortingDeputy(ref, settings)).get().toPromise();
         if (deputies.size) {
             deputies = deputies.docs.map(deputyRes => async () => {
                 const data = deputyRes.data();

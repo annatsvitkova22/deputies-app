@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -16,9 +16,10 @@ export class MultiSelectComponent implements OnInit {
 
     @Input() dropdownList: Select[];
     @Input() type: string;
-    selectedItems: Select[];
+    @Input() selectedItems: Select[];
     @Input() text: string;
     dropdownSettings = {};
+    @Output() changes = new EventEmitter<Settings>();
     // tslint:disable-next-line: no-inferrable-types
     isDrop: boolean = false;
     buttonText: string;
@@ -72,7 +73,6 @@ export class MultiSelectComponent implements OnInit {
     }
 
     async resetForm(f: NgForm): Promise<void> {
-        console.log('data', f.value)
         f.reset();
         this.buttonText = 'Очистити';
         this.counter = 0;
@@ -94,10 +94,10 @@ export class MultiSelectComponent implements OnInit {
                 date: settingsStore.date
             };
         } else if (this.type === 'statuses') {
-            const statuses: string[] = [];
+            const statuses: Select[] = [];
             if (this.selectedItems) {
                 this.selectedItems.map(item => {
-                    statuses.push(item.name);
+                    statuses.push(item);
                 });
             }
             settings = {
@@ -107,11 +107,11 @@ export class MultiSelectComponent implements OnInit {
                 date: settingsStore.date
             };
         }
+        this.changes.emit(settings);
         this.store.dispatch(new EditSettings(settings));
     }
 
     saveOptions(): void {
         this.dispatchToStore();
-        this.store.select('settingsStore').subscribe((data: Settings) =>  console.log('data', data));
     }
 }

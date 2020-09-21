@@ -205,7 +205,7 @@ p {
     }
 }
 
-$values: (4, 6, 8, 10, 14, 12, 16, 18, 20, 24, 28, 30, 32, 36, 40);
+$values: (4, 6, 8, 10, 14, 12, 16, 18, 20, 24, 28, 30, 32, 34, 36, 40);
 
 @each $value in $values {
     .mt {
@@ -238,7 +238,7 @@ $values: (4, 6, 8, 10, 14, 12, 16, 18, 20, 24, 28, 30, 32, 36, 40);
     margin-top: 28px;
 }
 
-.auth-title {
+.main-title {
     font-weight: 600;
     font-size: 20px;
     line-height: 1.39;
@@ -264,6 +264,46 @@ path {
     &--facebook {
         margin-left: 16px;
     }
+}
+
+.main__deputy {
+    .ng-dropdown-panel .scroll-host {
+        margin-left: -100px;
+    }
+
+    .ng-arrow-wrapper:before {
+        display: none;
+    }
+
+    .ng-option-selected {
+        color: $black-main;
+    }
+
+    .ng-value {
+        color: $black-main;
+    }
+
+    .ng-arrow-wrapper:after {
+        background: url('../static/sort.svg') no-repeat;
+        background-size: cover;
+        transform: rotate(0);
+        width: 16px;
+        height: 17px;
+        bottom: 3px;
+        right: 0;
+    }
+
+    .ng-select.ng-select-opened > .ng-select-container .ng-arrow-wrapper:after {
+        transform: rotate(180deg);
+    }
+
+    .ng-value, .ng-placeholder {
+        padding-right: 25px;
+    }
+}
+
+.ng-input {
+    visibility: hidden;
 }
 
 .auth-btn-link {
@@ -312,6 +352,7 @@ ngb-datepicker.dropdown-menu {
     background-color: $white;
     border-radius: 30px;
     padding: 8px 48px 8px 20px;
+    border: 1px solid $gray-14;
 
     &:focus {
         border: 1px solid $gray-11;
@@ -486,19 +527,19 @@ ngb-datepicker.dropdown-menu {
         position: absolute;
         content: "";
         bottom: 5px;
-        height: 11px;
+        height: 10px;
         width: 1.5px;
         background-color: $black;
         transition: all 0.3s;
     }
 
     &:after {
-        right: 8px;
+        right: 4px;
         transform: rotate(45deg);
     }
 
     &:before {
-        right: 15px;
+        right: 10px;
         transform: rotate(-45deg);
     }
 }
@@ -509,7 +550,6 @@ ngb-datepicker.dropdown-menu {
     }
 
     &:before {
-        right: 15px;
         transform: rotate(-135deg);
     }
 }
@@ -517,6 +557,7 @@ ngb-datepicker.dropdown-menu {
 .ng-select .ng-has-value .ng-placeholder {
     display: none;
 }
+
 
 @media only screen and (max-width: 560px) {
     .wrapper-form {
@@ -533,5 +574,9 @@ ngb-datepicker.dropdown-menu {
         &-red {
             padding: 11px 20px;
         }
+    }
+
+    .cuppa-dropdown .selected-list .c-btn {
+        padding: 8px 43px 8px 15px;
     }
 }

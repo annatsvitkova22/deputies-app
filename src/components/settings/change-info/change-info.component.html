@@ -1,7 +1,7 @@
 
 <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
 <div *ngIf="!isLoader">
-    <div name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
+    <form name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
         <div class="d-flex align-items-center mt-24 mb-24">
             <app-avatar [imageUrl]="userAvatar.imageUrl" [name]="userAvatar.shortName" [class]="'avatar__extra-large'"></app-avatar>
             <div class="avatar-btn">
@@ -104,5 +104,5 @@
             </textarea
             >
         </div>
-    </div>
+    </form>
 </div>

@@ -1,4 +1,4 @@
-<div *ngIf="deputy" class="card card-shadow">
+<a [routerLink]="['/deputy', deputy.id]" *ngIf="deputy" class="card card-shadow">
     <div class="card__wrap d-flex justify-content-between">
         <div class="d-flex card__main">
             <div class="card__avatar">
@@ -30,4 +30,4 @@
             </a>
         </div>
     </div>
-</div>
+</a>

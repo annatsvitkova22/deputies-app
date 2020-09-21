@@ -1,4 +1,4 @@
-<div class="deputy d-flex justify-content-between">
+<a [routerLink]="['/deputy', deputy.id]" class="deputy d-flex justify-content-between">
     <div class="d-flex">
         <app-avatar [imageUrl]="deputy.imageUrl" [name]="deputy.shortName" [class]="'avatar__normal'"></app-avatar>
         <div class="deputy__content">
@@ -14,4 +14,4 @@
         </svg>
         <span class="deputy__rating">{{deputy.rating}}</span>
     </div>
-</div>
+</a>

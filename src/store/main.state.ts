@@ -1,4 +1,4 @@
-import { AuthUser, District } from '../models';
+import { AuthUser, District, Select } from '../models';
 
 export interface MainState {
     authStore: {
@@ -8,7 +8,7 @@ export interface MainState {
     settingsStore: {
         sorting: string;
         districts: District[];
-        statuses: string[];
+        statuses: Select[];
         date: number;
     };
 }

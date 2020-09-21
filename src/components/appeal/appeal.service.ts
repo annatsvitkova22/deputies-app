@@ -46,12 +46,16 @@ export class AppealService {
         return deputies;
     }
 
-    async createAppeal(data, file: File = null): Promise<ResultModel> {
+    async createAppeal(data, loadedFiles: LoadedFile[] = null): Promise<ResultModel> {
         const {title, description, deputy } = data;
         const userId: string = await this.authService.getUserId();
-        let fileInfo: LoadedFile;
-        if (file) {
-            fileInfo = await this.uploadFile(file);
+        const urlImages: string[] = [];
+        const urlFiles: string[] = [];
+        if (loadedFiles && loadedFiles.length) {
+            loadedFiles.map(loadedFile => {
+                urlImages.push(loadedFile.imageUrl);
+                urlFiles.push(loadedFile.pathFile);
+            });
         }
         const appeal: Appeal = {
             title,
@@ -59,10 +63,10 @@ export class AppealService {
             deputyId: deputy.id,
             districtId: deputy.district,
             userId,
-            status: 'Новий запит',
+            status: 'До Виконання',
             date: moment().format('DD.MM.YYYY'),
-            fileUrl: fileInfo.path ? fileInfo.path : null,
-            fileImageUrl: fileInfo.downloadURL ? fileInfo.downloadURL : null,
+            fileUrl: urlFiles.length ? urlFiles : null,
+            fileImageUrl: urlImages.length ? urlImages : null,
         };
         let result: ResultModel;
         await this.db.collection('appeals').add(appeal).then(async (res) => {
@@ -81,16 +85,21 @@ export class AppealService {
         return result;
     }
 
-   async uploadFile(file: File): Promise<LoadedFile> {
-        const path = `appeals/${Date.now()}_${file.name}`;
-        const ref = this.storage.ref(path);
-        await this.storage.upload(path, file);
-        const downloadURL: string = await ref.getDownloadURL().toPromise();
+    async uploadFile(file: File): Promise<LoadedFile> {
+        const pathFile = `appeals/${Date.now()}_${file.name}`;
+        const ref = this.storage.ref(pathFile);
+        await this.storage.upload(pathFile, file);
+        const imageUrl: string = await ref.getDownloadURL().toPromise();
         const resultFile: LoadedFile = {
-            downloadURL,
-            path
+            imageUrl,
+            pathFile
         };
 
+
         return resultFile;
+    }
+
+    deleteFileStore(path: string): void {
+        this.storage.ref(path).delete();
     }
 }

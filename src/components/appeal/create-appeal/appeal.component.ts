@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
 import { AppealService } from '.././appeal.service';
-import { District, Deputy, ResultModel } from '../../../models';
+import { District, Deputy, ResultModel, LoadedFile } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
 import { NgbdModalContent } from '../../modal/modal.component';
 
@@ -17,9 +17,8 @@ export class AppealComponent implements OnInit {
     form = new FormGroup({
         title: new FormControl('', [Validators.required]),
         description: new FormControl('', [Validators.required]),
-        district: new FormControl('', [Validators.required]),
-        deputy: new FormControl('', [Validators.required]),
-        confirmation: new FormControl(null, [Validators.required])
+        district: new FormControl(null, [Validators.required]),
+        deputy: new FormControl(null, [Validators.required])
     });
 
     isError: boolean;
@@ -27,7 +26,7 @@ export class AppealComponent implements OnInit {
     districts: District[];
     allDeputies: Deputy[];
     deputies: Deputy[];
-    file: File;
+    loadedFiles: LoadedFile[] = [];
 
     constructor(
         private appealService: AppealService,
@@ -48,11 +47,25 @@ export class AppealComponent implements OnInit {
     }
 
     async onFileChange(event): Promise<void> {
-        this.file = event.target.files[0];
+        const file: File = event.target.files[0];
+        if (file) {
+            const size: string = (event.target.files[0].size * 0.001).toFixed(1) + ' mb';
+            const fileInfo: LoadedFile = await this.appealService.uploadFile(file);
+            if (file.type !== 'image/x-png' && file.type !== 'image/gif' && file.type !== 'image/jpeg') {
+                fileInfo.imageUrl = 'assets/images/file.png';
+            }
+            const loadedFile: LoadedFile = {
+                name: file.name,
+                size,
+                imageUrl: fileInfo.imageUrl,
+                pathFile: fileInfo.pathFile,
+            };
+            this.loadedFiles.push(loadedFile);
+        }
     }
 
     async onSubmit(): Promise<void> {
-        const result: ResultModel = await this.appealService.createAppeal(this.form.value, this.file);
+        const result: ResultModel = await this.appealService.createAppeal(this.form.value, this.loadedFiles);
         if (result.status) {
             const modalRef = this.modalService.open(NgbdModalContent, {
                 size: 'lg'
@@ -72,5 +85,10 @@ export class AppealComponent implements OnInit {
         if (this.form.value.district === '') {
             this.districts = this.districts.filter(district => district.id === value.district);
         }
+    }
+
+    deleteFile(path: string): void {
+        this.loadedFiles = this.loadedFiles.filter(file => file.pathFile !== path);
+        this.appealService.deleteFileStore(path);
     }
 }

@@ -12,7 +12,7 @@ import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthSer
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
   AppealService, NgbdModalContent, SettingsService, ChangePasswordComponent, ChangeInfoComponent,
   LoaderComponent, DeputyComponent, DeputyService, AppealCardComponent, AvatarComponent, HeaderComponent, MultiSelectComponent,
-  TabComponent, AccountCardComponent, SmallCardComponent } from './index';
+  TabComponent, AccountCardComponent, SmallCardComponent, UploadedFileComponent } from './index';
 import { environment } from '../environments/environment';
 import { authReducer } from '../store/auth.reducer';
 import { MainComponent } from '../pages/main/main.component';
@@ -48,7 +48,8 @@ import { AuthSimpleGuard } from './main/auth-simple.guard';
     SmallCardComponent,
     DeputiesComponent,
     ProfileComponent,
-    EditComponent
+    EditComponent,
+    UploadedFileComponent
   ],
   imports: [
     BrowserModule,
