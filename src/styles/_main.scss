@@ -14,6 +14,7 @@ body {
     line-height: 1;
     font-family: 'Inter', sans-serif;
     color: $black-main;
+    margin: 0;
 }
 
 a {
@@ -69,17 +70,22 @@ p {
 }
 
 .container {
-    max-width: 970px;
-    padding: 0 15px;
+    max-width: 972px;
+    padding: 0 16px;
     margin-left: auto;
     margin-right: auto;
 
+    &__big {
+        max-width: 1440px;
+        padding: 0 30px;
+    }
+
     &__small {
-        max-width: 650px;
+        max-width: 652px;
     }
 
     &__extra-small {
-        max-width: 490px;
+        max-width: 492px;
     }
 }
 
@@ -554,10 +560,23 @@ ngb-datepicker.dropdown-menu {
     }
 }
 
+.cuppa-dropdown {
+    .dropdown-list {
+        z-index: 1;
+    }
+}
+
 .ng-select .ng-has-value .ng-placeholder {
     display: none;
 }
 
+@media only screen and (max-width: 768px) {
+    .container {
+        &__big {
+            padding: 0 16px;
+        }
+    }
+}
 
 @media only screen and (max-width: 560px) {
     .wrapper-form {

@@ -39,5 +39,13 @@ export class HeaderComponent implements OnInit {
 
     onOpenMenu(): void {
         this.isOpen = !this.isOpen;
+
+        if (this.isOpen) {
+            const bodyElement = document.getElementsByTagName('body');
+            bodyElement[0].style.overflow = 'hidden';
+        } else {
+            const bodyElement = document.getElementsByTagName('body');
+            bodyElement[0].style.overflow = 'auto';
+        }
     }
 }

@@ -1,15 +1,14 @@
 @import '../../styles/variables';
 
 .header {
-    padding: 17px 0;
+    padding: 16px 0;
     background-color: $white;
     &__button {
         margin-right: 36px;
     }
 
     &__logo {
-        margin-left: -168px;
-    overflow: hidden;   
+        z-index: 3;  
     }
 
     &__item {
@@ -25,11 +24,41 @@
         max-height: 42px;
     }
 
-    &__burger {
+    &__mobile-menu {
         display: none;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100vh;
+        background-color: $white;
+        padding-top: 90px;
+    }
+
+    &__mobile-button {
+        display: none;
+        position: fixed;
+        z-index: 3;
+        bottom: 0;
+        left: 16px;
+        width: calc(100% - 32px);
+    }
+
+    &__mobile {
+        display: none;
+    }
+
+    &__nav-link {
+        z-index: 3;
+    }
+
+    &__burger {
+        position: relative;
+        z-index: 3;
         width: 22px;
         height: 14px;
-        position: relative;
         transform: rotate(0deg);
         cursor: pointer;
         margin-left: 25px;
@@ -97,14 +126,40 @@
     }
 }
 
-@media only screen and (max-width: 860px) {
+@media only screen and (max-width:768px) {
     .header {
-        &__btn {
+        &__mobile {
+            display: flex;
+            align-items: center;
+        }
+
+        &__nav {
             display: none;
         }
 
-        &__burger {
+        &__mobile-button {
             display: block;
+        }
+
+        &__mobile-menu {
+            display: block;
+        }
+
+        &__item {
+            text-align: center;
+            margin: 26px 0;
+
+            &:first-of-type {
+                .header__link {
+                    padding: 6px 16px;
+                }
+            }
+        }
+
+        &__link {
+            font-size: 20px;
+            line-height: 1.4;
+            padding: 6px 16px;
         }
     }
 }
