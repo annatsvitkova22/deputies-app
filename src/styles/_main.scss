@@ -599,3 +599,13 @@ ngb-datepicker.dropdown-menu {
         padding: 8px 43px 8px 15px;
     }
 }
+
+@media only screen and (max-width: 420px) {
+    .selected-list .c-angle-down, .selected-list .c-angle-up {
+        right: 16px !important;
+    }
+
+    .cuppa-dropdown .selected-list .c-btn {
+        padding: 8px 36px 8px 15px;
+    }
+}

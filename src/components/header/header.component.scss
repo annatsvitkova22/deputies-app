@@ -19,6 +19,10 @@
         }
     }
 
+    &__mobile-nav {
+        margin-left: -26px;
+    }
+
     &__btn {
         padding: 10px 32px;
         max-height: 42px;
@@ -122,6 +126,14 @@
 
         &--active {
             color: $gray-7;
+        }
+    }
+}
+
+@media only screen and (max-width:1130px) {
+    .header {
+        &__mobile-nav {
+            margin-left: 0;
         }
     }
 }
