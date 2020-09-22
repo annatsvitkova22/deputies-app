@@ -64,7 +64,7 @@ export class AppealService {
             districtId: deputy.district,
             userId,
             status: 'До Виконання',
-            date: moment().format('DD.MM.YYYY'),
+            date: moment({h: 0, m: 0, s: 0, ms: 0}).utc().valueOf(),
             fileUrl: urlFiles.length ? urlFiles : null,
             fileImageUrl: urlImages.length ? urlImages : null,
         };

@@ -1,0 +1,172 @@
+@import '../../../styles/variables';
+
+.modal {
+    &__wrapper {
+        padding: 28px 24px;
+        background: $white;
+        border-radius: 8px;
+    }
+
+    &__date {
+        margin-left: 8px;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1.37;
+        text-transform: capitalize;
+        color: $gray-11;
+    }
+
+    &__close {
+        height: 14px;
+        width: 14px;
+        position: relative;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:focus {
+            outline: none;
+        }
+
+        span {
+            position: absolute;
+            height: 1.8px;
+            width: 18px;
+            background-color: $gray-11;
+            top: 6px;
+            left: -2px;
+
+            &:first-of-type {
+                transform: rotate(45deg);
+            }
+
+            &:last-of-type {
+                transform: rotate(-45deg);
+            }
+        }
+    }
+
+    &__button {
+        padding: 6px 14px 6px 10px;
+        background: $gray-17;
+        border-radius: 8px;
+        letter-spacing: 0.01em;
+        color: $black-1;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1.67;
+        border: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__arrow {
+        margin-left: 13px;
+    }
+
+    &__discus {
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.87;
+        letter-spacing: 0.02em;
+        margin-left: 8px;
+    }
+
+    &__file {
+        width: calc((100% - 24px) / 3);
+        height: 120px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: block;
+        margin: 0 12px 12px 0;
+
+        &:nth-of-type(3n) {
+            margin: 0 0 12px;
+        }
+    }
+
+    &__right-section {
+        margin-left: 20px;
+        min-width: 284px;
+    }
+
+    &__small-title {
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 12px;
+        letter-spacing: 0.03em;
+        color: $gray-16;
+    }
+
+    &__person {
+        margin-bottom: 34px;
+    }
+
+    &__party {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1.37;
+        text-transform: capitalize;
+        color: $gray-16;
+        margin-top: 5px;
+    }
+
+    &__comment {
+        margin-left: 20px;
+    }
+
+    &__author {
+        line-height: 1.17;
+        letter-spacing: 0.02em;
+        color: $black-1;
+    }
+
+    &__status-block {
+        max-width: 208px;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 54px;
+    }
+
+    &__about {
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.87;
+        letter-spacing: 0.02em;
+    }
+
+    &__status {
+        font-weight: 600;
+        padding: 4px 0;
+        font-size: 12px;
+        line-height: 1.63;
+        letter-spacing: 0.02em;
+        text-transform: capitalize;
+    }
+
+    &__title {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 1.31;
+        color: $black-1;
+        margin-bottom: 16px;
+    }
+}
+
+.ml-14 {
+    margin-left: 14px;
+}
+
+.ml-8 {
+    margin-left: 8px;
+}
+
+@media only screen and (max-width: 540px) {
+    .modal {
+        &__person {
+            margin-bottom: 30px;
+        }
+    }
+}

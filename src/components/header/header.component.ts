@@ -12,12 +12,18 @@ import { UserAvatal } from '../../models';
 export class HeaderComponent implements OnInit {
     shortName: string;
     imageUrl: string;
+    dropdownLinks = [
+        {name: 'Мій профіль', path: '/profile'},
+        {name: 'Налаштування', path: '/edit'},
+        {name: 'Вийти', path: 'signout'}
+    ];
     links = [
         {name: 'Запити', path: '/'},
         {name: 'Депутати', path: '/deputies'},
         {name: 'Про проект', path: '/about'}
     ];
     isOpen: boolean;
+    isDropdown: boolean;
 
     constructor(
         private authService: AuthService,
@@ -47,5 +53,20 @@ export class HeaderComponent implements OnInit {
             const bodyElement = document.getElementsByTagName('body');
             bodyElement[0].style.overflow = 'auto';
         }
+    }
+
+    onOpenDropdown(): void {
+        this.isDropdown = !this.isDropdown;
+    }
+
+    onDropdown(link: string): void {
+        if (link === 'signout') {
+            this.authService.signOut();
+            this.router.navigate(['/sign-in']);
+        } else {
+            console.log('link', link)
+            this.router.navigate([link]);
+        }
+        console.log('222222')
     }
 }

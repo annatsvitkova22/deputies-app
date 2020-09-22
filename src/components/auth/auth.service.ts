@@ -4,13 +4,13 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { auth } from 'firebase';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-
-import { MainState } from '../../store/main.state';
-import { AddAuth } from '../../store/auth.action';
-import { AuthState, CreateUser, SocialProfile, UserAvatal, AuthUser } from '../../models';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+
+import { MainState } from '../../store/main.state';
+import { AddAuth, DeleteAuth } from '../../store/auth.action';
+import { AuthState, CreateUser, SocialProfile, UserAvatal, AuthUser } from '../../models';
 
 @Injectable()
 export class AuthService {
@@ -200,5 +200,10 @@ export class AuthService {
 
     errorHandler(error: HttpErrorResponse) {
         return throwError(error.error.message || 'Server Error');
+    }
+
+    signOut(): void {
+        this.authFire.signOut();
+        this.store.dispatch(new DeleteAuth());
     }
 }

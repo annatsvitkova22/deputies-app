@@ -115,6 +115,7 @@ $line-heights: (
     '14': 1.4,
     '15': 1.5,
     '16': 1.6,
+    '168': 1.68
 );
 @each $number, $value in $line-heights {
     .line-height {

@@ -129,11 +129,11 @@ export class SettingsService {
             name,
             surname,
             patronymic,
-            district: district.id,
-            party: party.id,
-            description,
-            imageUrl,
-            date
+            district: district ? district.id : null,
+            party: party ? party.id : null,
+            description: description ? description : null,
+            imageUrl: imageUrl ? imageUrl : null,
+            date: date ? date : null
         }).then(async (snapshot) => {
             result = {
                 status: true,

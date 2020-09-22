@@ -25,3 +25,4 @@ export * from './tab/tab.component';
 export * from './account/account-card/account-card.component';
 export * from './deputy/small-card/small-card.component';
 export * from './uploaded-file/uploaded-file.component';
+export * from './appeal/modal/modal.component';

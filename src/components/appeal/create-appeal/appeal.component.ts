@@ -51,7 +51,7 @@ export class AppealComponent implements OnInit {
         if (file) {
             const size: string = (event.target.files[0].size * 0.001).toFixed(1) + ' mb';
             const fileInfo: LoadedFile = await this.appealService.uploadFile(file);
-            if (file.type !== 'image/x-png' && file.type !== 'image/gif' && file.type !== 'image/jpeg') {
+            if (file.type !== 'image/png' && file.type !== 'image/x-png' && file.type !== 'image/gif' && file.type !== 'image/jpeg') {
                 fileInfo.imageUrl = 'assets/images/file.png';
             }
             const loadedFile: LoadedFile = {

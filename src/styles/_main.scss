@@ -211,7 +211,7 @@ p {
     }
 }
 
-$values: (4, 6, 8, 10, 14, 12, 16, 18, 20, 24, 28, 30, 32, 34, 36, 40);
+$values: (2, 4, 6, 8, 10, 14, 12, 16, 18, 20, 22, 24, 28, 30, 32, 34, 36, 40);
 
 @each $value in $values {
     .mt {
@@ -306,6 +306,10 @@ path {
     .ng-value, .ng-placeholder {
         padding-right: 25px;
     }
+}
+
+.wrap {
+    flex-wrap: wrap;
 }
 
 .ng-input {
@@ -504,6 +508,24 @@ ngb-datepicker.dropdown-menu {
     margin-bottom: 24px;
 }
 
+.card {
+    &__status {
+        background: $blue-1;
+        border-radius: 4px;
+        
+        &--yellow {
+            background-color: $orange-1;
+            color: $orange;
+            padding: 4px 12px;
+        }
+
+        &--green {
+            background-color: rgba(31, 215, 88, 0.11);
+            color: $green-1;
+        }
+    }
+}
+
 .ng-dropdown-panel .scroll-host {
     background: $white;
     box-shadow: 0px 12px 12px rgba(50, 50, 71, 0.08), 0px 16px 44px rgba(50, 50, 71, 0.08);
@@ -566,8 +588,26 @@ ngb-datepicker.dropdown-menu {
     }
 }
 
+.card-pointer {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
 .ng-select .ng-has-value .ng-placeholder {
     display: none;
+}
+
+.modal-open .modal {
+    display: block;
+    overflow: visible;
+}
+
+.modal.fade .modal-dialog {
+    max-width: 100%;
+}
+
+.modal-content {
+    border: none;
 }
 
 @media only screen and (max-width: 768px) {

@@ -47,7 +47,7 @@ export interface Appeal {
     districtId: string;
     userId: string;
     status: string;
-    date: string;
+    date: number;
     fileUrl?: string[];
     fileImageUrl?: string[];
 }
@@ -55,6 +55,7 @@ export interface Appeal {
 export interface AppealCard {
     title: string;
     description: string;
+    deputyId?: string;
     deputyName: string;
     deputyImageUrl?: string;
     shortName?: string;
@@ -62,10 +63,13 @@ export interface AppealCard {
     userName?: string;
     shortNameUser?: string;
     userImageUrl?: string;
+    userId?: string;
     status: string;
     date: string;
     countFiles: number;
     countComments: number;
+    fileUrl?: string[];
+    fileImageUrl?: string[];
 }
 
 export interface LoadedFile {

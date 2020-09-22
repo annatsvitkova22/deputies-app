@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
+import * as moment from 'moment';
 
 import { AppealCard, Deputy, Settings } from '../../models';
 import { DeputyService } from '../../components/deputy/deputy.service';
@@ -23,12 +24,13 @@ export class MainService {
     }
 
     async setFilter(ref, settings: Settings) {
-        console.log('settings', settings)
-        let dateRef = ref;
+        let dateRef = ref.orderBy('date', 'desc');
         let date = [];
         let promises = [];
         if (settings.date) {
-            // let dateRef = dateRef.where('date', '==', settings.date);
+            const newDate: number = settings.date + 86400;
+            dateRef = dateRef.where('date', '>=', settings.date);
+            dateRef = dateRef.where('date', '<=', newDate);
         }
         if (settings.districts) {
             promises = settings.districts.map((district) => async () => {
@@ -83,16 +85,20 @@ export class MainService {
                         const appeal: AppealCard = {
                             title: data.title,
                             description: data.description,
+                            deputyId: data.deputyId,
                             deputyName: deputy.name,
                             deputyImageUrl: deputy.imageUrl,
                             shortName: deputy.shortName,
                             party: deputy.party,
                             userName: user.name,
                             userImageUrl: user.imageUrl,
+                            userId: data.userId,
                             shortNameUser: shortName,
                             status: data.status,
-                            date: data.date,
-                            countFiles: 0,
+                            date: moment(data.date).format('DD-MM-YYYY'),
+                            fileUrl: data.fileUrl,
+                            fileImageUrl: data.fileImageUrl,
+                            countFiles: data.fileUrl ? data.fileUrl.length : 0,
                             countComments: 0
                         };
                         appeals.push(appeal);
