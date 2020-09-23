@@ -1,5 +1,7 @@
+
 <div class="modal container">
-    <div class="modal__wrapper">
+    <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
+    <div *ngIf="!isLoader" class="modal__wrapper">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -12,8 +14,8 @@
                 <span></span>
             </button>
         </div>
-        <div class="mt-16 d-flex justify-content-between">
-            <div>
+        <div class="w-100 mt-16 d-flex justify-content-between">
+            <div class="w-100">
                 <div class="mb-22">
                     <h2 class="modal__title">{{appeal.title}}</h2>
                     <p class="modal__about mb-2">Опис</p>
@@ -46,24 +48,36 @@
                         <p class="modal__discus">Обговорення запиту</p>
                     </div>
                     <div>
-                        <button class="modal__button">
+                        <button class="modal__button" (click)="onHidden()">
                             Приховати
-                            <svg class="modal__arrow" width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg [class.modal__arrow--down]="!isHidden" class="modal__arrow" width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1 6L6 1L11 6" stroke="#404957" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </button>
                     </div>
                 </div>
-                <div [formGroup]="form" *ngIf="isWriteComment" class="mt-12 mb-20 d-flex align-items-center">
+                <div *ngIf="isWriteComment" class="mt-12 mb-20 d-flex align-items-center">
                     <app-avatar [imageUrl]="userAvatal.imageUrl" [name]="userAvatal.shortName"></app-avatar>
                     <textarea
+                        #txtInput
                         class="input textarea modal__comment"
                         placeholder="Написати комментар..."
-                        formControlName="comment"
+                        [(ngModel)] = "comment"
                         name="comment"
+                        (keyup.enter)="sendComment()"
                     >
                     </textarea
                     >
+                </div>
+                <div *ngIf="comments.length && isHidden" class="mt-12">
+                    <div *ngFor="let oneComment of comments" class="mb-20 d-flex">
+                        <app-avatar [imageUrl]="oneComment.imageUrl" [name]="oneComment.shortName"></app-avatar>
+                        <div class="modal__comments" [class.modal__comments--active]="oneComment.isBackground">
+                            <p class="modal__comments-title">{{oneComment.autorName}}</p>
+                            <p class="mt-6 mb-8 line-height-146">{{oneComment.message}}</p>
+                            <p class="modal__comments-date">{{oneComment.date}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal__right-section">
@@ -82,6 +96,10 @@
                         <p class="modal__author">{{appeal.deputyName}}</p>
                         <p class="modal__party font-weight-500 tx-small">{{appeal.party}}</p>
                     </div>
+                </div>
+                <div *ngIf="isDeputy && appeal.status !== 'Виконано' && isButton" class="mt-14 d-flex modal__buttons">
+                    <button (click)="onWork(appeal.id, appeal.status)" class="mb-12 btn btn-green">{{textButton}}</button>
+                    <button *ngIf="appeal.status === 'До виконання'" (click)="onComplain(appeal.id)"  class="btn">Поскаржитися</button>
                 </div>
             </div>
         </div>

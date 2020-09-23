@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
+import { Store } from '@ngrx/store';
 
 import { DeputyService } from '../../components/deputy/deputy.service';
 import { Deputy, AppealCard, District, Settings } from '../../models';
 import { MainService } from './main.service';
 import { AppealService } from '../../components/appeal/appeal.service';
-import { Store } from '@ngrx/store';
 import { MainState } from '../../store/main.state';
 import { EditSettings } from '../../store/settings.action';
 
@@ -50,30 +50,24 @@ export class MainComponent implements OnInit {
 
     async onSaveSorting(): Promise<void> {
         const sort = this.form.value.sort;
-        const settingsStore = await this.mainService.getSettings();
         const settings: Settings = {
-            sorting: sort.id,
-            districts: settingsStore.districts,
-            statuses: settingsStore.statuses,
-            date: settingsStore.date
+            sorting: sort.id
         };
         this.store.dispatch(new EditSettings(settings));
-        this.deputies = await this.deputyService.getAllDeputy(settings);
+        const settingsStore = await this.mainService.getSettings();
+        this.deputies = await this.deputyService.getAllDeputy(settingsStore);
     }
 
     async onSaveDate(): Promise<void> {
         let date = this.form.value.date;
         date = date.year + '-' + date.month + '-' + date.day + 'T00:00:00';
         date = moment(date, 'YYYY-MM-DDTHH:mm:ss').utc().valueOf();
-        const settingsStore = await this.mainService.getSettings();
         const settings: Settings = {
-            sorting: settingsStore.sorting,
-            districts: settingsStore.districts,
-            statuses: settingsStore.statuses,
             date
         };
         this.store.dispatch(new EditSettings(settings));
-        this.appeals = await this.mainService.getAppeal(settings);
+        const setting = await this.mainService.getSettings();
+        this.appeals = await this.mainService.getAppeal(setting);
     }
 
     async changeAppeals(settings: Settings): Promise<void> {

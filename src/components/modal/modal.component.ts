@@ -28,7 +28,6 @@ export class NgbdModalContent implements OnDestroy {
     ) {}
 
     onClose(): void {
-        
         this.activeModal.dismiss('Cross click');
     }
 

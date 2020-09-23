@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as moment from 'moment';
 
-import { UserAccount, Deputy, AppealCard, CountAppeals, UserAvatal, Settings } from '../../models';
+import { UserAccount, Deputy, AppealCard, CountAppeals, UserAvatal, Settings, Party } from '../../models';
 
 @Injectable()
 export class DeputyService {
@@ -71,12 +72,15 @@ export class DeputyService {
                 // tslint:disable-next-line: max-line-length
                 const shortName: string = deputy.surname[1].substr(0, 1).toUpperCase() + deputy.name[0].substr(0, 1).toUpperCase();
                 const findAppeal: AppealCard = {
+                    id: appeal.id,
                     title: data.title,
                     description: data.description,
+                    deputyId: span.id,
                     deputyName: deputy.surname + ' ' + deputy.name + ' ' + deputy.patronymic,
                     deputyImageUrl: deputy.imageUrl,
                     shortName,
                     party: party ? party : null,
+                    userId: data.userId,
                     userImageUrl: userAvatar.imageUrl,
                     shortNameUser: userAvatar.shortName,
                     userName,
@@ -85,6 +89,7 @@ export class DeputyService {
                     countFiles: 0,
                     countComments: 0
                 };
+
                 return findAppeal;
             });
             return Promise.all(appealspans.map(fn => fn()));
@@ -104,18 +109,23 @@ export class DeputyService {
                 // tslint:disable-next-line: max-line-length
                 const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
                 const ap: AppealCard = {
+                    id: appeal.id,
                     title: data.title,
                     description: data.description,
+                    deputyId: deputy.id,
                     deputyName: deputy.name,
                     deputyImageUrl: deputy.imageUrl,
                     shortName: deputy.shortName,
                     party: deputy.party,
+                    userId: span.id,
                     userName: user.name,
                     userImageUrl: user.imageUrl,
                     shortNameUser: shortName,
                     status: data.status,
-                    date: data.date,
-                    countFiles: 0,
+                    date: moment(data.date).format('DD-MM-YYYY'),
+                    fileUrl: data.fileUrl,
+                    fileImageUrl: data.fileImageUrl,
+                    countFiles: data.fileUrl ? data.fileUrl.length : 0,
                     countComments: 0
                 };
                 return ap;
@@ -125,12 +135,23 @@ export class DeputyService {
         return [];
     }
 
+    async getTitleAppeals(id: string): Promise<AppealCard> {
+        // tslint:disable-next-line: max-line-length
+        const appealSpan: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData> = await this.db.collection('appeals').doc(id).get().toPromise();
+        const data = appealSpan.data();
+        const appeal: AppealCard = {
+            title: data.title,
+            deputyId: data.deputyId
+        };
+        return appeal;
+    }
+
     getCountAppeal(appeals: AppealCard[]): CountAppeals[] {
-        const inProcess: AppealCard[] = appeals.filter(appeal => appeal.status === 'В Роботі');
+        const inProcess: AppealCard[] = appeals.filter(appeal => appeal.status === 'В роботі');
         const done: AppealCard[] = appeals.filter(appeal => appeal.status === 'Виконано');
         const countAppeals: CountAppeals[] = [
             {name: 'Запитів', count: appeals.length},
-            {name: 'В Роботі', count: inProcess.length},
+            {name: 'В роботі', count: inProcess.length},
             {name: 'Виконано', count: done.length},
         ];
 
@@ -152,10 +173,56 @@ export class DeputyService {
         return deputyRef;
     }
 
-    async getAllDeputy(settings: Settings = null): Promise<Deputy[]> {
-        let deputies: any = await this.db.collection('users', ref => this.sortingDeputy(ref, settings)).get().toPromise();
-        if (deputies.size) {
-            deputies = deputies.docs.map(deputyRes => async () => {
+    async setFilter(ref, settings: Settings) {
+        let dateRef = this.sortingDeputy(ref, settings);
+        let date = [];
+        let promises = [];
+        if (settings.districts) {
+            promises = settings.districts.map((district) => async () => {
+                const reserveRef = dateRef.where('district', '==', district.id);
+                if (settings.statuses) {
+                    promises = settings.statuses.map(status  => async () => {
+                        const result = await reserveRef.where('party', '==', status.id).get();
+                        date = date.concat(result.docs);
+                        return date;
+                });
+                    await Promise.all(promises.map(fn => fn()));
+                    return date;
+                } else {
+                    const result = await reserveRef.get();
+                    date = date.concat(result.docs);
+                    return date;
+                }
+            });
+            await Promise.all(promises.map(fn => fn()));
+            return date;
+        }
+        if (!settings.districts && settings.parties) {
+            promises = settings.parties.map(party => async () => {
+                const result = await dateRef.where('party', '==', party.id).get();
+                date = date.concat(result.docs);
+                return date;
+            });
+            await Promise.all(promises.map(fn => fn()));
+            return date;
+        }
+        const resultSpans = await dateRef.get();
+        date = date.concat(resultSpans.docs);
+        return date;
+    }
+
+    async getAllDeputy(settings: Settings, type: string = null): Promise<Deputy[]> {
+        let deputies;
+        let snapshots;
+        if (type === 'deputies') {
+            const ref = this.db.collection('users').ref;
+            snapshots = await this.setFilter(ref, settings);
+        } else {
+            deputies = await this.db.collection('users', ref => this.sortingDeputy(ref, settings)).get().toPromise();
+            snapshots = deputies.docs;
+        }
+        if (snapshots.length) {
+            deputies = snapshots.map(deputyRes => async () => {
                 const data = deputyRes.data();
                 const shortName: string = data.surname.substr(0, 1).toUpperCase() + data.name.substr(0, 1).toUpperCase();
                 let party: string;
@@ -190,15 +257,30 @@ export class DeputyService {
     async getAppealsCountById(deputyId: string): Promise<CountAppeals[]> {
         const appeals = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId)).get().toPromise();
         // tslint:disable-next-line: max-line-length
-        const inProcess = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId).where('status', '==', 'В Роботі')).get().toPromise();
+        const inProcess = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId).where('status', '==', 'В роботі')).get().toPromise();
         // tslint:disable-next-line: max-line-length
         const done = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId).where('status', '==', 'Виконано')).get().toPromise();
         const countAppeals: CountAppeals[] = [
             {name: 'Запитів', count: appeals.size},
-            {name: 'В Роботі', count: inProcess.size},
+            {name: 'В роботі', count: inProcess.size},
             {name: 'Виконано', count: done.size}
         ];
 
         return countAppeals;
+    }
+
+    async getParties(): Promise<Party[]> {
+        const parties: Party[] = [];
+        await this.db.collection('parties').get().toPromise().then(async (snapshots) => {
+            snapshots.forEach(snapshot => {
+                const party: Party = {
+                    id: snapshot.id,
+                    name: snapshot.data().name
+                };
+                parties.push(party);
+            });
+        });
+
+        return parties;
     }
 }

@@ -24,13 +24,13 @@ export class MainService {
     }
 
     async setFilter(ref, settings: Settings) {
-        let dateRef = ref.orderBy('date', 'desc');
+        let dateRef = ref.orderBy('updateDate', 'desc');
         let date = [];
         let promises = [];
         if (settings.date) {
             const newDate: number = settings.date + 86400;
-            dateRef = dateRef.where('date', '>=', settings.date);
-            dateRef = dateRef.where('date', '<=', newDate);
+            dateRef = dateRef.where('date', '>', settings.date - 1);
+            dateRef = dateRef.where('date', '<', newDate + 1);
         }
         if (settings.districts) {
             promises = settings.districts.map((district) => async () => {
@@ -83,6 +83,7 @@ export class MainService {
                         // tslint:disable-next-line: max-line-length
                         const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
                         const appeal: AppealCard = {
+                            id: snapshot.id,
                             title: data.title,
                             description: data.description,
                             deputyId: data.deputyId,

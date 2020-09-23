@@ -27,6 +27,8 @@ export class AppealComponent implements OnInit {
     allDeputies: Deputy[];
     deputies: Deputy[];
     loadedFiles: LoadedFile[] = [];
+    // tslint:disable-next-line: no-inferrable-types
+    isLoader: boolean = true;
 
     constructor(
         private appealService: AppealService,
@@ -44,6 +46,7 @@ export class AppealComponent implements OnInit {
         } else {
             this.router.navigate(['/']);
         }
+        this.isLoader = false;
     }
 
     async onFileChange(event): Promise<void> {

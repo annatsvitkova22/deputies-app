@@ -23,6 +23,7 @@ import { DeputiesComponent } from '../pages/deputies/deputies.component';
 import { ProfileComponent } from '../pages/profile/profile.component';
 import { EditComponent } from '../pages/edit/edit.component';
 import { AuthSimpleGuard } from './main/auth-simple.guard';
+import { ConfirmAppealComponent } from '../pages/confirm-appeal/confirm-appeal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +51,8 @@ import { AuthSimpleGuard } from './main/auth-simple.guard';
     ProfileComponent,
     EditComponent,
     UploadedFileComponent,
-    ModalComponent
+    ModalComponent,
+    ConfirmAppealComponent
   ],
   imports: [
     BrowserModule,

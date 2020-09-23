@@ -48,26 +48,28 @@ export interface Appeal {
     userId: string;
     status: string;
     date: number;
+    updateDate: number;
     fileUrl?: string[];
     fileImageUrl?: string[];
 }
 
 export interface AppealCard {
+    id?: string;
     title: string;
-    description: string;
+    description?: string;
     deputyId?: string;
-    deputyName: string;
+    deputyName?: string;
     deputyImageUrl?: string;
     shortName?: string;
-    party: string;
+    party?: string;
     userName?: string;
     shortNameUser?: string;
     userImageUrl?: string;
     userId?: string;
-    status: string;
-    date: string;
-    countFiles: number;
-    countComments: number;
+    status?: string;
+    date?: string;
+    countFiles?: number;
+    countComments?: number;
     fileUrl?: string[];
     fileImageUrl?: string[];
 }
@@ -87,4 +89,22 @@ export interface Select {
 export interface CountAppeals {
     name: string;
     count: number;
+}
+
+export interface Comment {
+    type?: string;
+    message?: string;
+    date?: number | string;
+    appealId?: string;
+    userId?: string;
+    imageUrl?: string;
+    shortName?: string;
+    autorName?: string;
+    isBackground?: boolean;
+    loadedFiles?: LoadedFile[];
+}
+
+export interface ResultComment {
+    status: boolean;
+    comment?: Comment;
 }

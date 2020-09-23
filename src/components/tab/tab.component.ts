@@ -10,7 +10,7 @@ export class TabComponent implements OnInit {
     @Input() appeals: AppealCard[];
     allAppeals: AppealCard[];
     type: string;
-    tabs = ['Усi', 'До виконання', 'В Роботі', 'Виконано'];
+    tabs = ['Усi', 'До виконання', 'В роботі', 'Виконано'];
 
     constructor(){}
 

@@ -1,0 +1,22 @@
+@import '../../styles/variables';
+
+.confirm {
+    &-wrapper {
+        padding: 35px 80px 48px;
+    }
+
+    &__title {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 1.28;
+        color: $black-1;
+        margin: 33px 0 37px;
+    }
+
+    &__comment {
+        border: 1px solid #E9EBF0;
+        box-sizing: border-box;
+        border-radius: 4px;
+        height: 156px;
+    }
+}

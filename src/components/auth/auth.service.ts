@@ -172,7 +172,7 @@ export class AuthService {
             const userImage = await this.getUserImage();
             userInfo = {
                 userId,
-                name: data.name,
+                name: data.role === 'deputy' ? data.surname + ' ' + data.name : data.name,
                 role: data.role,
                 email: data.email,
                 imageUrl: userImage.imageUrl,

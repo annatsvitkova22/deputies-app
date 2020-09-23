@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import * as moment from 'moment';
 
-import { District, Deputy, ResultModel, Appeal, LoadedFile } from '../../models';
+import { District, Deputy, ResultModel, Appeal, LoadedFile, Comment, ResultComment } from '../../models';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
@@ -63,8 +63,9 @@ export class AppealService {
             deputyId: deputy.id,
             districtId: deputy.district,
             userId,
-            status: 'До Виконання',
-            date: moment({h: 0, m: 0, s: 0, ms: 0}).utc().valueOf(),
+            status: 'До виконання',
+            date: moment().utc().valueOf(),
+            updateDate: moment().utc().valueOf(),
             fileUrl: urlFiles.length ? urlFiles : null,
             fileImageUrl: urlImages.length ? urlImages : null,
         };
@@ -102,4 +103,110 @@ export class AppealService {
     deleteFileStore(path: string): void {
         this.storage.ref(path).delete();
     }
+
+    async updateAppeals(id: string, status: string): Promise<boolean> {
+        // tslint:disable-next-line: no-inferrable-types
+        let isResult: boolean = true;
+        const date: number = moment().utc().valueOf();
+        try {
+            await this.db.collection('appeals').doc(id).update({updateDate: date, status});
+        }catch (error) {
+            isResult = false;
+        }
+
+        return isResult;
+    }
+
+    async createComment(com: Comment, id: string, type: string = null): Promise<ResultComment> {
+        const userId: string = await this.authService.getUserId();
+        const comment: Comment = {
+            type: type ? type : 'comment',
+            message: com.message,
+            date:  moment().utc().valueOf(),
+            appealId: id,
+            userId,
+            isBackground: com.isBackground,
+            loadedFiles: com.loadedFiles ? com.loadedFiles : null
+        };
+        let isResult: ResultComment = {
+            status: true,
+            comment
+        };
+        try {
+            await this.db.collection('messages').add(comment);
+            await this.db.collection('appeals').doc(id).update({updateDate: comment.date});
+        }catch (error) {
+            isResult = {
+                status: false,
+                comment: null,
+            };
+        }
+
+        return isResult;
+    }
+
+    getConfirmRef(ref, id: string) {
+        let resultRef = ref.where('appealId', '==', id);
+        resultRef = resultRef.where('type', '==', 'confirm');
+
+        return resultRef;
+    }
+
+    async getConfirmMessage(id: string): Promise<boolean> {
+        const snapshots = await this.db.collection('messages', ref => this.getConfirmRef(ref, id)).get().toPromise();
+        const result: boolean = snapshots.size ? true : false;
+
+        return result;
+    }
+
+    getMessagesRef(ref, id: string) {
+        let resultRef = ref.where('appealId', '==', id);
+        // resultRef = resultRef.where('type', '=!', 'confirm');
+        resultRef = resultRef.orderBy('date', 'desc');
+
+        return resultRef;
+    }
+
+
+    async getCommentsById(id: string): Promise<Comment[]> {
+        const comments: Comment[] = [];
+        const promises = [];
+        const snapshots = await this.db.collection('messages', ref => this.getMessagesRef(ref, id)).get().toPromise();
+        if (snapshots.size) {
+            promises.push(new Promise((resolve) => {
+                snapshots.forEach(async snapshot => {
+                    const {message, date, appealId, userId, isBackground, type}: firebase.firestore.DocumentData = snapshot.data();
+                    await this.db.collection('users').doc(userId).get().toPromise().then(span => {
+                        const user: firebase.firestore.DocumentData = span.data();
+                        let shortName: string;
+                        if (user.role === 'deputy') {
+                            shortName = user.surname.substr(0, 1).toUpperCase() + user.name.substr(0, 1).toUpperCase();
+                        } else {
+                            const name: string[] = user.name.split(' ');
+                            shortName = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
+                        }
+                        const comment: Comment = {
+                            type,
+                            message,
+                            date: moment(date).format('DD-MM-YYYY'),
+                            appealId,
+                            userId,
+                            isBackground,
+                            imageUrl: user.imageUrl ? user.imageUrl : null,
+                            shortName,
+                            autorName: user.role === 'deputy' ? user.surname + ' ' + user.name : user.name
+                        };
+
+                        comments.push(comment);
+                        resolve();
+                    });
+                });
+            }));
+        }
+        await Promise.all(promises);
+
+        return comments;
+    }
+
+
 }

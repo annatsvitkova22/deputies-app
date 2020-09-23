@@ -25,7 +25,7 @@ export class AppealCardComponent implements OnInit {
         }
     }
 
-    onOpenAppeal(): void {
+    async onOpenAppeal(): Promise<void> {
         const modalRef: NgbModalRef = this.modalService.open(ModalComponent);
         modalRef.componentInstance.appeal = this.appeal;
         modalRef.componentInstance.statusColor = this.statusColor;

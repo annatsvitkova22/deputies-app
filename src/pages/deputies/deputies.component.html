@@ -2,8 +2,20 @@
 <app-header *ngIf="!isLoader"></app-header>
 <main *ngIf="!isLoader" class="main">
     <div class="container container__small">
-        <div class="mt-28 mb-28">
-
+        <div [formGroup]="form" class="mt-28 mb-28 d-flex align-items-center justify-content-between">
+            <div class="d-flex">
+                <app-multi [selectedItems]="this.settings.districts" (changes)="changeAppeals($event)" [dropdownList]="districts"  [type]="'districts'" [text]="'Район'"></app-multi>
+                <app-multi [selectedItems]="this.settings.parties" (changes)="changeAppeals($event)" [dropdownList]="parties" [type]="'parties'" [text]="'Партія'"></app-multi>
+            </div>
+            <div class="main__deputy d-flex align-items-center">
+                <ng-select [items]="sorting"
+                    class="main__settings-sort"
+                    bindLabel="name"
+                    placeholder="Сортувати"
+                    (close)="onSaveSorting()"
+                    formControlName="sort">
+                </ng-select>
+            </div>
         </div>
         <div>
             <app-small-card

@@ -36,7 +36,7 @@ export class MultiSelectComponent implements OnInit {
         if (this.type === 'statuses') {
             this.dropdownList = [
                 {id: 'До виконання', name: 'До виконання'},
-                {id: 'В Роботі', name: 'В Роботі'},
+                {id: 'В роботі', name: 'В роботі'},
                 {id: 'Виконано', name: 'Виконано'},
             ];
         }
@@ -81,18 +81,12 @@ export class MultiSelectComponent implements OnInit {
 
     async dispatchToStore(): Promise<void> {
         let settings: Settings;
-        const settingsStore = await this.mainService.getSettings();
         if (this.type === 'districts') {
-            const districts: Select[] = []
+            const districts: Select[] = [];
             this.selectedItems.map(item => {
                 districts.push(item);
             });
-            settings = {
-                sorting: settingsStore.sorting,
-                districts,
-                statuses: settingsStore.statuses,
-                date: settingsStore.date
-            };
+            settings = { districts };
         } else if (this.type === 'statuses') {
             const statuses: Select[] = [];
             if (this.selectedItems) {
@@ -101,14 +95,18 @@ export class MultiSelectComponent implements OnInit {
                 });
             }
             settings = {
-                sorting: settingsStore.sorting,
-                districts: settingsStore.districts,
-                statuses: statuses.length ? statuses : null,
-                date: settingsStore.date
+                statuses: statuses.length ? statuses : null
             };
+        } else if (this.type === 'parties') {
+            const parties: Select[] = [];
+            this.selectedItems.map(item => {
+                parties.push(item);
+            });
+            settings = { parties };
         }
-        this.changes.emit(settings);
         this.store.dispatch(new EditSettings(settings));
+        const settingsStore = await this.mainService.getSettings();
+        this.changes.emit(settingsStore);
     }
 
     saveOptions(): void {
