@@ -1,0 +1,17 @@
+.feedback {
+    &__title {
+        margin: 30px 0 33px;
+    }
+
+    &__comment {
+        height: 100px;
+    }
+}
+
+@media only screen and (max-width: 560px) { 
+    .feedback {
+        &__title {
+            margin: 30px 0 30px;
+        }
+    }
+}

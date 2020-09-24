@@ -43,10 +43,10 @@
                         <app-avatar [imageUrl]="imageUrl" [name]="shortName" [class]="'avatar__medium'"></app-avatar>
                     </div>
                     <ul *ngIf="isDropdown" class="list-reset header__dropdown">
-                        <li *ngFor="let dropdownLink of dropdownLinks" class="header__item">
-                            <a href="#" class="header__link" (click)="onDropdown()">
+                        <li *ngFor="let dropdownLink of dropdownLinks" class="header__dropdown-item">
+                            <p class="header__dropdown-link" (click)="onDropdown(dropdownLink.path)">
                                 {{dropdownLink.name}}
-                            </a>
+                            </p>
                         </li>
                     </ul>
                 </div>

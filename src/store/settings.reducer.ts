@@ -17,11 +17,11 @@ export const settingsReducer = (state = initialState, action: SettingsAction) =>
             const {payload}: EditSettings = action;
             const newState = {
                 ...state,
-                sorting: payload.sorting ? payload.sorting : state.sorting,
-                districts: payload.districts ? payload.districts : state.districts,
-                statuses: payload.statuses ? payload.statuses : state.statuses,
-                date: payload.date ? payload.date : state.date,
-                parties: payload.parties ? payload.parties : state.parties,
+                sorting: payload.sorting !== undefined  ? payload.sorting : state.sorting,
+                districts: payload.districts !== undefined ? payload.districts : state.districts,
+                statuses: payload.statuses !== undefined ? payload.statuses : state.statuses,
+                date: payload.date !== undefined ? payload.date : state.date,
+                parties: payload.parties !== undefined ? payload.parties : state.parties,
             };
 
             return newState;

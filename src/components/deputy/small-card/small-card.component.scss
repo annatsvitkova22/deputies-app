@@ -5,7 +5,7 @@
     margin-bottom: 8px;
 
     &__wrap {
-        padding: 24px 24px 18px;
+        padding: 24px;
     }
 
     &__content {
@@ -39,5 +39,27 @@
         line-height: 1.2;
         text-transform: capitalize;
         color: $gray-16;
+    }
+
+    .appeal-count {
+        font-size: 16px;
+        line-height: 19px;
+    }
+}
+
+@media only screen and (max-width:560px) {
+    .card {
+        &__wrap {
+            display: block;
+        }
+
+        &__main {
+            max-width: 100%;
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 24px;
+        }
     }
 }

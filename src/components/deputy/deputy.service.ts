@@ -66,8 +66,11 @@ export class DeputyService {
                 const span = await this.db.collection('users').doc(data.deputyId).get().toPromise();
                 const deputy: firebase.firestore.DocumentData = span.data();
                 let party: string;
-                if (data.party) {
-                    party = await this.getName(data.party, 'parties');
+                if (deputy.party) {
+                    party = await this.getName(deputy.party, 'parties');
+                    if (party !== 'Безпартiйний' && party) {
+                        party = 'Партія «' + party + '»';
+                    }
                 }
                 // tslint:disable-next-line: max-line-length
                 const shortName: string = deputy.surname[1].substr(0, 1).toUpperCase() + deputy.name[0].substr(0, 1).toUpperCase();
@@ -85,7 +88,7 @@ export class DeputyService {
                     shortNameUser: userAvatar.shortName,
                     userName,
                     status: data.status,
-                    date: data.date,
+                    date: moment(data.date).format('DD-MM-YYYY'),
                     countFiles: 0,
                     countComments: 0
                 };
@@ -141,7 +144,9 @@ export class DeputyService {
         const data = appealSpan.data();
         const appeal: AppealCard = {
             title: data.title,
-            deputyId: data.deputyId
+            deputyId: data.deputyId,
+            userId: data.userId,
+            status: data.status
         };
         return appeal;
     }

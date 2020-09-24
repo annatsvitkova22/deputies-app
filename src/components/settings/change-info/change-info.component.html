@@ -2,7 +2,7 @@
 <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
 <div *ngIf="!isLoader">
     <form name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
-        <div class="d-flex align-items-center mt-24 mb-24">
+        <div class="avatar-section d-flex align-items-center mt-24 mb-24">
             <app-avatar [imageUrl]="userAvatar.imageUrl" [name]="userAvatar.shortName" [class]="'avatar__extra-large'"></app-avatar>
             <div class="avatar-btn">
                 <button  (click)="fileInput.click()" class="upload-file btn btn__small btn-dark">Завантажити</button>

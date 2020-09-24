@@ -2,7 +2,7 @@
 <app-header *ngIf="!isLoader"></app-header>
 <main *ngIf="!isLoader" class="main">
     <div class="container">
-        <div class="d-flex mt-28">
+        <div class="profile d-flex mt-28">
             <app-account-card [link]="'/settings'" [linkName]="'Редагувати профіль'" [countAppeals]="countAppeals" [user]="user ? user : deputy"></app-account-card>
             <div *ngIf="userRole=='deputy'" class="deputy-info__wrapper card-shadow">
                 <h2 class="deputy-info__title font-weight-600">

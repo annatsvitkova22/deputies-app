@@ -95,6 +95,7 @@ export interface Comment {
     type?: string;
     message?: string;
     date?: number | string;
+    rating?: number;
     appealId?: string;
     userId?: string;
     imageUrl?: string;

@@ -1,10 +1,10 @@
-<div class="card card-shadow card-pointer" (click)="onOpenAppeal()">
+<div class="card card-shadow card-pointer overflow-hidden" (click)="onOpenAppeal()">
     <div class="card__top d-flex justify-content-between align-items-center">
         <div class="card__dep d-flex align-items-center">
             <app-avatar [imageUrl]="appeal.deputyImageUrl" [name]="appeal.shortName"></app-avatar>
             <div class="card__deputy">
                 <p class="card__name">{{appeal.deputyName}}</p>
-                <p class="card__party font-weight-500 tx-small tx-color-6">{{appeal.party}}</p>
+                <p *ngIf="appeal.party" class="card__party font-weight-500 tx-small tx-color-6">{{appeal.party}}</p>
             </div>
         </div>
         <div class="card__status-block">

@@ -28,9 +28,10 @@ export class MainService {
         let date = [];
         let promises = [];
         if (settings.date) {
-            const newDate: number = settings.date + 86400;
-            dateRef = dateRef.where('date', '>', settings.date - 1);
-            dateRef = dateRef.where('date', '<', newDate + 1);
+            const newDate: number = settings.date + 86400000;
+            dateRef = dateRef.where('updateDate', '>=', settings.date);
+            dateRef = dateRef.where('updateDate', '<=', newDate);
+            dateRef = dateRef;
         }
         if (settings.districts) {
             promises = settings.districts.map((district) => async () => {

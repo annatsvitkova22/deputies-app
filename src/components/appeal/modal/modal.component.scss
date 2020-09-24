@@ -21,6 +21,7 @@
         width: 14px;
         position: relative;
         border: none;
+        background-color: $white;
         cursor: pointer;
         transition: all 0.3s;
 
@@ -99,35 +100,13 @@
         min-width: 284px;
     }
 
-    &__small-title {
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 12px;
-        letter-spacing: 0.03em;
-        color: $gray-16;
-    }
-
     &__person {
         margin-bottom: 34px;
     }
 
-    &__party {
-        font-weight: 500;
-        font-size: 12px;
-        line-height: 1.37;
-        text-transform: capitalize;
-        color: $gray-16;
-        margin-top: 5px;
-    }
 
     &__comment {
         margin-left: 20px;
-    }
-
-    &__author {
-        line-height: 1.17;
-        letter-spacing: 0.02em;
-        color: $black-1;
     }
 
     &__status-block {
@@ -135,6 +114,10 @@
         width: 100%;
         text-align: center;
         margin-bottom: 54px;
+    }
+
+    &__users {
+        display: none;
     }
 
     &__about {
@@ -151,6 +134,7 @@
         line-height: 1.63;
         letter-spacing: 0.02em;
         text-transform: capitalize;
+        border-radius: 20px;
     }
 
     &__buttons {
@@ -160,6 +144,10 @@
 
     .btn {
         padding: 12px 24px;
+    }
+
+    .mobile-block {
+        display: none;
     }
 
     &__comments {
@@ -197,18 +185,73 @@
     }
 }
 
-.ml-14 {
-    margin-left: 14px;
-}
+@media only screen and (max-width: 750px) {
+    .modal {
+        &__right-section {
+            display: none;
+        }
 
-.ml-8 {
-    margin-left: 8px;
+        &__users {
+            display: block;
+        }
+
+        &__title {
+            margin-bottom: 30px;
+        }
+
+        &__main {
+            align-items: flex-start;
+        }
+
+        .mobile-block {
+            display: block;
+            margin-bottom: 0;
+        }
+
+        &__comment-done {
+            background: $gray-21;
+            border-radius: 12px;
+            padding: 9px 12px;
+            margin-top: 12px;
+        }
+
+        .status {
+            max-width: 100px;
+            width: 100%;
+
+            &-work {
+                margin-left: 9px;
+            }
+
+            &-done {
+                margin-right: 9px;
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 540px) {
     .modal {
+        &__wrapper {
+            padding: 24px;
+        }
+
         &__person {
             margin-bottom: 30px;
+        }
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    .modal {
+        &__discus {
+            white-space: nowrap;
+            max-width: 105px;
+            overflow: hidden;
+        }
+
+        &__comment, &__comments {
+            margin-left: 0;
         }
     }
 }

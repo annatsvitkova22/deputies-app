@@ -38,6 +38,8 @@ export class DeputiesComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         this.settings = await this.mainService.getSettings();
+        const sortValue = Number(this.settings.sorting);
+        this.form.controls['sort'].patchValue(this.sorting[sortValue - 1]);
         this.deputies = await this.deputyService.getAllDeputy(this.settings, 'deputies');
         this.districts = await this.appealService.getDistricts();
         this.parties = await this.deputyService.getParties();
@@ -46,12 +48,14 @@ export class DeputiesComponent implements OnInit {
 
     async onSaveSorting(): Promise<void> {
         const sort = this.form.value.sort;
-        const settings: Settings = {
-            sorting: sort.id
-        };
-        this.store.dispatch(new EditSettings(settings));
-        const settingsStore = await this.mainService.getSettings();
-        this.deputies = await this.deputyService.getAllDeputy(settingsStore, 'deputies');
+        if (sort) {
+            const settings: Settings = {
+                sorting: sort.id
+            };
+            this.store.dispatch(new EditSettings(settings));
+            const settingsStore = await this.mainService.getSettings();
+            this.deputies = await this.deputyService.getAllDeputy(settingsStore, 'deputies');
+        }
     }
 
     async changeAppeals(settings: Settings): Promise<void> {

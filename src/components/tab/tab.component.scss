@@ -28,3 +28,9 @@
         }
     }
 }
+
+@media only screen and (max-width: 460px) {
+    .tab__item {
+        font-size: 12px;
+    }
+}

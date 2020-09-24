@@ -1,0 +1,33 @@
+<app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
+<app-header *ngIf="!isLoader"></app-header>
+<main *ngIf="!isLoader" class="main">
+    <div class="container container__small mt-28">
+        <div class="card-shadow feedback wrapper-big">
+            <h2 class="main-title">Оцінити виконання запиту</h2>
+            <p class="feedback__title title-second title">{{appeal.title}}</p>
+            <h6 class="title-small mb-10">Відповідальний</h6>
+            <div class="mb-30 d-flex">
+                <app-avatar [imageUrl]="deputy.imageUrl" [name]="deputy.shortName" [class]="'avatar__extra-small'"></app-avatar>
+                <div class="ml-8">
+                    <p class="author-name">{{deputy.name}}</p>
+                    <p class="party-name font-weight-500 tx-small">{{deputy.party}}</p>
+                </div>
+            </div>
+            <h6 class="title-small mb-10">Оцінити виконаний запит </h6>
+            <ngb-rating [(rate)]="currentRate">
+                <ng-template let-fill="fill" let-index="index">
+                    <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                </ng-template>
+            </ngb-rating>
+            <div class="form-group mt-26" [formGroup]="form">
+                <textarea
+                    class="input textarea feedback__comment"
+                    placeholder="Введіть комментар"
+                    formControlName="comment"
+                    name="comment">
+                </textarea>
+            </div>
+            <button (click)="onFeedback()" [disabled]="!form.valid" type="button" class="btn btn-big btn-green">Оцінити</button>
+        </div>
+    </div>
+</main>

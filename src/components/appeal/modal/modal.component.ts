@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
@@ -30,8 +30,11 @@ export class ModalComponent implements OnInit {
         public activeModal: NgbActiveModal,
         private router: Router,
         private authService: AuthService,
-        private appealService: AppealService
-    ) {}
+        private appealService: AppealService,
+        config: NgbRatingConfig
+    ) {
+        config.max = 5;
+    }
 
     async ngOnInit(): Promise<void> {
         this.userAvatal = await this.authService.getUserImage();

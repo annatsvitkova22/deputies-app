@@ -27,6 +27,7 @@ export class MainComponent implements OnInit {
         sort: new FormControl(null),
         date: new FormControl(null)
     });
+    date: string;
     sorting = [
         {name: 'За рейтингом', id: '1'},
         {name: 'За к-стю запитів', id: '2'},
@@ -43,6 +44,8 @@ export class MainComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         this.settings = await this.mainService.getSettings();
         this.districts = await this.appealService.getDistricts();
+        const sortValue = Number(this.settings.sorting);
+        this.form.controls['sort'].patchValue(this.sorting[sortValue - 1]);
         this.deputies = await this.deputyService.getAllDeputy(this.settings);
         this.appeals = await this.mainService.getAppeal(this.settings);
         this.isLoader = false;

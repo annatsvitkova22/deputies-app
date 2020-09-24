@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="card__content">
-                <p class="card__name">{{deputy.name}}</p>
+                <p class="card__name">{{deputy.name + ' ' + deputy.patronymic}}</p>
                 <p *ngIf="deputy.district" class="card__info mt-6 mb-8">{{deputy.district}}</p>
                 <p *ngIf="deputy.party" class="card__info">{{deputy.party}}</p>
                 <ul *ngIf="!isLoader" class="card__appeals list-reset d-flex justify-content-between">

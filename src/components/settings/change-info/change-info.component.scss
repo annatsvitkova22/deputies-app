@@ -40,12 +40,15 @@
 
 @media only screen and (max-width: 560px) {
     .upload-file {
-        margin: 0 0 8px;
+        margin: 0 8px 0 0;
     }
-    .avatar-btn {
-        display: flex;
+
+    .avatar-section {
         flex-direction: column;
-        margin-left: 58px;
+    }
+
+    .avatar-btn {
+        margin-top: 24px;
     }
 
     .btn__small {

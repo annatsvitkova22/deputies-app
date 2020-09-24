@@ -125,6 +125,7 @@ export class AppealService {
             date:  moment().utc().valueOf(),
             appealId: id,
             userId,
+            rating: com.rating ? com.rating : null,
             isBackground: com.isBackground,
             loadedFiles: com.loadedFiles ? com.loadedFiles : null
         };
@@ -161,7 +162,6 @@ export class AppealService {
 
     getMessagesRef(ref, id: string) {
         let resultRef = ref.where('appealId', '==', id);
-        // resultRef = resultRef.where('type', '=!', 'confirm');
         resultRef = resultRef.orderBy('date', 'desc');
 
         return resultRef;
@@ -175,31 +175,35 @@ export class AppealService {
         if (snapshots.size) {
             promises.push(new Promise((resolve) => {
                 snapshots.forEach(async snapshot => {
-                    const {message, date, appealId, userId, isBackground, type}: firebase.firestore.DocumentData = snapshot.data();
-                    await this.db.collection('users').doc(userId).get().toPromise().then(span => {
-                        const user: firebase.firestore.DocumentData = span.data();
-                        let shortName: string;
-                        if (user.role === 'deputy') {
-                            shortName = user.surname.substr(0, 1).toUpperCase() + user.name.substr(0, 1).toUpperCase();
-                        } else {
-                            const name: string[] = user.name.split(' ');
-                            shortName = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
-                        }
-                        const comment: Comment = {
-                            type,
-                            message,
-                            date: moment(date).format('DD-MM-YYYY'),
-                            appealId,
-                            userId,
-                            isBackground,
-                            imageUrl: user.imageUrl ? user.imageUrl : null,
-                            shortName,
-                            autorName: user.role === 'deputy' ? user.surname + ' ' + user.name : user.name
-                        };
-
-                        comments.push(comment);
+                    const {message, date, appealId, userId, isBackground, type, rating}: firebase.firestore.DocumentData = snapshot.data();
+                    if (type !== 'confirm') {
+                        await this.db.collection('users').doc(userId).get().toPromise().then(span => {
+                            const user: firebase.firestore.DocumentData = span.data();
+                            let shortName: string;
+                            if (user.role === 'deputy') {
+                                shortName = user.surname.substr(0, 1).toUpperCase() + user.name.substr(0, 1).toUpperCase();
+                            } else {
+                                const name: string[] = user.name.split(' ');
+                                shortName = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
+                            }
+                            const comment: Comment = {
+                                type,
+                                message,
+                                date: moment(date).format('DD-MM-YYYY'),
+                                appealId,
+                                userId,
+                                isBackground,
+                                imageUrl: user.imageUrl ? user.imageUrl : null,
+                                shortName,
+                                rating: rating ? rating : null,
+                                autorName: user.role === 'deputy' ? user.surname + ' ' + user.name : user.name
+                            };
+                            comments.push(comment);
+                            resolve();
+                        });
+                    } else {
                         resolve();
-                    });
+                    }
                 });
             }));
         }

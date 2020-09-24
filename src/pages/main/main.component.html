@@ -9,7 +9,7 @@
                     <app-multi [selectedItems]="this.settings.statuses" (changes)="changeAppeals($event)" [type]="'statuses'" [text]="'Статус'"></app-multi>
                     <div class="input-calendar">
                         <input class="input c-btn" placeholder="Сьогоднi"
-                                formControlName="date"
+                                formControlName="date" 
                                 name="dp" ngbDatepicker #d="ngbDatepicker" (dateSelect)="onSaveDate()">
                         <div class="input-calendar-append">
                             <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
@@ -31,6 +31,7 @@
                             bindLabel="name"
                             placeholder="Сортувати"
                             (close)="onSaveSorting()"
+                            
                             formControlName="sort">
                         </ng-select>
                     </div>

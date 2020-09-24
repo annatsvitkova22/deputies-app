@@ -82,26 +82,34 @@ export class MultiSelectComponent implements OnInit {
     async dispatchToStore(): Promise<void> {
         let settings: Settings;
         if (this.type === 'districts') {
-            const districts: Select[] = [];
-            this.selectedItems.map(item => {
-                districts.push(item);
-            });
+            let districts: Select[] = [];
+            if (this.selectedItems) {
+                this.selectedItems.map(item => {
+                    districts.push(item);
+                });
+            } else {
+                districts = null;
+            }
             settings = { districts };
         } else if (this.type === 'statuses') {
-            const statuses: Select[] = [];
+            let statuses: Select[] = [];
             if (this.selectedItems) {
                 this.selectedItems.map(item => {
                     statuses.push(item);
                 });
+            } else {
+                statuses = null;
             }
-            settings = {
-                statuses: statuses.length ? statuses : null
-            };
+            settings = { statuses };
         } else if (this.type === 'parties') {
-            const parties: Select[] = [];
-            this.selectedItems.map(item => {
-                parties.push(item);
-            });
+            let parties: Select[] = [];
+            if (this.selectedItems) {
+                this.selectedItems.map(item => {
+                    parties.push(item);
+                });
+            } else {
+                parties = null;
+            }
             settings = { parties };
         }
         this.store.dispatch(new EditSettings(settings));
