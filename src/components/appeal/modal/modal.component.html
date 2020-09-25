@@ -96,18 +96,20 @@
                 <div *ngIf="comments.length && isHidden" class="mt-12">
                     <div *ngFor="let oneComment of comments" class="mb-20 d-flex">
                         <app-avatar [imageUrl]="oneComment.imageUrl" [name]="oneComment.shortName"></app-avatar>
-                        <div class="modal__comments" [class.modal__comments--active]="oneComment.isBackground">
-                            <p class="modal__comments-title">{{oneComment.autorName}}</p>
-                            <div *ngIf="oneComment.type == 'feedback'" class="d-flex align-items-center">
-                                <ngb-rating [(rate)]="oneComment.rating">
-                                    <ng-template let-fill="fill" let-index="index">
-                                        <span class="star" [class.filled]="fill === 100">&#9733;</span>
-                                    </ng-template>
-                                </ngb-rating>
-                                <p class="tx-small tx-color-10 font-weight-500">{{oneComment.rating + '.0'}}</p>
+                        <div class="modal__space">
+                            <div class="modal__comments" [class.modal__comments--active]="oneComment.isBackground">
+                                <p class="modal__comments-title">{{oneComment.autorName}}</p>
+                                <div *ngIf="oneComment.type == 'feedback'" class="d-flex align-items-center">
+                                    <ngb-rating [(rate)]="oneComment.rating">
+                                        <ng-template let-fill="fill" let-index="index">
+                                            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                                        </ng-template>
+                                    </ngb-rating>
+                                    <p class="tx-small tx-color-10 font-weight-500">{{oneComment.rating + '.0'}}</p>
+                                </div>
+                                <p class="mt-6 mb-8 line-height-146">{{oneComment.message}}</p>
+                                <p class="modal__comments-date">{{oneComment.date}}</p>
                             </div>
-                            <p class="mt-6 mb-8 line-height-146">{{oneComment.message}}</p>
-                            <p class="modal__comments-date">{{oneComment.date}}</p>
                             <div *ngIf="oneComment.type == 'done'" class="modal__comment-done">
                                 <div class="d-flex align-items-center">
                                     <div class="modal__status-block status-work status">

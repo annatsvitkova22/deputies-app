@@ -519,6 +519,43 @@ ngb-datepicker.dropdown-menu {
     }
 }
 
+.deputy {
+
+    &-info {
+        width: 100%;
+
+        &__description {
+            margin-top: 12px;
+            line-height: 1.68;
+            -webkit-line-clamp: 3;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+
+            &--active {
+                -webkit-line-clamp: inherit;
+            }
+        }
+
+        &__title {
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 1.28;
+            letter-spacing: 0.01em;
+            color: $gray-15;
+        }
+
+        &__wrapper {
+            padding: 16px 24px 21px;
+            margin-bottom: 24px;
+        }
+
+        &__appeal {
+            margin-top: 24px;
+        }
+    }
+}
+
 .appeal-name {
     font-weight: 500;
     font-size: 10px;
@@ -669,6 +706,41 @@ ngb-datepicker.dropdown-menu {
 
 .modal-content {
     border: none;
+}
+
+.modal__close {
+    height: 14px;
+    width: 14px;
+    position: relative;
+    border: none;
+    background-color: $white;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:focus {
+        outline: none;
+    }
+
+    span {
+        position: absolute;
+        height: 1.8px;
+        width: 18px;
+        background-color: $gray-11;
+        top: 6px;
+        left: -2px;
+
+        &:first-of-type {
+            transform: rotate(45deg);
+        }
+
+        &:last-of-type {
+            transform: rotate(-45deg);
+        }
+    }
+}
+
+.modal-wrapper {
+    padding: 30px;
 }
 
 .sr-only {

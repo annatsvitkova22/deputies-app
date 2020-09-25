@@ -100,6 +100,27 @@ export class DeputyService {
         return [];
     }
 
+    async getCountMessage(id): Promise<number> {
+        let counter: number = 0;
+        const promises = [];
+        const dataRef = await this.db.collection('messages', ref => ref.where('appealId', '==', id)).get().toPromise();
+        if (dataRef.size) {
+            promises.push(new Promise((resolve) => {
+                dataRef.forEach(span => {
+                    const data = span.data();
+                    if (data.type !== 'confirm') {
+                        counter++;
+                    }
+                    resolve();
+                });
+            }));
+        }
+        await Promise.all(promises);
+
+        return counter;
+    }
+
+
     async getAppeal(deputyId: string, deputy: UserAccount): Promise<AppealCard[]> {
         // tslint:disable-next-line: max-line-length
         let appealspans: any = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId)).get().toPromise();
@@ -111,6 +132,7 @@ export class DeputyService {
                 const name: string[] = user.name.split(' ');
                 // tslint:disable-next-line: max-line-length
                 const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
+                const messageSnaps: number = await this.getCountMessage(appeal.id);
                 const ap: AppealCard = {
                     id: appeal.id,
                     title: data.title,
@@ -129,7 +151,7 @@ export class DeputyService {
                     fileUrl: data.fileUrl,
                     fileImageUrl: data.fileImageUrl,
                     countFiles: data.fileUrl ? data.fileUrl.length : 0,
-                    countComments: 0
+                    countComments: messageSnaps
                 };
                 return ap;
             });

@@ -12,6 +12,7 @@ export class AccountCardComponent implements OnInit {
     @Input() countAppeals: CountAppeals[] = [];
     @Input() link: string;
     @Input() linkName: string;
+    @Input() isButton: boolean;
 
     constructor(){}
 

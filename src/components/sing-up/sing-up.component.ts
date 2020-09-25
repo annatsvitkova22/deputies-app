@@ -8,7 +8,7 @@ import { AuthService } from '../auth/auth.service';
     templateUrl: './sing-up.component.html',
     styleUrls: ['./sing-up.component.scss']
 })
-export class SingUpComponent implements OnInit {
+export class SingUpComponent {
     isError: boolean;
     message: string;
 
@@ -16,15 +16,14 @@ export class SingUpComponent implements OnInit {
         private authService: AuthService,
     ){}
 
-    ngOnInit() {}
-
     onSubmit = async (data) => {
         if (data.repeatPassword === data.password) {
-            this.isError = await this.authService.signUp(data);
-            this.message = 'This already email exists';
+            const isError: boolean = await this.authService.signUp(data);
+            if (isError) {
+                window.alert('Користувач з таким email вже існує');
+            }
         } else {
-            this.message = 'The fields password and repeat password do not match.';
-            this.isError = true;
+            window.alert('Паролі не співпадають');
         }
     }
 

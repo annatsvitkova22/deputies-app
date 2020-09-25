@@ -3,17 +3,23 @@
 <main *ngIf="!isLoader" class="main">
     <div class="container">
         <div class="profile d-flex mt-28">
-            <app-account-card [link]="'/settings'" [linkName]="'Редагувати профіль'" [countAppeals]="countAppeals" [user]="user ? user : deputy"></app-account-card>
-            <div *ngIf="userRole=='deputy'" class="deputy-info__wrapper card-shadow">
-                <h2 class="deputy-info__title font-weight-600">
-                    Загальнi вiдомостi
-                </h2>
-                <p class="deputy-info__description tx-medium tx-color-3" *ngIf="deputy.description">
-                    {{deputy.description}}
-                </p>
-            </div>
-            <div class="w-100">
-                <app-tab [appeals]="appeals"></app-tab>
+            <app-account-card
+                [isButton]="true"
+                [link]="'/edit'" [linkName]="'Редагувати профіль'" [countAppeals]="countAppeals" [user]="user ? user : deputy"></app-account-card
+                >
+            <div>
+                <div *ngIf="user.role=='deputy' && deputy.description" class="deputy-info__wrapper card-shadow">
+                    <h2 class="deputy-info__title font-weight-600">
+                        Загальнi вiдомостi
+                    </h2>
+                    <p class="deputy-info__description tx-medium tx-color-3" [class.deputy-info__description--active]="isMoreText" >
+                        {{deputy.description}}
+                    </p>
+                    <p (click)="onRead()" class="auth-btn-link mt-12">{{isMoreText ? 'Меньше' : 'Більше'}}</p>
+                </div>
+                <div class="w-100">
+                    <app-tab [appeals]="appeals"></app-tab>
+                </div>
             </div>
         </div>
     </div>

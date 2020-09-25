@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../auth/auth.service';
 import { UserAvatal } from '../../models';
@@ -20,22 +20,37 @@ export class HeaderComponent implements OnInit {
     links = [
         {name: 'Запити', path: '/'},
         {name: 'Депутати', path: '/deputies'},
-        {name: 'Про проект', path: '/about'}
+        {name: 'Про проект', path: '/about-project'}
     ];
     isOpen: boolean;
     isDropdown: boolean;
+    isCreateAppeal: boolean;
+    path: string;
 
     constructor(
+        private route: ActivatedRoute,
         private authService: AuthService,
         private router: Router
     ){}
 
     async ngOnInit(): Promise<void> {
+        this.route.url.subscribe(res => {
+            if (res.length) {
+                this.path = res[0].path;
+            }
+        });
+
         const userAvatar: UserAvatal = await this.authService.getUserImage();
         if (userAvatar && userAvatar.imageUrl) {
             this.imageUrl = userAvatar.imageUrl;
         } else if (userAvatar && userAvatar.shortName) {
             this.shortName = userAvatar.shortName;
+        }
+        const userRole: string = await this.authService.getUserRole();
+        if (userRole === 'deputy' || this.path === 'create-appeal') {
+            this.isCreateAppeal = false;
+        } else {
+            this.isCreateAppeal = true;
         }
     }
 

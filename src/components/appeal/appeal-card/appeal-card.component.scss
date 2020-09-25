@@ -18,6 +18,15 @@
         color: $gray-7;
     }
 
+    &__description-title {
+        font-weight: 600;
+        margin: 0;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
     &__party {
         text-transform: capitalize;
         line-height: 1.37;
@@ -51,6 +60,9 @@
         letter-spacing: 0.01em;
         color: $gray-8;
         margin-top: 13px;
+        -webkit-line-clamp: 3;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
         overflow: hidden;
     }
 

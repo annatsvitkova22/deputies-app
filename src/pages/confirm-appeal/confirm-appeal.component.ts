@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { DeputyService } from '../../components/deputy/deputy.service';
 import { AppealCard, LoadedFile, ResultComment } from '../../models';
 import { AuthService } from '../../components/auth/auth.service';
 import { AppealService } from '../../components/appeal/appeal.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgbdModalContent } from '../../components/modal/modal.component';
 
 @Component({
     selector: 'app-confirm-appeal',
@@ -29,7 +31,8 @@ export class ConfirmAppealComponent implements OnInit {
         private router: Router,
         private deputyService: DeputyService,
         private authService: AuthService,
-        private appealService: AppealService
+        private appealService: AppealService,
+        private modalService: NgbModal,
     ){}
 
     async ngOnInit(): Promise<void> {
@@ -86,7 +89,8 @@ export class ConfirmAppealComponent implements OnInit {
         };
         const newComment: ResultComment = await this.appealService.createComment(comment, this.appealId, 'confirm');
         if (newComment.status) {
-            this.router.navigate(['/deputy', this.deputyId]);
+            const modalRef = this.modalService.open(NgbdModalContent);
+            modalRef.componentInstance.name = 'Надана Вами інформація перевіряється';
         }
     }
 

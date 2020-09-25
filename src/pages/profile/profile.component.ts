@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { DeputyService } from '../../components/deputy/deputy.service';
 import { Deputy, AppealCard, UserAvatal, CountAppeals, AuthUser } from '../../models';
-import { MainService } from '../main/main.service';
 import { AuthService } from '../../components/auth/auth.service';
 
 @Component({
@@ -17,6 +16,7 @@ export class ProfileComponent implements OnInit {
     user: AuthUser;
     countAppeals: CountAppeals[] = [];
     deputy: Deputy;
+    isMoreText: boolean;
 
     constructor(
         private deputyService: DeputyService,
@@ -28,12 +28,15 @@ export class ProfileComponent implements OnInit {
         if (this.user.role === 'deputy') {
             this.deputy = await this.deputyService.getDeputy(this.user.userId);
             this.appeals = await this.deputyService.getAppeal(this.user.userId, this.deputy);
-            this.user = null;
         } else {
             const userAvatar: UserAvatal = await this.authService.getUserImage();
             this.appeals = await this.deputyService.getAppealByUser(this.user.userId, userAvatar, this.user.name);
         }
         this.countAppeals = await this.deputyService.getCountAppeal(this.appeals);
         this.isLoader = false;
+    }
+
+    onRead(): void {
+        this.isMoreText = !this.isMoreText;
     }
 }

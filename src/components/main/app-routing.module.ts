@@ -14,6 +14,7 @@ import { EditComponent } from '../../pages/edit/edit.component';
 import { AuthSimpleGuard } from './auth-simple.guard';
 import { ConfirmAppealComponent } from '../../pages/confirm-appeal/confirm-appeal.component';
 import { FeedbackComponent } from '../../pages/feedback/feedback.component';
+import { AboutProjectComponent } from '../../pages/about-project/about-project.component';
 
 const routes: Routes = [
   { path: 'sign-up', component: SingUpComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'create-appeal', component: AppealComponent, canActivate: [AuthGuard] },
   { path: 'deputies', component: DeputiesComponent, canActivate: [AuthSimpleGuard] },
   { path: 'deputy/:id', component: DeputyComponent, canActivate: [AuthSimpleGuard] },
+  { path: 'about-project', component: AboutProjectComponent, canActivate: [AuthSimpleGuard] },
   { path: 'confirm-appeal/:id', component: ConfirmAppealComponent, canActivate: [AuthGuard] },
   { path: 'feedback/:id', component: FeedbackComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },

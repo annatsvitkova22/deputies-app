@@ -70,9 +70,7 @@ export class AppealComponent implements OnInit {
     async onSubmit(): Promise<void> {
         const result: ResultModel = await this.appealService.createAppeal(this.form.value, this.loadedFiles);
         if (result.status) {
-            const modalRef = this.modalService.open(NgbdModalContent, {
-                size: 'lg'
-            });
+            const modalRef = this.modalService.open(NgbdModalContent);
             modalRef.componentInstance.name = 'Вашу заявку успiшно створено';
         } else {
             this.isError = !result.status;

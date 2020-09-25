@@ -1,26 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { AuthService } from './auth.service';
+import { ResultModel } from '../../models';
 
 
 @Component({
   selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  templateUrl: './auth.component.html'
 })
-export class AuthComponent implements OnInit {
-  isError: boolean;
-  message: string;
+export class AuthComponent {
 
   constructor(
       private authService: AuthService
   ){}
 
-  ngOnInit() {}
-
   onSubmit = async ({email, password}) => {
-    this.isError = await this.authService.signIn(email, password);
-    this.message = 'Wrong login or password';
+    const result: ResultModel = await this.authService.signIn(email, password);
+    if (result.status) {
+      window.alert(result.message);
+    }
   }
 
   onGoogleLogin = async () => {

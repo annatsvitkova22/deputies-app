@@ -10,6 +10,7 @@ import { DeputyService } from '../deputy.service';
 })
 export class SmallCardComponent implements OnInit {
     @Input() deputy: Deputy;
+    @Input() isCreateAppeal: boolean;
     // tslint:disable-next-line: no-inferrable-types
     isLoader: boolean = true;
     countAppeals: CountAppeals[];

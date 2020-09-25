@@ -1,5 +1,5 @@
 <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
-<app-header></app-header>
+<app-header *ngIf="!isLoader"></app-header>
 <div *ngIf="!isLoader" class="container container__extra-small">
     <div class="wrapper-form card-shadow">
         <div name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">

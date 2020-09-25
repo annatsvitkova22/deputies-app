@@ -25,6 +25,7 @@ import { EditComponent } from '../pages/edit/edit.component';
 import { AuthSimpleGuard } from './main/auth-simple.guard';
 import { ConfirmAppealComponent } from '../pages/confirm-appeal/confirm-appeal.component';
 import { FeedbackComponent } from '../pages/feedback/feedback.component';
+import { AboutProjectComponent } from '../pages/about-project/about-project.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +55,8 @@ import { FeedbackComponent } from '../pages/feedback/feedback.component';
     UploadedFileComponent,
     ModalComponent,
     ConfirmAppealComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    AboutProjectComponent
   ],
   imports: [
     BrowserModule,

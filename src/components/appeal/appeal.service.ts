@@ -146,15 +146,22 @@ export class AppealService {
         return isResult;
     }
 
-    getConfirmRef(ref, id: string) {
+    getConfirmRef(ref, id: string, type: string) {
         let resultRef = ref.where('appealId', '==', id);
-        resultRef = resultRef.where('type', '==', 'confirm');
+        resultRef = resultRef.where('type', '==', type);
 
         return resultRef;
     }
 
     async getConfirmMessage(id: string): Promise<boolean> {
-        const snapshots = await this.db.collection('messages', ref => this.getConfirmRef(ref, id)).get().toPromise();
+        const snapshots = await this.db.collection('messages', ref => this.getConfirmRef(ref, id, 'confirm')).get().toPromise();
+        const result: boolean = snapshots.size ? true : false;
+
+        return result;
+    }
+
+    async getFeedbackMessage(id: string): Promise<boolean> {
+        const snapshots = await this.db.collection('messages', ref => this.getConfirmRef(ref, id, 'feedback')).get().toPromise();
         const result: boolean = snapshots.size ? true : false;
 
         return result;

@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { Deputy, Settings, Party, District } from '../../models';
+import { Deputy, Settings, Party, District, Select } from '../../models';
 import { DeputyService } from '../../components/deputy/deputy.service';
 import { MainService } from '../main/main.service';
 import { MainState } from '../../store/main.state';
 import { EditSettings } from '../../store/settings.action';
 import { AppealService } from '../../components/appeal/appeal.service';
+import { AuthService } from '../../components/auth/auth.service';
 
 
 @Component({
@@ -23,17 +24,19 @@ export class DeputiesComponent implements OnInit {
     form = new FormGroup({
         sort: new FormControl(null)
     });
-    sorting = [
+    sorting: Select[] = [
         {name: 'За рейтингом', id: '1'},
         {name: 'За к-стю запитів', id: '2'},
         {name: 'За к-стю виконаних ', id: '3'}
     ];
+    isCreateAppeal: boolean;
 
     constructor(
         private deputyService: DeputyService,
         private mainService: MainService,
         private store: Store<MainState>,
-        private appealService: AppealService
+        private appealService: AppealService,
+        private authService: AuthService,
     ){}
 
     async ngOnInit(): Promise<void> {
@@ -43,6 +46,12 @@ export class DeputiesComponent implements OnInit {
         this.deputies = await this.deputyService.getAllDeputy(this.settings, 'deputies');
         this.districts = await this.appealService.getDistricts();
         this.parties = await this.deputyService.getParties();
+        const userRole: string = await this.authService.getUserRole();
+        if (userRole === 'deputy') {
+            this.isCreateAppeal = false;
+        } else {
+            this.isCreateAppeal = true;
+        }
         this.isLoader = false;
     }
 

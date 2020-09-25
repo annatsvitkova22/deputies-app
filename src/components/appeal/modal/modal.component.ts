@@ -34,6 +34,7 @@ export class ModalComponent implements OnInit {
         config: NgbRatingConfig
     ) {
         config.max = 5;
+        config.readonly = true;
     }
 
     async ngOnInit(): Promise<void> {
@@ -42,6 +43,13 @@ export class ModalComponent implements OnInit {
         this.comments = await this.appealService.getCommentsById(this.appeal.id);
         if (this.appeal.userId === userId) {
             this.isWriteComment = true;
+            if (this.appeal.status === 'Виконано') {
+                const isFeedback = await this.appealService.getFeedbackMessage(this.appeal.id);
+                if (!isFeedback) {
+                    this.router.navigate(['/feedback', this.appeal.id]);
+                    this.activeModal.dismiss('Cross click');
+                }
+            }
         } else if (this.appeal.deputyId === userId) {
             this.isWriteComment = true;
             const isConfirm = await this.appealService.getConfirmMessage(this.appeal.id);

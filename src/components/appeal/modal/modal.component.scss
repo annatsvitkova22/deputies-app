@@ -16,35 +16,8 @@
         color: $gray-11;
     }
 
-    &__close {
-        height: 14px;
-        width: 14px;
-        position: relative;
-        border: none;
-        background-color: $white;
-        cursor: pointer;
-        transition: all 0.3s;
-
-        &:focus {
-            outline: none;
-        }
-
-        span {
-            position: absolute;
-            height: 1.8px;
-            width: 18px;
-            background-color: $gray-11;
-            top: 6px;
-            left: -2px;
-
-            &:first-of-type {
-                transform: rotate(45deg);
-            }
-
-            &:last-of-type {
-                transform: rotate(-45deg);
-            }
-        }
+    &__comment {
+        margin-left: 20px;
     }
 
     &__button {
@@ -104,11 +77,6 @@
         margin-bottom: 34px;
     }
 
-
-    &__comment {
-        margin-left: 20px;
-    }
-
     &__status-block {
         max-width: 208px;
         width: 100%;
@@ -154,7 +122,6 @@
         background: $gray-21;
         border-radius: 0px 12px 12px 12px;
         padding: 9px 12px;
-        margin-left: 20px;
 
         &--active {
             background-color: $blue-3;
@@ -183,6 +150,31 @@
         color: $black-1;
         margin-bottom: 16px;
     }
+
+    &__space {
+        margin-left: 20px;
+    }
+
+    &__comment-done {
+        background: $gray-21;
+        border-radius: 12px;
+        padding: 9px 12px;
+        margin-top: 12px;
+        
+    }
+
+    .status {
+        width: 100px;
+        margin-bottom: 0;
+
+        &-work {
+            margin-right: 9px;
+        }
+
+        &-done {
+            margin-left: 9px;
+        }
+    }
 }
 
 @media only screen and (max-width: 750px) {
@@ -207,26 +199,6 @@
             display: block;
             margin-bottom: 0;
         }
-
-        &__comment-done {
-            background: $gray-21;
-            border-radius: 12px;
-            padding: 9px 12px;
-            margin-top: 12px;
-        }
-
-        .status {
-            max-width: 100px;
-            width: 100%;
-
-            &-work {
-                margin-left: 9px;
-            }
-
-            &-done {
-                margin-right: 9px;
-            }
-        }
     }
 }
 
@@ -250,7 +222,7 @@
             overflow: hidden;
         }
 
-        &__comment, &__comments {
+        &__space, &__comment {
             margin-left: 0;
         }
     }

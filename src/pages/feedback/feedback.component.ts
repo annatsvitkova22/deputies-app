@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
+import {NgbRatingConfig, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { DeputyService } from '../../components/deputy/deputy.service';
 import { AppealCard, Comment, ResultComment, Deputy } from '../../models';
 import { AuthService } from '../../components/auth/auth.service';
 import { AppealService } from '../../components/appeal/appeal.service';
+import { NgbdModalContent } from '../../components/modal/modal.component';
 
 @Component({
     selector: 'app-feedback',
@@ -30,12 +31,14 @@ export class FeedbackComponent implements OnInit {
         private deputyService: DeputyService,
         private authService: AuthService,
         private appealService: AppealService,
+        private modalService: NgbModal,
         config: NgbRatingConfig
     ){
         config.max = 5;
     }
 
     async ngOnInit(): Promise<void> {
+        this.currentRate = 1;
         this.route.params.subscribe(params => {
             this.appealId = params['id'];
         });
@@ -44,8 +47,13 @@ export class FeedbackComponent implements OnInit {
         if (this.appeal.userId !== userId || this.appeal.status !== 'Виконано') {
             this.router.navigate(['/']);
         } else {
-            this.deputy = await this.deputyService.getDeputy(this.appeal.deputyId);
-            this.isLoader = false;
+            const isFeedback = await this.appealService.getFeedbackMessage(this.appealId);
+            if (!isFeedback) {
+                this.deputy = await this.deputyService.getDeputy(this.appeal.deputyId);
+                this.isLoader = false;
+            } else {
+                this.router.navigate(['/profile']);
+            }
         }
     }
 
@@ -59,7 +67,8 @@ export class FeedbackComponent implements OnInit {
         };
         const newComment: ResultComment = await this.appealService.createComment(comment, this.appealId, 'feedback');
         if (newComment.status) {
-            this.router.navigate(['/profile']);
+            const modalRef = this.modalService.open(NgbdModalContent);
+            modalRef.componentInstance.name = 'Дякуємо за Ваш відгук';
         }
     }
 }

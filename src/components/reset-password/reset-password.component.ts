@@ -8,19 +8,15 @@ import { AuthService } from '../auth/auth.service';
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
-    isError: boolean;
-    message: string;
+export class ResetPasswordComponent {
     id: string;
 
     constructor(
         private authService: AuthService,
     ){}
 
-    ngOnInit() {}
-
     onSubmit = async ({email}) => {
-        this.message = await this.authService.resetPassword(email);
-        this.isError = true;
+        const message: string = await this.authService.resetPassword(email);
+        window.alert(message);
     }
 }

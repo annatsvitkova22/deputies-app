@@ -58,20 +58,14 @@ export class EditComponent implements OnInit {
         if (!isError) {
             const changeInfoResult: ResultModel = await this.infoChild.onSubmit(mainInfo);
             if (isEmailPas && changeInfoResult.status) {
-                const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent, {
-                    size: 'lg'
-                });
+                const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent);
                 modalRef.componentInstance.name = 'Вашу сторiнку успiшно оновлено';
                 modalRef.componentInstance.message = 'Вам вiдправлено повiдомлення на пошту';
             } else if (changeInfoResult.status) {
-                const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent, {
-                    size: 'lg'
-                });
+                const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent);
                 modalRef.componentInstance.name = changeInfoResult.message;
             } else {
-                const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent, {
-                    size: 'lg'
-                });
+                const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent);
                 modalRef.componentInstance.name = 'Помилка оновлення, спробуйте ще раз.';
             }
         }

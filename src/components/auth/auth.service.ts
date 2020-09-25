@@ -10,7 +10,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { MainState } from '../../store/main.state';
 import { AddAuth, DeleteAuth } from '../../store/auth.action';
-import { AuthState, CreateUser, SocialProfile, UserAvatal, AuthUser } from '../../models';
+import { AuthState, CreateUser, SocialProfile, UserAvatal, AuthUser, ResultModel } from '../../models';
 
 @Injectable()
 export class AuthService {
@@ -24,8 +24,11 @@ export class AuthService {
         private httpClient: HttpClient,
     ) {}
 
-    async signIn(email: string, password: string): Promise<boolean> {
-        let success: boolean = false;
+    async signIn(email: string, password: string): Promise<ResultModel> {
+        let success: ResultModel = {
+            status: false,
+            message: ''
+        };
         await this.authFire.signInWithEmailAndPassword(email, password).then(async result => {
             await this.db.collection('users').doc(result.user.uid).get().subscribe(async (snapshot) => {
                 const user: firebase.firestore.DocumentData = snapshot.data();
@@ -35,7 +38,11 @@ export class AuthService {
                 this.router.navigate(['/']);
             });
         }).catch(err => {
-            success = true;
+            const message: string = err.code === 'auth/user-not-found' ?  'Неправильний логин' : 'Неправильний пароль';
+            success = {
+                status: true,
+                message
+            };
         });
 
         return success;
@@ -62,7 +69,7 @@ export class AuthService {
             await this.writeUserToCollection(result.user.uid, fullName, email);
             result.user.sendEmailVerification();
             this.router.navigate(['/sign-in']);
-        }).catch(err => {
+        }).catch(() => {
             success = true;
         });
 
@@ -70,9 +77,9 @@ export class AuthService {
     }
 
     async resetPassword(email: string): Promise<string> {
-        let message: string = 'Check your email';
+        let message: string = 'Запит пройшов успішно, перевірте Вашу пошту';
 
-        await this.authFire.sendPasswordResetEmail(email).catch(err => message = err.message);
+        await this.authFire.sendPasswordResetEmail(email).catch(err => message = 'Користувача з такою поштою не знайдено');
 
         return message;
     }
@@ -130,7 +137,7 @@ export class AuthService {
 
     async getUserId(): Promise<string>  {
         let userId: string;
-        this.store.select('authStore').subscribe((data: AuthState) =>  userId = data.user.userId);
+        this.store.select('authStore').subscribe((data: AuthState) =>  userId = data.user ? data.user.userId : null);
 
         return userId;
     }
@@ -144,7 +151,7 @@ export class AuthService {
 
     async getUserRole(): Promise<string>  {
         let userRole: string;
-        this.store.select('authStore').subscribe((data: AuthState) =>  userRole = data.user.role);
+        this.store.select('authStore').subscribe((data: AuthState) =>  userRole = data.user ? data.user.role : null);
 
         return userRole;
     }
@@ -205,5 +212,6 @@ export class AuthService {
     signOut(): void {
         this.authFire.signOut();
         this.store.dispatch(new DeleteAuth());
+        localStorage.removeItem('deputies-app');
     }
 }
