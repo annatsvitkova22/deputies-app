@@ -192,16 +192,21 @@ export class AuthService {
 
     async checkToken(): Promise<boolean> {
         let isValid: boolean;
-        await this.getTokenResponse().toPromise().then((res) => {
-            isValid = true;
-        }).catch(err => isValid = false);
+        const token: string = localStorage.getItem('deputies-app');
+        if (token) {
+            await this.getTokenResponse(token).toPromise().then((res) => {
+                isValid = true;
+            }).catch(err => isValid = false);
+        } else {
+            isValid = false;
+        }
 
         return isValid;
     }
 
-    getTokenResponse(): Observable<any> {
+    getTokenResponse(token: string): Observable<any> {
         return this.httpClient.post(this.checkTokenPath, {
-            token: localStorage.getItem('deputies-app'),
+            token
         }).pipe(catchError(this.errorHandler));
     }
 

@@ -20,6 +20,7 @@ export class DeputiesComponent implements OnInit {
     parties: Party[];
     districts: District[];
     isLoader: boolean = true;
+    isLoaderDeputy: boolean;
     settings: Settings;
     form = new FormGroup({
         sort: new FormControl(null)
@@ -30,6 +31,7 @@ export class DeputiesComponent implements OnInit {
         {name: 'За к-стю виконаних ', id: '3'}
     ];
     isCreateAppeal: boolean;
+    count: number;
 
     constructor(
         private deputyService: DeputyService,
@@ -40,10 +42,11 @@ export class DeputiesComponent implements OnInit {
     ){}
 
     async ngOnInit(): Promise<void> {
+        this.count = 5;
         this.settings = await this.mainService.getSettings();
         const sortValue = Number(this.settings.sorting);
         this.form.controls['sort'].patchValue(this.sorting[sortValue - 1]);
-        this.deputies = await this.deputyService.getAllDeputy(this.settings, 'deputies');
+        this.deputies = await this.deputyService.getAllDeputy(this.settings, this.count, 'deputies');
         this.districts = await this.appealService.getDistricts();
         this.parties = await this.deputyService.getParties();
         const userRole: string = await this.authService.getUserRole();
@@ -63,11 +66,18 @@ export class DeputiesComponent implements OnInit {
             };
             this.store.dispatch(new EditSettings(settings));
             const settingsStore = await this.mainService.getSettings();
-            this.deputies = await this.deputyService.getAllDeputy(settingsStore, 'deputies');
+            this.deputies = await this.deputyService.getAllDeputy(settingsStore, this.count, 'deputies');
         }
     }
 
     async changeAppeals(settings: Settings): Promise<void> {
-        this.deputies = await this.deputyService.getAllDeputy(settings, 'deputies');
+        this.deputies = await this.deputyService.getAllDeputy(settings, this.count, 'deputies');
+    }
+
+    async onScroll() {
+        this.isLoaderDeputy = true;
+        this.count = this.count + 3;
+        this.deputies = await this.deputyService.getAllDeputy(this.settings, this.count, 'deputies');
+        this.isLoaderDeputy = false;
     }
 }

@@ -17,6 +17,7 @@ import { NgbdModalContent } from '../../components/modal/modal.component';
 export class ConfirmAppealComponent implements OnInit {
     // tslint:disable-next-line: no-inferrable-types
     isLoader: boolean = true;
+    isLoadFile: boolean;
     appealId: string;
     title: string;
     loadedFiles: LoadedFile[] = [];
@@ -57,6 +58,7 @@ export class ConfirmAppealComponent implements OnInit {
     }
 
     async onFileChange(event): Promise<void> {
+        this.isLoadFile = true;
         const file: File = event.target.files[0];
         if (file) {
             const size: string = (event.target.files[0].size * 0.001).toFixed(1) + ' mb';
@@ -72,6 +74,7 @@ export class ConfirmAppealComponent implements OnInit {
             };
             this.loadedFiles.push(loadedFile);
         }
+        this.isLoadFile = false;
     }
 
     deleteFile(path: string): void {

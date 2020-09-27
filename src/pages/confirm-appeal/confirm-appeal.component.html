@@ -1,4 +1,4 @@
-<app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
+<app-loader *ngIf="isLoader"></app-loader>
 <app-header *ngIf="!isLoader"></app-header>
 <main *ngIf="!isLoader" class="main">
     <div class="container container__small mt-28">
@@ -21,6 +21,7 @@
                     *ngFor="let loadedFile of loadedFiles"
                 ></app-uploaded-file>
             </div>
+            <app-loader *ngIf="isLoadFile" [class]="'mb-10 loader-medium'"></app-loader>
             <div class="form-group">
                 <button  (click)="uploadInput.click()" class="upload-file btn btn__small">Завантажити файли</button>
                 <input 

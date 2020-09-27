@@ -45,7 +45,7 @@
         display: none;
         position: fixed;
         z-index: 3;
-        bottom: 0;
+        bottom: 15px;
         left: 16px;
         width: calc(100% - 32px);
     }
@@ -189,6 +189,7 @@
 
         &__mobile-button {
             display: block;
+            padding: 15px 20px;
         }
 
         &__mobile-menu {

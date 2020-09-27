@@ -200,7 +200,7 @@ export class DeputyService {
         return deputyRef;
     }
 
-    async setFilter(ref, settings: Settings) {
+    async setFilter(ref, settings: Settings, count: number) {
         let dateRef = this.sortingDeputy(ref, settings);
         let date = [];
         let promises = [];
@@ -233,17 +233,17 @@ export class DeputyService {
             await Promise.all(promises.map(fn => fn()));
             return date;
         }
-        const resultSpans = await dateRef.get();
+        const resultSpans = await dateRef.limit(count).get();
         date = date.concat(resultSpans.docs);
         return date;
     }
 
-    async getAllDeputy(settings: Settings, type: string = null): Promise<Deputy[]> {
+    async getAllDeputy(settings: Settings, count: number, type: string = null): Promise<Deputy[]> {
         let deputies;
         let snapshots;
         if (type === 'deputies') {
             const ref = this.db.collection('users').ref;
-            snapshots = await this.setFilter(ref, settings);
+            snapshots = await this.setFilter(ref, settings, count);
         } else {
             deputies = await this.db.collection('users', ref => this.sortingDeputy(ref, settings)).get().toPromise();
             snapshots = deputies.docs;

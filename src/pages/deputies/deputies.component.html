@@ -17,13 +17,16 @@
                 </ng-select>
             </div>
         </div>
-        <div>
-            <app-small-card
-                    [isCreateAppeal]="isCreateAppeal"
-                    [deputy]="deputy"
-                    *ngFor="let deputy of deputies"
-            >
-            </app-small-card>
-        </div>
+        <infinite-scroll (scrolled)="onScroll()" style="height: 600px;">
+            <div>
+                <app-small-card
+                        [isCreateAppeal]="isCreateAppeal"
+                        [deputy]="deputy"
+                        *ngFor="let deputy of deputies"
+                >
+                </app-small-card>
+            </div>
+            <app-loader *ngIf="isLoaderDeputy" [class]="'mb-30 loader-medium'" ></app-loader>
+        </infinite-scroll>
     </div>
 </main>

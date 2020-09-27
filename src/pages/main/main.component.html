@@ -1,4 +1,4 @@
-<app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
+<app-loader *ngIf="isLoader"></app-loader>
 <app-header *ngIf="!isLoader"></app-header>
 <main *ngIf="!isLoader" class="main">
     <div class="container">
@@ -16,11 +16,14 @@
                         </div>
                     </div>
                 </div>
-                <app-appeal-card
-                    [appeal]="appeal"
-                    *ngFor="let appeal of appeals"
-                >
-                </app-appeal-card>
+                <infinite-scroll (scrolled)="onScroll()" style="height: 600px;">
+                    <app-appeal-card
+                        [appeal]="appeal"
+                        *ngFor="let appeal of appeals"
+                    >
+                    </app-appeal-card>
+                    <app-loader *ngIf="isLoaderAppeal" [class]="'mb-30 loader-medium'" ></app-loader>
+                </infinite-scroll>
             </div>
             <div class="main__deputy">
                 <div class="mb-34 d-flex justify-content-between">
@@ -36,13 +39,15 @@
                         </ng-select>
                     </div>
                 </div>
-                <div class="main__deputy-list">
-                    <app-deputy-card
-                        [deputy]="deputy"
-                        *ngFor="let deputy of deputies"
-                    >
-                    </app-deputy-card>
-                </div>
+                <infinite-scroll (scrolled)="onDeputyScroll()" style="height: 650px;">
+                    <div class="main__deputy-list">
+                        <app-deputy-card
+                            [deputy]="deputy"
+                            *ngFor="let deputy of deputies"
+                        >
+                        </app-deputy-card>
+                    </div>
+                </infinite-scroll>
             </div>
         </div>
     </div>

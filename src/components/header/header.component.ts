@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../auth/auth.service';
@@ -47,11 +47,27 @@ export class HeaderComponent implements OnInit {
             this.shortName = userAvatar.shortName;
         }
         const userRole: string = await this.authService.getUserRole();
-        if (userRole === 'deputy' || this.path === 'create-appeal') {
+        if (userRole === 'deputy' || this.path === 'create-appeal'  || this.path === 'sign-in'
+        || this.path === 'sign-up'  || this.path === 'reset-password') {
             this.isCreateAppeal = false;
         } else {
             this.isCreateAppeal = true;
         }
+    }
+
+
+    @HostListener('document:click', ['$event'])
+    @HostListener('document:touchstart', ['$event'])
+    handleOutsideClick(event) {
+        const elementRef = document.getElementsByClassName('avatar avatar__medium');
+        if (elementRef && elementRef[0] !== event.target && this.isDropdown) {
+            this.isDropdown = false;
+        }
+    }
+
+    onMobileLink() {
+        const bodyElement = document.getElementsByTagName('body');
+        bodyElement[0].style.overflow = 'visible';
     }
 
     isCurrentRoute(route: string): boolean {
@@ -66,7 +82,7 @@ export class HeaderComponent implements OnInit {
             bodyElement[0].style.overflow = 'hidden';
         } else {
             const bodyElement = document.getElementsByTagName('body');
-            bodyElement[0].style.overflow = 'auto';
+            bodyElement[0].style.overflow = 'visible';
         }
     }
 

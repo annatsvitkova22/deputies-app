@@ -26,10 +26,10 @@
         color: $gray-7;
     }
 
-    &__deputy-list {
-        max-height: 650px;
-        overflow-y: scroll;
-    }
+    // &__deputy-list {
+    //     max-height: 650px;
+    //     overflow-y: scroll;
+    // }
 
     .input {
         max-width: 135px;
@@ -52,7 +52,7 @@
     &-append {
         position: absolute;
         right: 20px;
-        top: 10px;
+        top: 11px;
     }
 }
 

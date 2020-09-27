@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
 
 import { AppealService } from '../../appeal/appeal.service';
-import { District, ResultModel, UserAvatal, UserAvatarForm } from '../../../models';
+import { District, ResultModel, UserAvatal, UserAvatarForm, AuthState } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
 import { SettingsService } from '../settings.service';
 import { Party } from '../../../models';
+import { MainState } from '../../../store/main.state';
+import { AddAuth } from '../../../store/auth.action';
 
 @Component({
     selector: 'app-change-info',
@@ -24,6 +27,7 @@ export class ChangeInfoComponent implements OnInit {
     parties: Party[];
     userAvatar: UserAvatal;
     userRole: string;
+    userStore: AuthState;
     // tslint:disable-next-line: no-inferrable-types
     isLoader: boolean = true;
     class: string;
@@ -31,14 +35,15 @@ export class ChangeInfoComponent implements OnInit {
     constructor(
         private appealService: AppealService,
         private authService: AuthService,
-        private settingsService: SettingsService
+        private settingsService: SettingsService,
+        private store: Store<MainState>,
     ){}
 
     async ngOnInit(): Promise<void> {
         const user = await this.settingsService.getUser();
         this.userRole = await this.authService.getUserRole();
         this.userAvatar = await this.authService.getUserImage();
-        this.model = user.date;
+        // this.model = user.date;
         if (this.userRole === 'deputy') {
             this.form.addControl('patronymic', new FormControl('', Validators.required));
             this.form.addControl('description', new FormControl(null));
@@ -86,6 +91,22 @@ export class ChangeInfoComponent implements OnInit {
         } else {
             result = await this.settingsService.updateUser(data.userForm, data.userAvatar.imageUrl);
         }
+        let authStore ;
+        this.store.select('authStore').subscribe((data: AuthState) => {
+            authStore = {
+                isAuth: data.isAuth,
+                user: {
+                    userId: data.user.userId,
+                    role: data.user.role,
+                    name: data.user.name,
+                    email: data.user.email,
+                    imageUrl: this.userAvatar ? this.userAvatar.imageUrl : null,
+                    shortName: data.user.shortName,
+                },
+            };
+        } );
+        this.store.dispatch(new AddAuth(authStore));
+
         return result;
     }
 

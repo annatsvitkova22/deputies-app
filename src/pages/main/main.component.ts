@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { Store } from '@ngrx/store';
 
 import { DeputyService } from '../../components/deputy/deputy.service';
-import { Deputy, AppealCard, District, Settings } from '../../models';
+import { Deputy, AppealCard, District, Settings, Select } from '../../models';
 import { MainService } from './main.service';
 import { AppealService } from '../../components/appeal/appeal.service';
 import { MainState } from '../../store/main.state';
@@ -22,17 +22,20 @@ export class MainComponent implements OnInit {
     districts: District[];
     settings: Settings;
     isLoader: boolean = true;
+    isLoaderAppeal: boolean;
     model: NgbDateStruct;
     form = new FormGroup({
         sort: new FormControl(null),
         date: new FormControl(null)
     });
     date: string;
-    sorting = [
+    sorting: Select[] = [
         {name: 'За рейтингом', id: '1'},
         {name: 'За к-стю запитів', id: '2'},
         {name: 'За к-стю виконаних ', id: '3'}
     ];
+    count: number;
+    deputyCount: number;
 
     constructor(
         private deputyService: DeputyService,
@@ -42,13 +45,29 @@ export class MainComponent implements OnInit {
     ){}
 
     async ngOnInit(): Promise<void> {
+        this.count = 5;
+        this.deputyCount = 10;
         this.settings = await this.mainService.getSettings();
         this.districts = await this.appealService.getDistricts();
         const sortValue = Number(this.settings.sorting);
         this.form.controls['sort'].patchValue(this.sorting[sortValue - 1]);
-        this.deputies = await this.deputyService.getAllDeputy(this.settings);
-        this.appeals = await this.mainService.getAppeal(this.settings);
+        this.deputies = await this.deputyService.getAllDeputy(this.settings, this.deputyCount);
+        this.appeals = await this.mainService.getAppeal(this.settings, this.count);
         this.isLoader = false;
+    }
+
+    async onScroll() {
+        console.log('111111')
+        this.isLoaderAppeal = true;
+        this.count = this.count + 5;
+        this.appeals = await this.mainService.getAppeal(this.settings, this.count);
+        this.isLoaderAppeal = false;
+    }
+
+    async onDeputyScroll() {
+        console.log('111111')
+        this.deputyCount = this.deputyCount + 5;
+        this.deputies = await this.deputyService.getAllDeputy(this.settings, this.deputyCount);
     }
 
     async onSaveSorting(): Promise<void> {
@@ -58,7 +77,7 @@ export class MainComponent implements OnInit {
         };
         this.store.dispatch(new EditSettings(settings));
         const settingsStore = await this.mainService.getSettings();
-        this.deputies = await this.deputyService.getAllDeputy(settingsStore);
+        this.deputies = await this.deputyService.getAllDeputy(settingsStore, this.deputyCount);
     }
 
     async onSaveDate(): Promise<void> {
@@ -70,10 +89,10 @@ export class MainComponent implements OnInit {
         };
         this.store.dispatch(new EditSettings(settings));
         const setting = await this.mainService.getSettings();
-        this.appeals = await this.mainService.getAppeal(setting);
+        this.appeals = await this.mainService.getAppeal(setting, this.count);
     }
 
     async changeAppeals(settings: Settings): Promise<void> {
-        this.appeals = await this.mainService.getAppeal(settings);
+        this.appeals = await this.mainService.getAppeal(settings, this.count);
     }
 }

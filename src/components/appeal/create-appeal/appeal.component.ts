@@ -29,6 +29,7 @@ export class AppealComponent implements OnInit {
     loadedFiles: LoadedFile[] = [];
     // tslint:disable-next-line: no-inferrable-types
     isLoader: boolean = true;
+    isLoadFile: boolean;
 
     constructor(
         private appealService: AppealService,
@@ -50,6 +51,7 @@ export class AppealComponent implements OnInit {
     }
 
     async onFileChange(event): Promise<void> {
+        this.isLoadFile = true;
         const file: File = event.target.files[0];
         if (file) {
             const size: string = (event.target.files[0].size * 0.001).toFixed(1) + ' mb';
@@ -65,6 +67,7 @@ export class AppealComponent implements OnInit {
             };
             this.loadedFiles.push(loadedFile);
         }
+        this.isLoadFile = false;
     }
 
     async onSubmit(): Promise<void> {

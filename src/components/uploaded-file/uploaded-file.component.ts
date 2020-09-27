@@ -12,8 +12,6 @@ export class UploadedFileComponent {
     constructor(){}
 
     onDelete(name: string): void {
-        console.log('12312312321')
-        console.log('name', name)
         this.deleteFileName.emit(name);
     }
 }

@@ -23,7 +23,7 @@ export class MainService {
         return result;
     }
 
-    async setFilter(ref, settings: Settings) {
+    async setFilter(ref, settings: Settings, count: number) {
         let dateRef = ref.orderBy('updateDate', 'desc');
         let date = [];
         let promises = [];
@@ -62,7 +62,7 @@ export class MainService {
             await Promise.all(promises.map(fn => fn()));
             return date;
         }
-        const resultSpans = await dateRef.get();
+        const resultSpans = await dateRef.limit(count).get();
         date = date.concat(resultSpans.docs);
         return date;
     }
@@ -88,9 +88,9 @@ export class MainService {
     }
 
 
-    async getAppeal(settings): Promise<AppealCard[]> {
+    async getAppeal(settings: Settings, count: number): Promise<AppealCard[]> {
         const ref = this.db.collection('appeals').ref;
-        let snapshots = await this.setFilter(ref, settings);
+        let snapshots = await this.setFilter(ref, settings, count);
         if (snapshots.length) {
             snapshots = snapshots.map(snapshot => async () =>  {
                 const data: firebase.firestore.DocumentData = snapshot.data();
