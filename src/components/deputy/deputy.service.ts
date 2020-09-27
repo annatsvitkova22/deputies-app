@@ -57,9 +57,20 @@ export class DeputyService {
         return name;
     }
 
+    filterAppealsByUser(ref, userId: string, count: number, type: string = null) {
+        let dataRef = ref.where('userId', '==', userId);
+        if (type) {
+            dataRef = dataRef.where('status', '==', type);
+        }
+        dataRef = dataRef.limit(count).orderBy('updateDate', 'desc');
 
-    async getAppealByUser(userId: string, userAvatar: UserAvatal, userName: string ): Promise<AppealCard[]> {
-        let appealspans: any = await this.db.collection('appeals', ref => ref.where('userId', '==', userId)).get().toPromise();
+        return dataRef;
+    }
+
+
+    async getAppealByUser(userId: string, userAvatar: UserAvatal, userName: string, count: number, type: string = null ): Promise<AppealCard[]> {
+        // tslint:disable-next-line: max-line-length
+        let appealspans: any = await this.db.collection('appeals', ref => this.filterAppealsByUser(ref, userId, count, type)).get().toPromise();
         if (appealspans.size) {
             appealspans = appealspans.docs.map(appeal => async () => {
                 const data = appeal.data();
@@ -120,10 +131,20 @@ export class DeputyService {
         return counter;
     }
 
+    filterAppeals(ref, deputyId: string, count: number, type: string = null) {
+        let dataRef = ref.where('deputyId', '==', deputyId);
+        if (type) {
+            dataRef = dataRef.where('status', '==', type);
+        }
+        dataRef = dataRef.limit(count).orderBy('updateDate', 'desc');
 
-    async getAppeal(deputyId: string, deputy: UserAccount): Promise<AppealCard[]> {
+        return dataRef;
+    }
+
+
+    async getAppeal(deputyId: string, deputy: UserAccount, count: number, type: string = null): Promise<AppealCard[]> {
         // tslint:disable-next-line: max-line-length
-        let appealspans: any = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId)).get().toPromise();
+        let appealspans: any = await this.db.collection('appeals', ref => this.filterAppeals(ref, deputyId, count, type)).get().toPromise();
         if (appealspans.size) {
             appealspans = appealspans.docs.map(appeal => async () => {
                 const data = appeal.data();
@@ -173,13 +194,16 @@ export class DeputyService {
         return appeal;
     }
 
-    getCountAppeal(appeals: AppealCard[]): CountAppeals[] {
-        const inProcess: AppealCard[] = appeals.filter(appeal => appeal.status === 'В роботі');
-        const done: AppealCard[] = appeals.filter(appeal => appeal.status === 'Виконано');
+    async getCountAppeal(id: string, type: string): Promise<CountAppeals[]> {
+        const appeals = await this.db.collection('appeals', ref => ref.where(type, '==', id)).get().toPromise();
+        // tslint:disable-next-line: max-line-length
+        const inProcess = await this.db.collection('appeals', ref => ref.where(type, '==', id).where('status', '==', 'В роботі')).get().toPromise();
+        // tslint:disable-next-line: max-line-length
+        const done = await this.db.collection('appeals', ref => ref.where(type, '==', id).where('status', '==', 'Виконано')).get().toPromise();
         const countAppeals: CountAppeals[] = [
-            {name: 'Запитів', count: appeals.length},
-            {name: 'В роботі', count: inProcess.length},
-            {name: 'Виконано', count: done.length},
+            {name: 'Запитів', count: appeals.size},
+            {name: 'В роботі', count: inProcess.size},
+            {name: 'Виконано', count: done.size},
         ];
 
         return countAppeals;
@@ -279,21 +303,6 @@ export class DeputyService {
             return Promise.all(deputies.map(fn => fn()));
         }
         return [];
-    }
-
-    async getAppealsCountById(deputyId: string): Promise<CountAppeals[]> {
-        const appeals = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId)).get().toPromise();
-        // tslint:disable-next-line: max-line-length
-        const inProcess = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId).where('status', '==', 'В роботі')).get().toPromise();
-        // tslint:disable-next-line: max-line-length
-        const done = await this.db.collection('appeals', ref => ref.where('deputyId', '==', deputyId).where('status', '==', 'Виконано')).get().toPromise();
-        const countAppeals: CountAppeals[] = [
-            {name: 'Запитів', count: appeals.size},
-            {name: 'В роботі', count: inProcess.size},
-            {name: 'Виконано', count: done.size}
-        ];
-
-        return countAppeals;
     }
 
     async getParties(): Promise<Party[]> {

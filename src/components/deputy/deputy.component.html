@@ -13,7 +13,10 @@
                         {{deputy.description}}
                     </p>
                 </div>
-                <app-tab [appeals]="appeals"></app-tab>
+                <infinite-scroll (scrolled)="onScroll()" style="height: 600px;">
+                    <app-tab (selectType)="onFilter($event)" [appeals]="appeals"></app-tab>
+                    <app-loader *ngIf="isLoadAppeal" [class]="'mb-30 loader-medium'" ></app-loader>
+                </infinite-scroll>
             </div>
         </div>
     </div>

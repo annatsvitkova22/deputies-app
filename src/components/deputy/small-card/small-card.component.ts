@@ -20,7 +20,7 @@ export class SmallCardComponent implements OnInit {
     ){}
 
     async ngOnInit(): Promise<void> {
-        this.countAppeals = await this.deputyService.getAppealsCountById(this.deputy.id);
+        this.countAppeals = await this.deputyService.getCountAppeal(this.deputy.id, 'deputyId');
         this.isLoader = false;
     }
 }

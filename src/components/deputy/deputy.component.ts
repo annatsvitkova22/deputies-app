@@ -16,8 +16,11 @@ export class DeputyComponent implements OnInit {
     appeals: AppealCard[];
     // tslint:disable-next-line: no-inferrable-types
     isLoader: boolean = true;
+    isLoadAppeal: boolean;
     countAppeals: CountAppeals[] = [];
     isButton: boolean;
+    count: number;
+    type: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -29,10 +32,11 @@ export class DeputyComponent implements OnInit {
         this.route.params.subscribe(params => {
             this.deputyId = params['id'];
         });
-
+        this.type = null;
+        this.count = 3;
         this.deputy = await this.deputyService.getDeputy(this.deputyId);
-        this.appeals = await this.deputyService.getAppeal(this.deputyId, this.deputy);
-        this.countAppeals = await this.deputyService.getCountAppeal(this.appeals);
+        this.appeals = await this.deputyService.getAppeal(this.deputyId, this.deputy, this.count);
+        this.countAppeals = await this.deputyService.getCountAppeal(this.deputyId, 'deputyId');
         const userRole: string = await this.authService.getUserRole();
         if (userRole === 'deputy') {
             this.isButton = false;
@@ -40,5 +44,22 @@ export class DeputyComponent implements OnInit {
             this.isButton = true;
         }
         this.isLoader = false;
+    }
+
+    async onScroll(): Promise<void> {
+        this.isLoadAppeal = true;
+        this.count = this.count + 3;
+        this.appeals = await this.deputyService.getAppeal(this.deputyId, this.deputy, this.count, this.type);
+        this.isLoadAppeal = false;
+    }
+
+    async onFilter(type): Promise<void> {
+        this.isLoadAppeal = true;
+        this.appeals = [];
+        this.count = 3;
+        const thisType = type === 'Усi' ? null : type;
+        this.type = thisType;
+        this.appeals = await this.deputyService.getAppeal(this.deputyId, this.deputy, this.count, thisType);
+        this.isLoadAppeal = false;
     }
 }

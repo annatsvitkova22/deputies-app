@@ -7,7 +7,7 @@
                 [isButton]="true"
                 [link]="'/edit'" [linkName]="'Редагувати профіль'" [countAppeals]="countAppeals" [user]="user ? user : deputy"></app-account-card
                 >
-            <div>
+            <div class="w-100">
                 <div *ngIf="user.role=='deputy' && deputy.description" class="deputy-info__wrapper card-shadow">
                     <h2 class="deputy-info__title font-weight-600">
                         Загальнi вiдомостi
@@ -17,9 +17,12 @@
                     </p>
                     <p (click)="onRead()" class="auth-btn-link mt-12">{{isMoreText ? 'Меньше' : 'Більше'}}</p>
                 </div>
-                <div class="w-100">
-                    <app-tab [appeals]="appeals"></app-tab>
-                </div>
+                <infinite-scroll (scrolled)="onScroll()" style="height: 600px;">
+                    <div class="w-100">
+                        <app-tab (selectType)="onFilter($event)" [appeals]="appeals"></app-tab>
+                    </div>
+                    <app-loader *ngIf="isLoaderAppeal" [class]="'mb-30 loader-medium'" ></app-loader>
+                </infinite-scroll>
             </div>
         </div>
     </div>
