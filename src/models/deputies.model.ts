@@ -51,6 +51,7 @@ export interface Appeal {
     updateDate: number;
     fileUrl?: string[];
     fileImageUrl?: string[];
+    isBlock?: boolean;
 }
 
 export interface AppealCard {
@@ -108,4 +109,8 @@ export interface Comment {
 export interface ResultComment {
     status: boolean;
     comment?: Comment;
+}
+
+export interface BlockAppeal {
+    id: string;
 }

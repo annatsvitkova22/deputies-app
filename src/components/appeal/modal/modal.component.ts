@@ -25,6 +25,8 @@ export class ModalComponent implements OnInit, OnDestroy {
     comment: string;
     isHidden: boolean = true;
     isButton: boolean;
+    isBlockAppeal: boolean;
+    isLoaderBlock: boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -87,14 +89,22 @@ export class ModalComponent implements OnInit, OnDestroy {
         this.isHidden = !this.isHidden;
     }
 
-    onComplain (id: string) {
-        console.log('1111', id)
+    async onComplain(id: string): Promise<void> {
+        this.isLoaderBlock = true;
+        this.isBlockAppeal = await this.appealService.blockAppeal(id);
+        if (this.isBlockAppeal) {
+            this.isLoaderBlock = false;
+            window.alert('Ваша скарга в обробці');
+        } else {
+            this.isLoaderBlock = false;
+            window.alert('Виникла помилка, спробуйте ще раз.');
+        }
     }
 
     async onWork(id: string, status: string): Promise<void> {
         const newStatus = status === 'До виконання' ? 'В роботі' : 'Виконано';
         if (newStatus === 'Виконано') {
-            this.router.navigate(['/confirm-appeal', this.appeal.id]);
+            await this.router.navigate(['/confirm-appeal', this.appeal.id]);
             this.activeModal.dismiss('Cross click');
         } else {
             const result = await this.appealService.updateAppeals(id, newStatus);
@@ -107,27 +117,28 @@ export class ModalComponent implements OnInit, OnDestroy {
     }
 
     async sendComment(): Promise<void> {
-        this.txtInput.nativeElement.blur();
-        const user: AuthUser = await this.authService.getUserById();
-        const isBackground: boolean = this.appeal.userId === user.userId ? true : false;
-        const comment: Comment = {
-            message: this.comment,
-            isBackground
-        };
-        this.comment = null;
-        const newComment: ResultComment = await this.appealService.createComment(comment, this.appeal.id);
-        if (newComment.status) {
-            const commentModal: Comment = {
-                message: newComment.comment.message,
-                date: moment(newComment.comment.date).format('DD-MM-YYYY hh:mm'),
-                appealId: newComment.comment.appealId,
-                userId: newComment.comment.userId,
-                autorName: user.name,
-                imageUrl: user.imageUrl,
-                shortName: user.shortName,
+        if (this.comment) {
+            const user: AuthUser = await this.authService.getUserById();
+            const isBackground: boolean = this.appeal.userId === user.userId ? true : false;
+            const comment: Comment = {
+                message: this.comment,
                 isBackground
             };
-            this.comments = [commentModal, ...this.comments];
+            this.comment = null;
+            const newComment: ResultComment = await this.appealService.createComment(comment, this.appeal.id);
+            if (newComment.status) {
+                const commentModal: Comment = {
+                    message: newComment.comment.message,
+                    date: moment(newComment.comment.date).format('DD-MM-YYYY hh:mm'),
+                    appealId: newComment.comment.appealId,
+                    userId: newComment.comment.userId,
+                    autorName: user.name,
+                    imageUrl: user.imageUrl,
+                    shortName: user.shortName,
+                    isBackground
+                };
+                this.comments = [commentModal, ...this.comments];
+            }
         }
     }
 }

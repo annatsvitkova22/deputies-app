@@ -25,6 +25,7 @@ export class MainService {
 
     async setFilter(ref, settings: Settings, count: number) {
         let dateRef = ref.orderBy('updateDate', 'desc');
+        dateRef = dateRef.where('isBlock', '==', false);
         let date = [];
         let promises = [];
         if (settings.date) {

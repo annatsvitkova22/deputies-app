@@ -17,7 +17,21 @@
     }
 
     &__comment {
+        max-height: 50px;
         margin-left: 20px;
+        padding: 14px 16px 14px;
+    }
+
+    &__comment-section {
+        position: relative;
+    }
+
+    &__comment-btn {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
     }
 
     &__button {

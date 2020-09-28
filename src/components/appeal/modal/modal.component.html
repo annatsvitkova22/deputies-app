@@ -80,18 +80,19 @@
                         </button>
                     </div>
                 </div>
-                <div *ngIf="isWriteComment" class="mt-12 mb-20 d-flex align-items-center">
+                <div *ngIf="isWriteComment" class="modal__comment-section mt-12 mb-20 d-flex align-items-center">
                     <app-avatar [imageUrl]="userAvatal.imageUrl" [name]="userAvatal.shortName"></app-avatar>
                     <textarea
-                        #txtInput
                         class="input textarea modal__comment"
                         placeholder="Написати комментар..."
                         [(ngModel)] = "comment"
                         name="comment"
-                        (keyup.enter)="sendComment()"
                     >
-                    </textarea
-                    >
+                    </textarea>
+                    <svg class="modal__comment-btn" (click)="sendComment()" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="34" height="34" rx="17" fill="#5BCF0C"/>
+                        <path d="M12 15L17 10M17 10L22 15M17 10V24" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
                 <div *ngIf="comments.length && isHidden" class="mt-12">
                     <div *ngFor="let oneComment of comments" class="mb-20 d-flex">
@@ -147,8 +148,9 @@
                     </div>
                 </div>
                 <div *ngIf="isDeputy && appeal.status !== 'Виконано' && isButton" class="mt-14 d-flex modal__buttons">
-                    <button (click)="onWork(appeal.id, appeal.status)" class="mb-12 btn btn-green">{{textButton}}</button>
-                    <button *ngIf="appeal.status === 'До виконання'" (click)="onComplain(appeal.id)"  class="btn">Поскаржитися</button>
+                    <button *ngIf="!isBlockAppeal && !isLoaderBlock" (click)="onWork(appeal.id, appeal.status)" class="mb-12 btn btn-green">{{textButton}}</button>
+                    <button *ngIf="appeal.status === 'До виконання' && !isBlockAppeal && !isLoaderBlock" (click)="onComplain(appeal.id)"  class="btn">Поскаржитися</button>
+                    <app-loader *ngIf="isLoaderBlock" [class]="'mb-30 loader-medium'" ></app-loader>
                 </div>
             </div>
         </div>

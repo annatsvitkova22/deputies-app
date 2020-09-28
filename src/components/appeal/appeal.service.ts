@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import * as moment from 'moment';
+import { throwError, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-import { District, Deputy, ResultModel, Appeal, LoadedFile, Comment, ResultComment } from '../../models';
+import { District, Deputy, ResultModel, Appeal, LoadedFile, Comment, ResultComment, BlockAppeal } from '../../models';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class AppealService {
+    private blockAppealPath: string = 'https://us-central1-deputy-app.cloudfunctions.net/blockAppeal';
 
     constructor(
         private db: AngularFirestore,
         private authService: AuthService,
-        private storage: AngularFireStorage
+        private storage: AngularFireStorage,
+        private httpClient: HttpClient,
     ) {}
 
     async getDistricts(): Promise<District[]> {
@@ -28,6 +33,30 @@ export class AppealService {
         });
 
         return districts;
+    }
+
+    async blockAppeal(id: string): Promise<boolean> {
+        let result: boolean;
+        const data: BlockAppeal = {
+            id
+        };
+        await this.sendEmailDeputy(data).toPromise().then((res: boolean) => {
+            result = res;
+        }).catch(err => {
+            result = false;
+        });
+
+        return result;
+    }
+
+    sendEmailDeputy(data: BlockAppeal): Observable<any> {
+        return this.httpClient.post(this.blockAppealPath, data)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    // tslint:disable-next-line: typedef
+    errorHandler(error: HttpErrorResponse) {
+        return throwError(error.message || 'Server Error');
     }
 
     async getDeputy(): Promise<Deputy[]> {
@@ -68,6 +97,7 @@ export class AppealService {
             updateDate: moment().utc().valueOf(),
             fileUrl: urlFiles.length ? urlFiles : null,
             fileImageUrl: urlImages.length ? urlImages : null,
+            isBlock: false,
         };
         let result: ResultModel;
         await this.db.collection('appeals').add(appeal).then(async (res) => {

@@ -59,6 +59,7 @@ export class DeputyService {
 
     filterAppealsByUser(ref, userId: string, count: number, type: string = null) {
         let dataRef = ref.where('userId', '==', userId);
+        dataRef = dataRef.where('isBlock', '==', false);
         if (type) {
             dataRef = dataRef.where('status', '==', type);
         }
@@ -133,6 +134,7 @@ export class DeputyService {
 
     filterAppeals(ref, deputyId: string, count: number, type: string = null) {
         let dataRef = ref.where('deputyId', '==', deputyId);
+        dataRef = dataRef.where('isBlock', '==', false);
         if (type) {
             dataRef = dataRef.where('status', '==', type);
         }
@@ -194,12 +196,22 @@ export class DeputyService {
         return appeal;
     }
 
+    countFilter(ref, id: string, type: string, status: string = null) {
+        let dataRef = ref.where(type, '==', id);
+        dataRef = dataRef.where('isBlock', '==', false);
+        if (status) {
+            dataRef = dataRef.where('status', '==', status);
+        }
+
+        return dataRef;
+    }
+
     async getCountAppeal(id: string, type: string): Promise<CountAppeals[]> {
-        const appeals = await this.db.collection('appeals', ref => ref.where(type, '==', id)).get().toPromise();
+        const appeals = await this.db.collection('appeals', ref => this.countFilter(ref, id, type)).get().toPromise();
         // tslint:disable-next-line: max-line-length
-        const inProcess = await this.db.collection('appeals', ref => ref.where(type, '==', id).where('status', '==', 'В роботі')).get().toPromise();
+        const inProcess = await this.db.collection('appeals', ref => this.countFilter(ref, id, type, 'В роботі')).get().toPromise();
         // tslint:disable-next-line: max-line-length
-        const done = await this.db.collection('appeals', ref => ref.where(type, '==', id).where('status', '==', 'Виконано')).get().toPromise();
+        const done = await this.db.collection('appeals', ref => this.countFilter(ref, id, type, 'Виконано')).get().toPromise();
         const countAppeals: CountAppeals[] = [
             {name: 'Запитів', count: appeals.size},
             {name: 'В роботі', count: inProcess.size},
