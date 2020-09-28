@@ -2935,9 +2935,9 @@ class DeputyService {
             if (settings.districts) {
                 promises = settings.districts.map((district) => () => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
                     const reserveRef = dateRef.where('district', '==', district.id);
-                    if (settings.statuses) {
-                        promises = settings.statuses.map(status => () => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-                            const result = yield reserveRef.where('party', '==', status.id).get();
+                    if (settings.parties) {
+                        promises = settings.parties.map(party => () => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+                            const result = yield reserveRef.where('party', '==', party.id).limit(count).get();
                             date = date.concat(result.docs);
                             return date;
                         }));
@@ -2945,7 +2945,7 @@ class DeputyService {
                         return date;
                     }
                     else {
-                        const result = yield reserveRef.get();
+                        const result = yield reserveRef.limit(count).get();
                         date = date.concat(result.docs);
                         return date;
                     }
@@ -2955,7 +2955,7 @@ class DeputyService {
             }
             if (!settings.districts && settings.parties) {
                 promises = settings.parties.map(party => () => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-                    const result = yield dateRef.where('party', '==', party.id).get();
+                    const result = yield dateRef.where('party', '==', party.id).limit(count).get();
                     date = date.concat(result.docs);
                     return date;
                 }));
@@ -4455,7 +4455,7 @@ class MultiSelectComponent {
             let settings;
             if (this.type === 'districts') {
                 let districts = [];
-                if (this.selectedItems) {
+                if (this.selectedItems && this.selectedItems.length) {
                     this.selectedItems.map(item => {
                         districts.push(item);
                     });
@@ -4467,7 +4467,7 @@ class MultiSelectComponent {
             }
             else if (this.type === 'statuses') {
                 let statuses = [];
-                if (this.selectedItems) {
+                if (this.selectedItems && this.selectedItems.length) {
                     this.selectedItems.map(item => {
                         statuses.push(item);
                     });
@@ -4479,7 +4479,7 @@ class MultiSelectComponent {
             }
             else if (this.type === 'parties') {
                 let parties = [];
-                if (this.selectedItems) {
+                if (this.selectedItems && this.selectedItems.length) {
                     this.selectedItems.map(item => {
                         parties.push(item);
                     });
@@ -6067,9 +6067,9 @@ function DeputiesComponent_main_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("formGroup", ctx_r2.form);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("selectedItems", ctx_r2.settings.districts)("dropdownList", ctx_r2.districts)("type", "districts")("text", "\u0420\u0430\u0439\u043E\u043D");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("selectedItems", ctx_r2.selectDistricts)("dropdownList", ctx_r2.districts)("type", "districts")("text", "\u0420\u0430\u0439\u043E\u043D");
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("selectedItems", ctx_r2.settings.parties)("dropdownList", ctx_r2.parties)("type", "parties")("text", "\u041F\u0430\u0440\u0442\u0456\u044F");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("selectedItems", ctx_r2.selectParties)("dropdownList", ctx_r2.parties)("type", "parties")("text", "\u041F\u0430\u0440\u0442\u0456\u044F");
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("items", ctx_r2.sorting);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](3);
@@ -6093,11 +6093,14 @@ class DeputiesComponent {
             { name: 'За к-стю запитів', id: '2' },
             { name: 'За к-стю виконаних ', id: '3' }
         ];
+        this.selectDistricts = [];
+        this.selectParties = [];
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.count = 5;
             this.settings = yield this.mainService.getSettings();
+            this.selectedFilters();
             const sortValue = Number(this.settings.sorting);
             this.form.controls['sort'].patchValue(this.sorting[sortValue - 1]);
             this.deputies = yield this.deputyService.getAllDeputy(this.settings, this.count, 'deputies');
@@ -6112,6 +6115,18 @@ class DeputiesComponent {
             }
             this.isLoader = false;
         });
+    }
+    selectedFilters() {
+        if (this.settings.districts && this.settings.districts.length) {
+            this.settings.districts.map(district => {
+                this.selectDistricts.push(district);
+            });
+        }
+        if (this.settings.parties && this.settings.parties.length) {
+            this.settings.parties.map(party => {
+                this.selectParties.push(party);
+            });
+        }
     }
     onSaveSorting() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
@@ -6128,14 +6143,19 @@ class DeputiesComponent {
     }
     changeAppeals(settings) {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            this.isLoaderDeputy = true;
+            this.deputies = null;
+            this.count = 5;
             this.deputies = yield this.deputyService.getAllDeputy(settings, this.count, 'deputies');
+            this.isLoaderDeputy = false;
         });
     }
     onScroll() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.isLoaderDeputy = true;
             this.count = this.count + 3;
-            this.deputies = yield this.deputyService.getAllDeputy(this.settings, this.count, 'deputies');
+            const settings = yield this.mainService.getSettings();
+            this.deputies = yield this.deputyService.getAllDeputy(settings, this.count, 'deputies');
             this.isLoaderDeputy = false;
         });
     }
@@ -6657,9 +6677,9 @@ function MainComponent_main_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("formGroup", ctx_r2.form);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("selectedItems", ctx_r2.settings.districts)("dropdownList", ctx_r2.districts)("type", "districts")("text", "\u0420\u0430\u0439\u043E\u043D");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("selectedItems", ctx_r2.selectDistricts)("dropdownList", ctx_r2.districts)("type", "districts")("text", "\u0420\u0430\u0439\u043E\u043D");
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("selectedItems", ctx_r2.settings.statuses)("type", "statuses")("text", "\u0421\u0442\u0430\u0442\u0443\u0441");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("selectedItems", ctx_r2.selectedStatus)("type", "statuses")("text", "\u0421\u0442\u0430\u0442\u0443\u0441");
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](7);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵproperty"]("ngForOf", ctx_r2.appeals);
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](1);
@@ -6687,6 +6707,8 @@ class MainComponent {
             { name: 'За к-стю запитів', id: '2' },
             { name: 'За к-стю виконаних ', id: '3' }
         ];
+        this.selectDistricts = [];
+        this.selectedStatus = [];
     }
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
@@ -6699,6 +6721,7 @@ class MainComponent {
             this.count = 5;
             this.deputyCount = 10;
             this.settings = yield this.mainService.getSettings();
+            this.selectedFilters();
             this.districts = yield this.appealService.getDistricts();
             const sortValue = Number(this.settings.sorting);
             this.form.controls['sort'].patchValue(this.sorting[sortValue - 1]);
@@ -6706,6 +6729,18 @@ class MainComponent {
             this.appeals = yield this.mainService.getAppeal(this.settings, this.count);
             this.isLoader = false;
         });
+    }
+    selectedFilters() {
+        if (this.settings.districts && this.settings.districts.length) {
+            this.settings.districts.map(district => {
+                this.selectDistricts.push(district);
+            });
+        }
+        if (this.settings.statuses && this.settings.statuses.length) {
+            this.settings.statuses.map(status => {
+                this.selectedStatus.push(status);
+            });
+        }
     }
     openModal() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
@@ -6726,7 +6761,8 @@ class MainComponent {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.isLoaderAppeal = true;
             this.count = this.count + 5;
-            this.appeals = yield this.mainService.getAppeal(this.settings, this.count);
+            const settings = yield this.mainService.getSettings();
+            this.appeals = yield this.mainService.getAppeal(settings, this.count);
             this.isLoaderAppeal = false;
         });
     }
@@ -6751,6 +6787,8 @@ class MainComponent {
     }
     onSaveDate() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            this.isLoaderAppeal = true;
+            this.appeals = null;
             let date = this.form.value.date;
             date = date.year + '-' + date.month + '-' + date.day + 'T00:00:00';
             date = moment__WEBPACK_IMPORTED_MODULE_3__(date, 'YYYY-MM-DDTHH:mm:ss').utc().valueOf();
@@ -6760,11 +6798,16 @@ class MainComponent {
             this.store.dispatch(new _store_settings_action__WEBPACK_IMPORTED_MODULE_4__["EditSettings"](settings));
             const setting = yield this.mainService.getSettings();
             this.appeals = yield this.mainService.getAppeal(setting, this.count);
+            this.isLoaderAppeal = false;
         });
     }
     changeAppeals(settings) {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
+            this.isLoaderAppeal = true;
+            this.appeals = null;
+            this.count = 5;
             this.appeals = yield this.mainService.getAppeal(settings, this.count);
+            this.isLoaderAppeal = false;
         });
     }
 }
@@ -6846,7 +6889,7 @@ class MainService {
                     const reserveRef = dateRef.where('districtId', '==', district.id);
                     if (settings.statuses) {
                         promises = settings.statuses.map(status => () => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-                            const result = yield reserveRef.where('status', '==', status.name).get();
+                            const result = yield reserveRef.where('status', '==', status.name).limit(count).get();
                             date = date.concat(result.docs);
                             return date;
                         }));
@@ -6854,7 +6897,7 @@ class MainService {
                         return date;
                     }
                     else {
-                        const result = yield reserveRef.get();
+                        const result = yield reserveRef.limit(count).get();
                         date = date.concat(result.docs);
                         return date;
                     }
@@ -6864,7 +6907,7 @@ class MainService {
             }
             if (!settings.districts && settings.statuses) {
                 promises = settings.statuses.map(status => () => Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
-                    const result = yield dateRef.where('status', '==', status.name).get();
+                    const result = yield dateRef.where('status', '==', status.name).limit(count).get();
                     date = date.concat(result.docs);
                     return date;
                 }));
