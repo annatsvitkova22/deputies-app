@@ -8,7 +8,8 @@
                 </ng-template>
             </c-badge>
         </angular2-multiselect>
-        <div *ngIf="isDrop" class="select-button d-flex justify-content-between align-items-center">
+        <div *ngIf="isDrop" class="select-button d-flex justify-content-between align-items-center"
+        [ngStyle]="{bottom: bottomSection + 'px'}">
             <button [disabled]="selectedItems==null || selectedItems.length==0 ? true : false" class="select-clear" (click)="resetForm(f)">{{buttonText}}</button>
             <button class="btn btn__small btn-dark" (click)="saveOptions()">Зберегти</button>
         </div>

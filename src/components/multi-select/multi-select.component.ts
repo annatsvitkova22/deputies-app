@@ -24,6 +24,7 @@ export class MultiSelectComponent implements OnInit {
     isDrop: boolean = false;
     buttonText: string;
     counter: number;
+    bottomSection: number;
 
     constructor(
         private store: Store<MainState>,
@@ -49,6 +50,7 @@ export class MultiSelectComponent implements OnInit {
             classes: 'multi-select',
             badgeShowLimit: 1
         };
+        this.bottomSection = -90 - this.dropdownList.length * 40;
     }
 
     handlerOpen(): void {

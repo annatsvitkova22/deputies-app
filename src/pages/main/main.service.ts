@@ -128,4 +128,40 @@ export class MainService {
         }
         return [];
     }
+
+    async getAppealById(id: string): Promise<AppealCard> {
+        const appealSnap = await this.db.collection('appeals').doc(id).get().toPromise();
+        let appeal: AppealCard;
+        if (appealSnap) {
+            const data: firebase.firestore.DocumentData = appealSnap.data();
+            const deputy: Deputy = await this.deputyService.getDeputy(data.deputyId);
+            const messageSnaps: number = await this.getCountMessage(appealSnap.id);
+            const span = await this.db.collection('users').doc(data.userId).get().toPromise();
+            const user: firebase.firestore.DocumentData = span.data();
+            const name: string[] = user.name.split(' ');
+            // tslint:disable-next-line: max-line-length
+            const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
+            appeal = {
+                id: appealSnap.id,
+                title: data.title,
+                description: data.description,
+                deputyId: data.deputyId,
+                deputyName: deputy.name,
+                deputyImageUrl: deputy.imageUrl,
+                shortName: deputy.shortName,
+                party: deputy.party,
+                userName: user.name,
+                userImageUrl: user.imageUrl,
+                userId: data.userId,
+                shortNameUser: shortName,
+                status: data.status,
+                date: moment(data.date).format('DD-MM-YYYY'),
+                fileUrl: data.fileUrl,
+                fileImageUrl: data.fileImageUrl,
+                countFiles: data.fileUrl ? data.fileUrl.length : 0,
+                countComments: messageSnaps
+            };
+        }
+        return appeal;
+    }
 }

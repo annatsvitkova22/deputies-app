@@ -9,7 +9,7 @@
     width: 243px;
     z-index: 10;
     padding: 12px 16px;
-    bottom: -210px;
+    // bottom: -210px;
     background: $white;
     box-shadow: inset 0px 1px 0px $gray-14;
     border-radius: 0px 0px 16px 16px;
@@ -44,7 +44,7 @@
 
 @media only screen and (max-width: 375px) {
     .select-button {
-        bottom: -227px;
+        // bottom: -227px;
     } 
 }
 

@@ -32,6 +32,7 @@
     "moment": "^2.28.0",
     "ng": "0.0.0",
     "ng-multiselect-dropdown": "^0.2.10",
+    "ngx-facebook": "^3.0.0-0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

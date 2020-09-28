@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 
 import { DeputyService } from '../../components/deputy/deputy.service';
 import { Deputy, AppealCard, District, Settings, Select } from '../../models';
@@ -10,6 +11,7 @@ import { MainService } from './main.service';
 import { AppealService } from '../../components/appeal/appeal.service';
 import { MainState } from '../../store/main.state';
 import { EditSettings } from '../../store/settings.action';
+import { ModalComponent } from '../../components/appeal/modal/modal.component';
 
 @Component({
     selector: 'app-main',
@@ -36,15 +38,24 @@ export class MainComponent implements OnInit {
     ];
     count: number;
     deputyCount: number;
+    queryParams: string;
 
     constructor(
         private deputyService: DeputyService,
         private mainService: MainService,
         private appealService: AppealService,
         private store: Store<MainState>,
+        private route: ActivatedRoute,
+        private modalService: NgbModal,
     ){}
 
     async ngOnInit(): Promise<void> {
+        this.route.queryParams.subscribe(params => {
+            this.queryParams = params['id'];
+        });
+        if (this.queryParams) {
+            this.openModal();
+        }
         this.count = 5;
         this.deputyCount = 10;
         this.settings = await this.mainService.getSettings();
@@ -56,8 +67,20 @@ export class MainComponent implements OnInit {
         this.isLoader = false;
     }
 
+    async openModal(): Promise<void> {
+        const appeal = await this.mainService.getAppealById(this.queryParams);
+        const modalRef: NgbModalRef = this.modalService.open(ModalComponent);
+        modalRef.componentInstance.appeal = appeal;
+        let statusColor: string;
+        if (appeal.status === 'До виконання') {
+            statusColor = 'card__status--yellow';
+        } else if (appeal.status === 'Виконано') {
+            statusColor = 'card__status--green';
+        }
+        modalRef.componentInstance.statusColor = statusColor;
+    }
+
     async onScroll() {
-        console.log('111111')
         this.isLoaderAppeal = true;
         this.count = this.count + 5;
         this.appeals = await this.mainService.getAppeal(this.settings, this.count);
@@ -65,19 +88,20 @@ export class MainComponent implements OnInit {
     }
 
     async onDeputyScroll() {
-        console.log('111111')
         this.deputyCount = this.deputyCount + 5;
         this.deputies = await this.deputyService.getAllDeputy(this.settings, this.deputyCount);
     }
 
     async onSaveSorting(): Promise<void> {
         const sort = this.form.value.sort;
-        const settings: Settings = {
-            sorting: sort.id
-        };
-        this.store.dispatch(new EditSettings(settings));
-        const settingsStore = await this.mainService.getSettings();
-        this.deputies = await this.deputyService.getAllDeputy(settingsStore, this.deputyCount);
+        if (sort) {
+            const settings: Settings = {
+                sorting: sort.id
+            };
+            this.store.dispatch(new EditSettings(settings));
+            const settingsStore = await this.mainService.getSettings();
+            this.deputies = await this.deputyService.getAllDeputy(settingsStore, this.deputyCount);
+        }
     }
 
     async onSaveDate(): Promise<void> {

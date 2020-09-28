@@ -196,7 +196,7 @@ export class AppealService {
                             const comment: Comment = {
                                 type,
                                 message,
-                                date: moment(date).format('DD-MM-YYYY'),
+                                date: moment(date).format('DD-MM-YYYY hh:mm'),
                                 appealId,
                                 userId,
                                 isBackground,

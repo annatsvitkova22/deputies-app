@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 import { AppealCard } from '../../../models';
 import { ModalComponent } from '../modal/modal.component';
@@ -15,6 +16,7 @@ export class AppealCardComponent implements OnInit {
 
     constructor(
         private modalService: NgbModal,
+        private router: Router
     ){}
 
     ngOnInit(): void {
@@ -26,6 +28,12 @@ export class AppealCardComponent implements OnInit {
     }
 
     async onOpenAppeal(): Promise<void> {
+        this.router.navigate([], {
+            queryParams: {
+                id: this.appeal.id
+            },
+            queryParamsHandling: 'merge',
+        });
         const modalRef: NgbModalRef = this.modalService.open(ModalComponent);
         modalRef.componentInstance.appeal = this.appeal;
         modalRef.componentInstance.statusColor = this.statusColor;

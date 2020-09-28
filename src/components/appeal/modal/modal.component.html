@@ -55,8 +55,8 @@
                     <div class="w-100 d-flex wrap">
                         <a
                             *ngFor="let fileUrl of appeal.fileImageUrl"
-                            download
                             [href]="fileUrl"
+                            download
                             class="modal__file"
                             [ngStyle]="{backgroundImage: 'url(' + fileUrl + ')'}"
                         >
@@ -127,6 +127,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-numposts="5" data-width=""></div>
             </div>
             <div class="modal__right-section">
                 <div class="modal__status-block">

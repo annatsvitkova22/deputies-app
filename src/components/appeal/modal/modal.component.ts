@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { NgbActiveModal, NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
@@ -12,7 +12,7 @@ import { AppealService } from '../appeal.service';
     templateUrl: './modal.component.html',
     styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, OnDestroy {
     @Input() appeal: AppealCard;
     @Input() statusColor: string;
     @ViewChild('txtInput') txtInput: ElementRef;
@@ -74,6 +74,15 @@ export class ModalComponent implements OnInit {
         this.activeModal.dismiss('Cross click');
     }
 
+    ngOnDestroy(): void {
+        this.router.navigate([], {
+            queryParams: {
+                id: null
+            },
+            queryParamsHandling: 'merge',
+        });
+    }
+
     onHidden(): void {
         this.isHidden = !this.isHidden;
     }
@@ -110,7 +119,7 @@ export class ModalComponent implements OnInit {
         if (newComment.status) {
             const commentModal: Comment = {
                 message: newComment.comment.message,
-                date: moment(newComment.comment.date).format('DD-MM-YYYY'),
+                date: moment(newComment.comment.date).format('DD-MM-YYYY hh:mm'),
                 appealId: newComment.comment.appealId,
                 userId: newComment.comment.userId,
                 autorName: user.name,
