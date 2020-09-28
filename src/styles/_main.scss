@@ -492,7 +492,7 @@ ngb-datepicker.dropdown-menu {
         position: absolute;
         pointer-events: none;
         top: 10px;
-        height: calc(100% + 44px);
+        height: calc(100% + 43px);
         width: 243px;
         border-radius: 16px 18px 16px 16px;
         box-shadow: 0px 12px 12px rgba(50, 50, 71, 0.08), 
@@ -744,6 +744,11 @@ ngb-datepicker.dropdown-menu {
     padding: 30px;
 }
 
+.ng-select .ng-select-container {
+    cursor: pointer !important;
+    transition: all 0.3s;
+}
+
 .sr-only {
     position: absolute;
     width: 1px;
@@ -825,8 +830,10 @@ ngb-datepicker.dropdown-menu {
 
 @media only screen and (max-width: 460px) {
     .modal {
-        .avatar {
-            display: none;
+        &__comment-section, &__com {
+            .avatar {
+                display: none;
+            }
         }
     }
 }

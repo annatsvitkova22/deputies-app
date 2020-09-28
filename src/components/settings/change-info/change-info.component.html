@@ -72,6 +72,8 @@
         <div class="form-group">
             <div class="input-group">
             <input class="input" placeholder="yyyy-mm-dd"
+                    [minDate]="{year: 1940, month: 1, day: 1}"
+                    [maxDate]="{year: 2020, month: 1, day: 1}"
                     formControlName="date"
                     name="dp" ngbDatepicker #d="ngbDatepicker">
             <div class="input-group-append">

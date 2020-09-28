@@ -9,6 +9,7 @@ import { MainState } from '../../store/main.state';
 import { EditSettings } from '../../store/settings.action';
 import { AppealService } from '../../components/appeal/appeal.service';
 import { AuthService } from '../../components/auth/auth.service';
+import { iif } from 'rxjs';
 
 
 @Component({
@@ -32,6 +33,8 @@ export class DeputiesComponent implements OnInit {
     ];
     isCreateAppeal: boolean;
     count: number;
+    selectDistricts: District[] = [];
+    selectParties: Party[] = [];
 
     constructor(
         private deputyService: DeputyService,
@@ -44,6 +47,7 @@ export class DeputiesComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         this.count = 5;
         this.settings = await this.mainService.getSettings();
+        this.selectedFilters();
         const sortValue = Number(this.settings.sorting);
         this.form.controls['sort'].patchValue(this.sorting[sortValue - 1]);
         this.deputies = await this.deputyService.getAllDeputy(this.settings, this.count, 'deputies');
@@ -56,6 +60,19 @@ export class DeputiesComponent implements OnInit {
             this.isCreateAppeal = true;
         }
         this.isLoader = false;
+    }
+
+    selectedFilters(): void {
+        if (this.settings.districts && this.settings.districts.length) {
+            this.settings.districts.map(district => {
+                this.selectDistricts.push(district);
+            });
+        }
+        if (this.settings.parties && this.settings.parties.length) {
+            this.settings.parties.map(party => {
+                this.selectParties.push(party);
+            });
+        }
     }
 
     async onSaveSorting(): Promise<void> {
@@ -71,13 +88,18 @@ export class DeputiesComponent implements OnInit {
     }
 
     async changeAppeals(settings: Settings): Promise<void> {
+        this.isLoaderDeputy = true;
+        this.deputies = null;
+        this.count = 5;
         this.deputies = await this.deputyService.getAllDeputy(settings, this.count, 'deputies');
+        this.isLoaderDeputy = false;
     }
 
-    async onScroll() {
+    async onScroll(): Promise<void> {
         this.isLoaderDeputy = true;
         this.count = this.count + 3;
-        this.deputies = await this.deputyService.getAllDeputy(this.settings, this.count, 'deputies');
+        const settings = await this.mainService.getSettings();
+        this.deputies = await this.deputyService.getAllDeputy(settings, this.count, 'deputies');
         this.isLoaderDeputy = false;
     }
 }

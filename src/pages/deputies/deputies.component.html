@@ -4,8 +4,8 @@
     <div class="container container__small">
         <div [formGroup]="form" class="mt-28 mb-28 d-flex align-items-center justify-content-between">
             <div class="d-flex">
-                <app-multi [selectedItems]="this.settings.districts" (changes)="changeAppeals($event)" [dropdownList]="districts"  [type]="'districts'" [text]="'Район'"></app-multi>
-                <app-multi [selectedItems]="this.settings.parties" (changes)="changeAppeals($event)" [dropdownList]="parties" [type]="'parties'" [text]="'Партія'"></app-multi>
+                <app-multi [selectedItems]="selectDistricts" (changes)="changeAppeals($event)" [dropdownList]="districts"  [type]="'districts'" [text]="'Район'"></app-multi>
+                <app-multi [selectedItems]="selectParties" (changes)="changeAppeals($event)" [dropdownList]="parties" [type]="'parties'" [text]="'Партія'"></app-multi>
             </div>
             <div class="main__deputy d-flex align-items-center">
                 <ng-select [items]="sorting"

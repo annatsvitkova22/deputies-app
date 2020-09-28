@@ -85,7 +85,7 @@ export class MultiSelectComponent implements OnInit {
         let settings: Settings;
         if (this.type === 'districts') {
             let districts: Select[] = [];
-            if (this.selectedItems) {
+            if (this.selectedItems && this.selectedItems.length) {
                 this.selectedItems.map(item => {
                     districts.push(item);
                 });
@@ -95,7 +95,7 @@ export class MultiSelectComponent implements OnInit {
             settings = { districts };
         } else if (this.type === 'statuses') {
             let statuses: Select[] = [];
-            if (this.selectedItems) {
+            if (this.selectedItems && this.selectedItems.length) {
                 this.selectedItems.map(item => {
                     statuses.push(item);
                 });
@@ -105,7 +105,7 @@ export class MultiSelectComponent implements OnInit {
             settings = { statuses };
         } else if (this.type === 'parties') {
             let parties: Select[] = [];
-            if (this.selectedItems) {
+            if (this.selectedItems && this.selectedItems.length) {
                 this.selectedItems.map(item => {
                     parties.push(item);
                 });

@@ -39,6 +39,8 @@ export class MainComponent implements OnInit {
     count: number;
     deputyCount: number;
     queryParams: string;
+    selectDistricts: District[] = [];
+    selectedStatus: Select[] = [];
 
     constructor(
         private deputyService: DeputyService,
@@ -59,12 +61,26 @@ export class MainComponent implements OnInit {
         this.count = 5;
         this.deputyCount = 10;
         this.settings = await this.mainService.getSettings();
+        this.selectedFilters();
         this.districts = await this.appealService.getDistricts();
         const sortValue = Number(this.settings.sorting);
         this.form.controls['sort'].patchValue(this.sorting[sortValue - 1]);
         this.deputies = await this.deputyService.getAllDeputy(this.settings, this.deputyCount);
         this.appeals = await this.mainService.getAppeal(this.settings, this.count);
         this.isLoader = false;
+    }
+
+    selectedFilters(): void {
+        if (this.settings.districts && this.settings.districts.length) {
+            this.settings.districts.map(district => {
+                this.selectDistricts.push(district);
+            });
+        }
+        if (this.settings.statuses && this.settings.statuses.length) {
+            this.settings.statuses.map(status => {
+                this.selectedStatus.push(status);
+            });
+        }
     }
 
     async openModal(): Promise<void> {
@@ -83,7 +99,8 @@ export class MainComponent implements OnInit {
     async onScroll() {
         this.isLoaderAppeal = true;
         this.count = this.count + 5;
-        this.appeals = await this.mainService.getAppeal(this.settings, this.count);
+        const settings = await this.mainService.getSettings();
+        this.appeals = await this.mainService.getAppeal(settings, this.count);
         this.isLoaderAppeal = false;
     }
 
@@ -105,6 +122,8 @@ export class MainComponent implements OnInit {
     }
 
     async onSaveDate(): Promise<void> {
+        this.isLoaderAppeal = true;
+        this.appeals = null;
         let date = this.form.value.date;
         date = date.year + '-' + date.month + '-' + date.day + 'T00:00:00';
         date = moment(date, 'YYYY-MM-DDTHH:mm:ss').utc().valueOf();
@@ -114,9 +133,14 @@ export class MainComponent implements OnInit {
         this.store.dispatch(new EditSettings(settings));
         const setting = await this.mainService.getSettings();
         this.appeals = await this.mainService.getAppeal(setting, this.count);
+        this.isLoaderAppeal = false;
     }
 
     async changeAppeals(settings: Settings): Promise<void> {
+        this.isLoaderAppeal = true;
+        this.appeals = null;
+        this.count = 5;
         this.appeals = await this.mainService.getAppeal(settings, this.count);
+        this.isLoaderAppeal = false;
     }
 }

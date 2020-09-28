@@ -5,8 +5,8 @@
         <div [formGroup]="form" class="d-flex justify-content-between">
             <div class="w-100">
                 <div class="main__settings d-flex">
-                    <app-multi [selectedItems]="this.settings.districts" (changes)="changeAppeals($event)" [dropdownList]="districts"  [type]="'districts'" [text]="'Район'"></app-multi>
-                    <app-multi [selectedItems]="this.settings.statuses" (changes)="changeAppeals($event)" [type]="'statuses'" [text]="'Статус'"></app-multi>
+                    <app-multi [selectedItems]="selectDistricts" (changes)="changeAppeals($event)" [dropdownList]="districts"  [type]="'districts'" [text]="'Район'"></app-multi>
+                    <app-multi [selectedItems]="selectedStatus" (changes)="changeAppeals($event)" [type]="'statuses'" [text]="'Статус'"></app-multi>
                     <div class="input-calendar">
                         <input class="input c-btn" placeholder="Сьогоднi"
                                 formControlName="date" 

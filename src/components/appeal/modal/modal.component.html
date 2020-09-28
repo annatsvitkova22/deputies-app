@@ -94,7 +94,7 @@
                         <path d="M12 15L17 10M17 10L22 15M17 10V24" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
-                <div *ngIf="comments.length && isHidden" class="mt-12">
+                <div *ngIf="comments.length && isHidden" class="mt-12 modal__com">
                     <div *ngFor="let oneComment of comments" class="mb-20 d-flex">
                         <app-avatar [imageUrl]="oneComment.imageUrl" [name]="oneComment.shortName"></app-avatar>
                         <div class="modal__space">

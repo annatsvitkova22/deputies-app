@@ -243,16 +243,16 @@ export class DeputyService {
         if (settings.districts) {
             promises = settings.districts.map((district) => async () => {
                 const reserveRef = dateRef.where('district', '==', district.id);
-                if (settings.statuses) {
-                    promises = settings.statuses.map(status  => async () => {
-                        const result = await reserveRef.where('party', '==', status.id).get();
+                if (settings.parties) {
+                    promises = settings.parties.map(party  => async () => {
+                        const result = await reserveRef.where('party', '==', party.id).limit(count).get();
                         date = date.concat(result.docs);
                         return date;
                 });
                     await Promise.all(promises.map(fn => fn()));
                     return date;
                 } else {
-                    const result = await reserveRef.get();
+                    const result = await reserveRef.limit(count).get();
                     date = date.concat(result.docs);
                     return date;
                 }
@@ -262,7 +262,7 @@ export class DeputyService {
         }
         if (!settings.districts && settings.parties) {
             promises = settings.parties.map(party => async () => {
-                const result = await dateRef.where('party', '==', party.id).get();
+                const result = await dateRef.where('party', '==', party.id).limit(count).get();
                 date = date.concat(result.docs);
                 return date;
             });

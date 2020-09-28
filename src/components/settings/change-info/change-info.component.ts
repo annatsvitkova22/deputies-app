@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import * as moment from 'moment';
 
 import { AppealService } from '../../appeal/appeal.service';
 import { District, ResultModel, UserAvatal, UserAvatarForm, AuthState } from '../../../models';

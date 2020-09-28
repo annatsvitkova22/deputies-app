@@ -59,8 +59,8 @@ export class HeaderComponent implements OnInit {
     @HostListener('document:click', ['$event'])
     @HostListener('document:touchstart', ['$event'])
     handleOutsideClick(event) {
-        const elementRef = document.getElementsByClassName('avatar avatar__medium');
-        if (elementRef && elementRef[0] !== event.target && this.isDropdown) {
+        const avatar = 'avatar avatar__medium header-avatar';
+        if (avatar !== event.target.className && this.isDropdown) {
             this.isDropdown = false;
         }
     }
