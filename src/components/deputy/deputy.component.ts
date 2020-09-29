@@ -26,6 +26,7 @@ export class DeputyComponent implements OnInit {
     count: number;
     type: string;
     queryParams: string;
+    counter: number;
 
     constructor(
         private route: ActivatedRoute,
@@ -45,6 +46,7 @@ export class DeputyComponent implements OnInit {
         if (this.queryParams) {
             this.openModal();
         }
+        this.counter = 0;
         this.type = null;
         this.count = 3;
         this.deputy = await this.deputyService.getDeputy(this.deputyId);
@@ -73,10 +75,14 @@ export class DeputyComponent implements OnInit {
     }
 
     async onScroll(): Promise<void> {
-        this.isLoadAppeal = true;
-        this.count = this.count + 3;
-        this.appeals = await this.deputyService.getAppeal(this.deputyId, this.deputy, this.count, this.type);
-        this.isLoadAppeal = false;
+        if (!this.counter) {
+            this.isLoadAppeal = true;
+            this.counter++;
+            this.count = this.count + 3;
+            this.appeals = await this.deputyService.getAppeal(this.deputyId, this.deputy, this.count, this.type);
+            this.isLoadAppeal = false;
+            this.counter = 0;
+        }
     }
 
     async onFilter(type): Promise<void> {

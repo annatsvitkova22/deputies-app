@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit {
     userAvatar: UserAvatal;
     type: string;
     queryParams: string;
+    counter: number;
 
     constructor(
         private deputyService: DeputyService,
@@ -43,6 +44,7 @@ export class ProfileComponent implements OnInit {
             this.openModal();
         }
         this.type = null;
+        this.counter = 0;
         this.count = 3;
         this.user = await this.authService.getUserById();
         if (this.user.role === 'deputy') {
@@ -75,15 +77,19 @@ export class ProfileComponent implements OnInit {
     }
 
     async onScroll(): Promise<void> {
-        this.isLoaderAppeal = true;
-        this.count = this.count + 3;
-        if (this.user.role === 'deputy') {
-            this.appeals = await this.deputyService.getAppeal(this.user.userId, this.deputy, this.count, this.type);
-        } else {
-            this.appeals = await this.deputyService.getAppealByUser(this.user.userId, this.userAvatar,
-                this.user.name, this.count, this.type);
+        if (!this.counter) {
+            this.counter++;
+            this.isLoaderAppeal = true;
+            this.count = this.count + 3;
+            if (this.user.role === 'deputy') {
+                this.appeals = await this.deputyService.getAppeal(this.user.userId, this.deputy, this.count, this.type);
+            } else {
+                this.appeals = await this.deputyService.getAppealByUser(this.user.userId, this.userAvatar,
+                    this.user.name, this.count, this.type);
+            }
+            this.isLoaderAppeal = false;
+            this.counter = 0;
         }
-        this.isLoaderAppeal = false;
     }
 
     async onFilter(type): Promise<void> {

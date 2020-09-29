@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
@@ -41,6 +41,7 @@ export class MainComponent implements OnInit {
     queryParams: string;
     selectDistricts: District[] = [];
     selectedStatus: Select[] = [];
+    counter: number;
 
     constructor(
         private deputyService: DeputyService,
@@ -60,6 +61,7 @@ export class MainComponent implements OnInit {
         }
         this.count = 5;
         this.deputyCount = 10;
+        this.counter = 0;
         this.settings = await this.mainService.getSettings();
         this.selectedFilters();
         this.districts = await this.appealService.getDistricts();
@@ -97,16 +99,24 @@ export class MainComponent implements OnInit {
     }
 
     async onScroll() {
-        this.isLoaderAppeal = true;
-        this.count = this.count + 5;
-        const settings = await this.mainService.getSettings();
-        this.appeals = await this.mainService.getAppeal(settings, this.count);
-        this.isLoaderAppeal = false;
+        if (!this.counter) {
+            this.counter++;
+            this.isLoaderAppeal = true;
+            this.count = this.count + 5;
+            const settings = await this.mainService.getSettings();
+            this.appeals = await this.mainService.getAppeal(settings, this.count);
+            this.counter = 0;
+            this.isLoaderAppeal = false;
+        }
     }
 
     async onDeputyScroll() {
-        this.deputyCount = this.deputyCount + 5;
-        this.deputies = await this.deputyService.getAllDeputy(this.settings, this.deputyCount);
+        if (!this.counter) {
+            this.counter++;
+            this.deputyCount = this.deputyCount + 5;
+            this.deputies = await this.deputyService.getAllDeputy(this.settings, this.deputyCount);
+            this.counter = 0;
+        }
     }
 
     async onSaveSorting(): Promise<void> {

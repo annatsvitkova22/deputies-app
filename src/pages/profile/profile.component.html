@@ -17,7 +17,7 @@
                     </p>
                     <p (click)="onRead()" class="auth-btn-link mt-12">{{isMoreText ? 'Меньше' : 'Більше'}}</p>
                 </div>
-                <infinite-scroll (scrolled)="onScroll()" style="height: 600px;">
+                <infinite-scroll (scrolled)="onScroll()">
                     <div class="w-100">
                         <app-tab (selectType)="onFilter($event)" [appeals]="appeals"></app-tab>
                     </div>

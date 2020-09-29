@@ -35,6 +35,7 @@ export class DeputiesComponent implements OnInit {
     count: number;
     selectDistricts: District[] = [];
     selectParties: Party[] = [];
+    counter: number;
 
     constructor(
         private deputyService: DeputyService,
@@ -46,6 +47,7 @@ export class DeputiesComponent implements OnInit {
 
     async ngOnInit(): Promise<void> {
         this.count = 5;
+        this.counter = 0;
         this.settings = await this.mainService.getSettings();
         this.selectedFilters();
         const sortValue = Number(this.settings.sorting);
@@ -96,10 +98,14 @@ export class DeputiesComponent implements OnInit {
     }
 
     async onScroll(): Promise<void> {
-        this.isLoaderDeputy = true;
-        this.count = this.count + 3;
-        const settings = await this.mainService.getSettings();
-        this.deputies = await this.deputyService.getAllDeputy(settings, this.count, 'deputies');
-        this.isLoaderDeputy = false;
+        if (!this.counter) {
+            this.counter++;
+            this.isLoaderDeputy = true;
+            this.count = this.count + 3;
+            const settings = await this.mainService.getSettings();
+            this.deputies = await this.deputyService.getAllDeputy(settings, this.count, 'deputies');
+            this.isLoaderDeputy = false;
+            this.counter = 0;
+        }
     }
 }

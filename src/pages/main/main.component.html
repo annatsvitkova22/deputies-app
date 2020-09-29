@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <infinite-scroll (scrolled)="onScroll()" style="height: 600px;">
+                <infinite-scroll (scrolled)="onScroll()" >
                     <app-appeal-card
                         [appeal]="appeal"
                         *ngFor="let appeal of appeals"
