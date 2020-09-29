@@ -1,4 +1,3 @@
-
 <div class="modal modal-body container">
     <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
     <div *ngIf="!isLoader" class="modal__wrapper">
@@ -56,11 +55,11 @@
                         <ng-container >
                         <a  
                             slickItem
-                            *ngFor="let fileUrl of appeal.fileImageUrl"
-                            [href]="fileUrl"
+                            *ngFor="let fileImageUrl of appeal.fileImageUrl; let i = index"
+                            [href]="fileImageUrl"
                             download
                             class="modal__file"
-                            [ngStyle]="{backgroundImage: 'url(' + fileUrl + ')'}"
+                            [ngStyle]="{backgroundImage: 'url(' + fileImageUrl + ')'}"
                         >
                         </a>
                         </ng-container>
@@ -131,7 +130,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-numposts="5" data-width=""></div>
+                <div class="fb-comments" data-href="http://localhost:4200/" data-numposts="5" data-width="300px"></div>
+                <!-- <fb-comments numposts="3"></fb-comments> -->
             </div>
             <div class="modal__right-section">
                 <div class="modal__status-block">

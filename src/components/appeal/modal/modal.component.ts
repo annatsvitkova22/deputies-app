@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Slick } from 'ngx-slickjs';
+import { FacebookService, LoginOptions } from 'ngx-facebook';
 
 import { AppealCard, UserAvatal, Comment, ResultComment, AuthUser } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
@@ -43,13 +44,30 @@ export class ModalComponent implements OnInit, OnDestroy {
         private router: Router,
         private authService: AuthService,
         private appealService: AppealService,
-        config: NgbRatingConfig
+        config: NgbRatingConfig,
+        private fb: FacebookService
     ) {
         config.max = 5;
         config.readonly = true;
+        fb.init({
+            appId: '334443524450569',
+            version: 'v8.0'
+        });
     }
 
     async ngOnInit(): Promise<void> {
+        await this.fb.login().then(res => {
+            console.log('res', res)
+        });
+        await this.fb.getLoginStatus().then(res => {
+            console.log('dfdsf', res)
+        })
+
+        // const loginOptions: LoginOptions = {
+        //     enable_profile_selector: true,
+        //     return_scopes: true,
+        //     scope: 'public_profile,user_friends,email,pages_show_list'
+        // };
         this.userAvatal = await this.authService.getUserImage();
         const userId = await this.authService.getUserId();
         this.comments = await this.appealService.getCommentsById(this.appeal.id);

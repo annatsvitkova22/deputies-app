@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {  NgxSlickJsModule } from 'ngx-slickjs';
+import { FacebookModule } from 'ngx-facebook';
 
 import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
@@ -78,7 +79,8 @@ import { AboutProjectComponent } from '../pages/about-project/about-project.comp
         slickCss: "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css",
         slickThemeCss: "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"
       }
-  })
+    }),
+    FacebookModule.forRoot()
   ],
   providers: [
     AuthService,

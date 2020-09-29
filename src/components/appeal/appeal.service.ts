@@ -126,6 +126,10 @@ export class AppealService {
             pathFile
         };
 
+        // const blob = new Blob([file], { type: file.type });
+        // const url = window.URL.createObjectURL(blob);
+        // window.open(url);
+        // console.log('url', url)
 
         return resultFile;
     }
