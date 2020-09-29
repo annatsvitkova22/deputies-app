@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
+import {  NgxSlickJsModule } from 'ngx-slickjs';
 
 import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
@@ -70,6 +71,14 @@ import { AboutProjectComponent } from '../pages/about-project/about-project.comp
     HttpClientModule,
     StoreModule.forRoot({authStore: authReducer, settingsStore: settingsReducer}),
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    NgxSlickJsModule.forRoot({
+      links: {
+        jquery: "https://code.jquery.com/jquery-3.4.0.min.js",
+        slickJs: "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js",
+        slickCss: "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css",
+        slickThemeCss: "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"
+      }
+  })
   ],
   providers: [
     AuthService,

@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ElementRef, ViewChild, OnDestroy } from '@ang
 import { NgbActiveModal, NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { Slick } from 'ngx-slickjs';
 
 import { AppealCard, UserAvatal, Comment, ResultComment, AuthUser } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
@@ -27,7 +28,16 @@ export class ModalComponent implements OnInit, OnDestroy {
     isButton: boolean;
     isBlockAppeal: boolean;
     isLoaderBlock: boolean;
-
+    config: Slick.Config = {
+        infinite: true,
+        slidesToShow: 1,
+        swipeToSlide: true,
+        arrows: false,
+        variableWidth: true,
+        slidesToScroll: 1,
+        dots: false,
+        autoplaySpeed: 500 ,
+    };
     constructor(
         public activeModal: NgbActiveModal,
         private router: Router,
@@ -62,6 +72,11 @@ export class ModalComponent implements OnInit, OnDestroy {
         }
         this.onTextButton(this.appeal.status);
         this.isLoader = false;
+    }
+
+    afterChange(e) {
+        console.log('afterChange');
+        
     }
 
     onTextButton(status: string): void {

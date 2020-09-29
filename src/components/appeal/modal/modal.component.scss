@@ -16,6 +16,10 @@
         color: $gray-11;
     }
 
+    &__left-section {
+        width: 65%;
+    }
+
     &__comment {
         max-height: 50px;
         margin-left: 20px;
@@ -70,16 +74,18 @@
     }
 
     &__file {
-        width: calc((100% - 24px) / 3);
+        max-width: 188px;
+        width: 100%;
+        // width: calc((100% - 24px) / 3);
         height: 120px;
         background-repeat: no-repeat;
         background-size: cover;
         display: block;
         margin: 0 12px 12px 0;
 
-        &:nth-of-type(3n) {
-            margin: 0 0 12px;
-        }
+        // &:nth-of-type(3n) {
+        //     margin: 0 0 12px;
+        // }
     }
 
     &__right-section {
@@ -195,6 +201,10 @@
     .modal {
         &__right-section {
             display: none;
+        }
+
+        &__left-section {
+            width: 100%;
         }
 
         &__users {
