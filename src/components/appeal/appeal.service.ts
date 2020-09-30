@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { District, Deputy, ResultModel, Appeal, LoadedFile, Comment, ResultComment, BlockAppeal } from '../../models';
+import { District, Deputy, ResultModel, Appeal, LoadedFile, Comment, ResultComment, BlockAppeal, Location } from '../../models';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
@@ -75,7 +75,7 @@ export class AppealService {
         return deputies;
     }
 
-    async createAppeal(data, loadedFiles: LoadedFile[] = null): Promise<ResultModel> {
+    async createAppeal(data, location: Location, loadedFiles: LoadedFile[] = null): Promise<ResultModel> {
         const {title, description, deputy } = data;
         const userId: string = await this.authService.getUserId();
         const urlImages: string[] = [];
@@ -98,6 +98,7 @@ export class AppealService {
             fileUrl: urlFiles.length ? urlFiles : null,
             fileImageUrl: urlImages.length ? urlImages : null,
             isBlock: false,
+            location
         };
         let result: ResultModel;
         await this.db.collection('appeals').add(appeal).then(async (res) => {
@@ -123,13 +124,8 @@ export class AppealService {
         const imageUrl: string = await ref.getDownloadURL().toPromise();
         const resultFile: LoadedFile = {
             imageUrl,
-            pathFile
+            pathFile: imageUrl
         };
-
-        // const blob = new Blob([file], { type: file.type });
-        // const url = window.URL.createObjectURL(blob);
-        // window.open(url);
-        // console.log('url', url)
 
         return resultFile;
     }

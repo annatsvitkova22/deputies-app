@@ -1,6 +1,6 @@
 <div class="modal modal-body container">
     <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
-    <div *ngIf="!isLoader" class="modal__wrapper">
+    <div [class.d-none]='isLoader' class="modal__wrapper">
         <div class="d-flex justify-content-between align-items-center modal__main">
             <div>
                 <div class="d-flex align-items-center">
@@ -39,6 +39,7 @@
                         <button (click)="onWork(appeal.id, appeal.status)" class="mb-12 btn btn-green">{{textButton}}</button>
                         <button *ngIf="appeal.status === 'До виконання'" (click)="onComplain(appeal.id)"  class="btn">Поскаржитися</button>
                     </div>
+                    <div *ngIf="appeal.location" class="map" #smallMap></div>
                 </div>
                 <div class="mb-22">
                     <p class="modal__about mb-2">Опис</p>
@@ -56,8 +57,9 @@
                         <a  
                             slickItem
                             *ngFor="let fileImageUrl of appeal.fileImageUrl; let i = index"
-                            [href]="fileImageUrl"
+                            [href]="appeal.fileUrl[i]"
                             download
+                            target="_blank"
                             class="modal__file"
                             [ngStyle]="{backgroundImage: 'url(' + fileImageUrl + ')'}"
                         >
@@ -130,8 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="fb-comments" data-href="http://localhost:4200/" data-numposts="5" data-width="300px"></div>
-                <!-- <fb-comments numposts="3"></fb-comments> -->
+                <fb-comments numposts="3"></fb-comments>
             </div>
             <div class="modal__right-section">
                 <div class="modal__status-block">
@@ -155,6 +156,7 @@
                     <button *ngIf="appeal.status === 'До виконання' && !isBlockAppeal && !isLoaderBlock" (click)="onComplain(appeal.id)"  class="btn">Поскаржитися</button>
                     <app-loader *ngIf="isLoaderBlock" [class]="'mb-30 loader-medium'" ></app-loader>
                 </div>
+                <div *ngIf="appeal.location" class="map" #map></div>
             </div>
         </div>
     </div>

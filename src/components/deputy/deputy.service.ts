@@ -102,7 +102,8 @@ export class DeputyService {
                     status: data.status,
                     date: moment(data.date).format('DD-MM-YYYY'),
                     countFiles: 0,
-                    countComments: 0
+                    countComments: 0,
+                    location: data.location ? data.location : null
                 };
 
                 return findAppeal;
@@ -174,7 +175,8 @@ export class DeputyService {
                     fileUrl: data.fileUrl,
                     fileImageUrl: data.fileImageUrl,
                     countFiles: data.fileUrl ? data.fileUrl.length : 0,
-                    countComments: messageSnaps
+                    countComments: messageSnaps,
+                    location: data.location ? data.location : null
                 };
                 return ap;
             });
@@ -236,7 +238,7 @@ export class DeputyService {
         return deputyRef;
     }
 
-    async setFilter(ref, settings: Settings, count: number) {
+    async setFilter(ref, settings: Settings) {
         let dateRef = this.sortingDeputy(ref, settings);
         let date = [];
         let promises = [];
@@ -245,14 +247,14 @@ export class DeputyService {
                 const reserveRef = dateRef.where('district', '==', district.id);
                 if (settings.parties) {
                     promises = settings.parties.map(party  => async () => {
-                        const result = await reserveRef.where('party', '==', party.id).limit(count).get();
+                        const result = await reserveRef.where('party', '==', party.id).get();
                         date = date.concat(result.docs);
                         return date;
                 });
                     await Promise.all(promises.map(fn => fn()));
                     return date;
                 } else {
-                    const result = await reserveRef.limit(count).get();
+                    const result = await reserveRef.get();
                     date = date.concat(result.docs);
                     return date;
                 }
@@ -262,14 +264,14 @@ export class DeputyService {
         }
         if (!settings.districts && settings.parties) {
             promises = settings.parties.map(party => async () => {
-                const result = await dateRef.where('party', '==', party.id).limit(count).get();
+                const result = await dateRef.where('party', '==', party.id).get();
                 date = date.concat(result.docs);
                 return date;
             });
             await Promise.all(promises.map(fn => fn()));
             return date;
         }
-        const resultSpans = await dateRef.limit(count).get();
+        const resultSpans = await dateRef.get();
         date = date.concat(resultSpans.docs);
         return date;
     }
@@ -279,13 +281,14 @@ export class DeputyService {
         let snapshots;
         if (type === 'deputies') {
             const ref = this.db.collection('users').ref;
-            snapshots = await this.setFilter(ref, settings, count);
+            snapshots = await this.setFilter(ref, settings);
         } else {
             deputies = await this.db.collection('users', ref => this.sortingDeputy(ref, settings)).get().toPromise();
             snapshots = deputies.docs;
         }
         if (snapshots.length) {
-            deputies = snapshots.map(deputyRes => async () => {
+            snapshots = snapshots.splice(0, count);
+            deputies = snapshots.map((deputyRes) => async () => {
                 const data = deputyRes.data();
                 const shortName: string = data.surname.substr(0, 1).toUpperCase() + data.name.substr(0, 1).toUpperCase();
                 let party: string;

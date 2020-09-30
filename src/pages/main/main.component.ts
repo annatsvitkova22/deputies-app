@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
@@ -98,7 +98,7 @@ export class MainComponent implements OnInit {
         modalRef.componentInstance.statusColor = statusColor;
     }
 
-    async onScroll() {
+    async onScroll(): Promise<void> {
         if (!this.counter) {
             this.counter++;
             this.isLoaderAppeal = true;
@@ -110,7 +110,7 @@ export class MainComponent implements OnInit {
         }
     }
 
-    async onDeputyScroll() {
+    async onDeputyScroll(): Promise<void> {
         if (!this.counter) {
             this.counter++;
             this.deputyCount = this.deputyCount + 5;

@@ -52,6 +52,7 @@ export interface Appeal {
     fileUrl?: string[];
     fileImageUrl?: string[];
     isBlock?: boolean;
+    location?: Location;
 }
 
 export interface AppealCard {
@@ -73,6 +74,7 @@ export interface AppealCard {
     countComments?: number;
     fileUrl?: string[];
     fileImageUrl?: string[];
+    location?: Location;
 }
 
 export interface LoadedFile {
@@ -80,6 +82,11 @@ export interface LoadedFile {
     pathFile?: string;
     name?: string;
     size?: string;
+}
+
+export interface Location {
+    lat: number;
+    lng: number;
 }
 
 export interface Select {

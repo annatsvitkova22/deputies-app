@@ -9,6 +9,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {  NgxSlickJsModule } from 'ngx-slickjs';
 import { FacebookModule } from 'ngx-facebook';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
@@ -80,7 +81,11 @@ import { AboutProjectComponent } from '../pages/about-project/about-project.comp
         slickThemeCss: "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"
       }
     }),
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDLa-5lnf9Reg-5ysvns1vp2r00QCIQMVk',
+      libraries: ['places']
+    })
   ],
   providers: [
     AuthService,
