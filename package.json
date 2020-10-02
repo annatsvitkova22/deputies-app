@@ -42,6 +42,7 @@
     "ngx-slick": "^0.2.1",
     "ngx-slickjs": "^1.5.0",
     "rxjs": "~6.5.5",
+    "transliteration": "^2.1.11",
     "tslib": "^2.0.0",
     "web-component-essentials": "0.0.4",
     "zone.js": "~0.10.3"

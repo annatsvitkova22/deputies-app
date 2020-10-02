@@ -1,6 +1,6 @@
 <div class="modal modal-body container">
     <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
-    <div *ngIf="!isLoader" [class.d-none]='isLoader' class="modal__wrapper">
+    <div [class.d-none]='isLoader' class="modal__wrapper">
         <div class="d-flex justify-content-between align-items-center modal__main">
             <div>
                 <div class="d-flex align-items-center">

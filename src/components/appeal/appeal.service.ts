@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import * as moment from 'moment';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { transliterate as slugify } from 'transliteration';
 
 import { District, Deputy, ResultModel, Appeal, LoadedFile, Comment, ResultComment, BlockAppeal, Location } from '../../models';
 import { AuthService } from '../auth/auth.service';
@@ -77,6 +78,9 @@ export class AppealService {
 
     async createAppeal(data, location: Location, loadedFiles: LoadedFile[] = null): Promise<ResultModel> {
         const {title, description, deputy } = data;
+        const randomId: string = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 4);
+        let appealId: string = title.toLocaleLowerCase().substr(0, 32)  + '-' + randomId;
+        appealId = slugify(appealId);
         const userId: string = await this.authService.getUserId();
         const urlImages: string[] = [];
         const urlFiles: string[] = [];
@@ -101,12 +105,10 @@ export class AppealService {
             location
         };
         let result: ResultModel;
-        await this.db.collection('appeals').add(appeal).then(async (res) => {
-            if (res.id) {
-                result = {
-                    status: true
-                };
-            }
+        await this.db.collection('appeals').doc(appealId).set(appeal).then(async () => {
+            result = {
+                status: true
+            };
         }).catch(err => {
             result = {
                 status: true,
