@@ -16,6 +16,5 @@ export class AccountCardComponent implements OnInit {
 
     constructor(){}
 
-    async ngOnInit(): Promise<void> {
-    }
+    async ngOnInit(): Promise<void> {}
 }
