@@ -10,7 +10,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { MainState } from '../../store/main.state';
 import { AddAuth, DeleteAuth } from '../../store/auth.action';
-import { AuthState, CreateUser, SocialProfile, UserAvatal, AuthUser, ResultModel } from '../../models';
+import { AuthState, CreateUser, SocialProfile, UserAvatal, AuthUser, ResultModel, PictureModal } from '../../models';
 
 @Injectable()
 export class AuthService {
@@ -100,24 +100,32 @@ export class AuthService {
 
     async googleSingIn(): Promise<void> {
         const provider = new auth.GoogleAuthProvider();
-        this.singInBySocial(provider);
+        this.singInBySocial(provider, 'google');
     }
 
     async facebookSingIn(): Promise<void> {
         const provider = new auth.FacebookAuthProvider();
-        this.singInBySocial(provider);
+        this.singInBySocial(provider, 'facebook');
     }
 
-    async singInBySocial(provider): Promise<void> {
+    async singInBySocial(provider, type: string): Promise<void> {
         const credential = await this.authFire.signInWithPopup(provider);
         const { uid, email, displayName} = credential.user;
         const name: string[] = displayName.split(' ');
         const shortName: string = name[1] ? name[1].substr(0, 1).toUpperCase() : '' + name[0].substr(0, 1).toUpperCase();
         const profile: SocialProfile = credential.additionalUserInfo.profile as SocialProfile;
-        if (credential.additionalUserInfo.isNewUser) {
-            await this.writeUserToCollection(uid, displayName, email, profile.picture);
+        let pictureUrl: string;
+        if (type === 'facebook') {
+            const pictureObj: PictureModal = profile.picture as PictureModal;
+            pictureUrl = pictureObj.data.url;
+        } else {
+            pictureUrl = profile.picture as string;
         }
-        await this.setUser(uid, email, 'user', profile.picture, shortName);
+        if (credential.additionalUserInfo.isNewUser) {
+            await this.writeUserToCollection(uid, displayName, email, pictureUrl);
+        }
+        await this.setUser(uid, email, 'user', pictureUrl, shortName);
+        this.router.navigate(['/']);
     }
 
     async writeUserToCollection(userId: string, name: string, email: string, imageUrl: string = null): Promise<boolean> {

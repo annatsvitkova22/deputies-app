@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { MapsAPILoader } from '@agm/core';
 
 import { AppealService } from '.././appeal.service';
-import { District, Deputy, ResultModel, LoadedFile } from '../../../models';
+import { District, Deputy, ResultModel, LoadedFile, Location } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
 import { NgbdModalContent } from '../../modal/modal.component';
+
 
 @Component({
     selector: 'app-appeal',
@@ -30,12 +32,18 @@ export class AppealComponent implements OnInit {
     // tslint:disable-next-line: no-inferrable-types
     isLoader: boolean = true;
     isLoadFile: boolean;
+    @ViewChild('search') searchElementRef: ElementRef;
+    @ViewChild('map') mapElementRef: ElementRef;
+    map: google.maps.Map;
+    addressLocation: Location;
 
     constructor(
         private appealService: AppealService,
         private authService: AuthService,
         private modalService: NgbModal,
         private router: Router,
+        private mapsAPILoader: MapsAPILoader,
+        private ngZone: NgZone
     ){}
 
     async ngOnInit(): Promise<void> {
@@ -47,7 +55,37 @@ export class AppealComponent implements OnInit {
         } else {
             this.router.navigate(['/']);
         }
+        this.loadMap();
         this.isLoader = false;
+    }
+
+    loadMap(): void {
+        this.mapsAPILoader.load().then(() => {
+            this.map = new google.maps.Map(this.mapElementRef.nativeElement, {
+                center: {lng: 34.5514169, lat: 49.58826699999999},
+                zoom: 15,
+                disableDefaultUI: true
+            });
+            const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
+            autocomplete.addListener('place_changed', () => {
+                this.ngZone.run(() => {
+                    this.onPlaceChange(autocomplete.getPlace());
+                });
+            });
+        });
+    }
+
+    onPlaceChange(place: google.maps.places.PlaceResult): void {
+        this.map.setCenter(place.geometry.location);
+        this.addressLocation = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+        };
+        // tslint:disable-next-line: no-unused-expression
+        new google.maps.Marker({
+            position: place.geometry.location,
+            map: this.map,
+        });
     }
 
     async onFileChange(event): Promise<void> {
@@ -71,7 +109,7 @@ export class AppealComponent implements OnInit {
     }
 
     async onSubmit(): Promise<void> {
-        const result: ResultModel = await this.appealService.createAppeal(this.form.value, this.loadedFiles);
+        const result: ResultModel = await this.appealService.createAppeal(this.form.value, this.addressLocation, this.loadedFiles);
         if (result.status) {
             const modalRef = this.modalService.open(NgbdModalContent);
             modalRef.componentInstance.name = 'Вашу заявку успiшно створено';

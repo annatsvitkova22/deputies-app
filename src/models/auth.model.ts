@@ -70,8 +70,19 @@ export interface SocialProfile {
     id: string;
     locale: string;
     name: string;
-    picture?: string;
+    picture?: string | PictureModal;
     verified_email: boolean;
+}
+
+export interface PictureModal {
+    data: PictureFacebook;
+}
+
+export interface PictureFacebook {
+    height: number;
+    is_silhouette: boolean;
+    url: string;
+    width: number;
 }
 
 export interface UserAvatal {

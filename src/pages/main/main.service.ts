@@ -23,7 +23,7 @@ export class MainService {
         return result;
     }
 
-    async setFilter(ref, settings: Settings, count: number) {
+    async setFilter(ref, settings: Settings) {
         let dateRef = ref.orderBy('updateDate', 'desc');
         dateRef = dateRef.where('isBlock', '==', false);
         let date = [];
@@ -39,14 +39,14 @@ export class MainService {
                 const reserveRef = dateRef.where('districtId', '==', district.id);
                 if (settings.statuses) {
                     promises = settings.statuses.map(status  => async () => {
-                        const result = await reserveRef.where('status', '==', status.name).limit(count).get();
+                        const result = await reserveRef.where('status', '==', status.name).get();
                         date = date.concat(result.docs);
                         return date;
                 });
                     await Promise.all(promises.map(fn => fn()));
                     return date;
                 } else {
-                    const result = await reserveRef.limit(count).get();
+                    const result = await reserveRef.get();
                     date = date.concat(result.docs);
                     return date;
                 }
@@ -56,14 +56,14 @@ export class MainService {
         }
         if (!settings.districts && settings.statuses) {
             promises = settings.statuses.map(status => async () => {
-                const result = await dateRef.where('status', '==', status.name).limit(count).get();
+                const result = await dateRef.where('status', '==', status.name).get();
                 date = date.concat(result.docs);
                 return date;
             });
             await Promise.all(promises.map(fn => fn()));
             return date;
         }
-        const resultSpans = await dateRef.limit(count).get();
+        const resultSpans = await dateRef.get();
         date = date.concat(resultSpans.docs);
         return date;
     }
@@ -91,9 +91,10 @@ export class MainService {
 
     async getAppeal(settings: Settings, count: number): Promise<AppealCard[]> {
         const ref = this.db.collection('appeals').ref;
-        let snapshots = await this.setFilter(ref, settings, count);
+        let snapshots = await this.setFilter(ref, settings);
         if (snapshots.length) {
-            snapshots = snapshots.map(snapshot => async () =>  {
+            snapshots = snapshots.splice(0, count);
+            snapshots = snapshots.map((snapshot) => async () =>  {
                 const data: firebase.firestore.DocumentData = snapshot.data();
                 const deputy: Deputy = await this.deputyService.getDeputy(data.deputyId);
                 const messageSnaps: number = await this.getCountMessage(snapshot.id);
@@ -120,7 +121,8 @@ export class MainService {
                     fileUrl: data.fileUrl,
                     fileImageUrl: data.fileImageUrl,
                     countFiles: data.fileUrl ? data.fileUrl.length : 0,
-                    countComments: messageSnaps
+                    countComments: messageSnaps,
+                    location: data.location ?  data.location : null
                 };
 
                 return appeal;
@@ -160,7 +162,8 @@ export class MainService {
                 fileUrl: data.fileUrl,
                 fileImageUrl: data.fileImageUrl,
                 countFiles: data.fileUrl ? data.fileUrl.length : 0,
-                countComments: messageSnaps
+                countComments: messageSnaps,
+                location: data.location ? data.location : null
             };
         }
         return appeal;

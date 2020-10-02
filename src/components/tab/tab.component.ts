@@ -23,12 +23,5 @@ export class TabComponent implements OnInit {
     handlerFilter(type: string): void {
         this.type = type;
         this.selectType.emit(type);
-        // this.type = type;
-        // if (type === 'Усi') {
-        //     this.appeals = this.allAppeals;
-        // } else {
-        //     this.selectType.emit(type);
-        //     // this.appeals = this.allAppeals.filter(appeal => appeal.status === type);
-        // }
     }
 }

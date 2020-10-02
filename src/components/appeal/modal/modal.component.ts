@@ -1,8 +1,10 @@
-import { Component, Input, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { NgbActiveModal, NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Slick } from 'ngx-slickjs';
+import { FacebookService, LoginOptions } from 'ngx-facebook';
+import { MapsAPILoader } from '@agm/core';
 
 import { AppealCard, UserAvatal, Comment, ResultComment, AuthUser } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
@@ -17,6 +19,10 @@ export class ModalComponent implements OnInit, OnDestroy {
     @Input() appeal: AppealCard;
     @Input() statusColor: string;
     @ViewChild('txtInput') txtInput: ElementRef;
+    @ViewChild('map') mapElementRef: ElementRef;
+    @ViewChild('smallMap') smallMapElementRef: ElementRef;
+    map: google.maps.Map;
+    smallMap: google.maps.Map;
     comments: Comment[] = [];
     userAvatal: UserAvatal;
     isWriteComment: boolean;
@@ -43,13 +49,32 @@ export class ModalComponent implements OnInit, OnDestroy {
         private router: Router,
         private authService: AuthService,
         private appealService: AppealService,
-        config: NgbRatingConfig
+        config: NgbRatingConfig,
+        private mapsAPILoader: MapsAPILoader,
+        private fb: FacebookService
     ) {
         config.max = 5;
         config.readonly = true;
+        // fb.init({
+        //     appId: '334443524450569',
+        //     version: 'v8.0'
+        // });
     }
 
     async ngOnInit(): Promise<void> {
+        // await this.fb.login().then(res => {
+        //     console.log('res', res)
+        // });
+        // await this.fb.getLoginStatus().then(res => {
+        //     console.log('dfdsf', res)
+        // })
+
+        // const loginOptions: LoginOptions = {
+        //     enable_profile_selector: true,
+        //     return_scopes: true,
+        //     scope: 'public_profile,user_friends,email,pages_show_list'
+        // };
+
         this.userAvatal = await this.authService.getUserImage();
         const userId = await this.authService.getUserId();
         this.comments = await this.appealService.getCommentsById(this.appeal.id);
@@ -71,12 +96,33 @@ export class ModalComponent implements OnInit, OnDestroy {
             this.isWriteComment = false;
         }
         this.onTextButton(this.appeal.status);
+        this.loadMap();
         this.isLoader = false;
     }
 
-    afterChange(e) {
-        console.log('afterChange');
-        
+    loadMap(): void {
+        this.mapsAPILoader.load().then(() => {
+            this.map = new google.maps.Map(this.mapElementRef.nativeElement, {
+                center: this.appeal.location,
+                zoom: 15,
+                disableDefaultUI: true
+            });
+            // tslint:disable-next-line: no-unused-expression
+            new google.maps.Marker({
+                position: this.appeal.location,
+                map: this.map,
+            });
+            this.smallMap = new google.maps.Map(this.smallMapElementRef.nativeElement, {
+                center: this.appeal.location,
+                zoom: 15,
+                disableDefaultUI: true
+            });
+            // tslint:disable-next-line: no-unused-expression
+            new google.maps.Marker({
+                position: this.appeal.location,
+                map: this.smallMap,
+            });
+        });
     }
 
     onTextButton(status: string): void {
