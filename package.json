@@ -38,10 +38,12 @@
     "ng": "0.0.0",
     "ng-multiselect-dropdown": "^0.2.10",
     "ngx-facebook": "^3.0.0-0",
+    "ngx-fb": "^1.0.1",
     "ngx-slick": "^0.2.1",
     "ngx-slickjs": "^1.5.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
+    "web-component-essentials": "0.0.4",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {

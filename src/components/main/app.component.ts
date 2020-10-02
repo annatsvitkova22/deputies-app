@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { FacebookService, InitParams } from 'ngx-facebook';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +10,17 @@ export class AppComponent implements OnInit {
   title = 'deputies-app';
 
   constructor(
-    private authFire: AngularFireAuth,
-    private db: AngularFirestore
-  ) { }
+    fb: FacebookService
+  ) {
+    const initParams: InitParams = {
+      appId: '334443524450569',
+      xfbml: true,
+      version: 'v8.0',
+      status: true
+    };
+    fb.init(initParams);
+  }
 
-  async ngOnInit(): Promise<void> {}
+  async ngOnInit(): Promise<void> {
+  }
 }

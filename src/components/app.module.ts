@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {  NgxSlickJsModule } from 'ngx-slickjs';
-import { FacebookModule } from 'ngx-facebook';
+import { FacebookModule, FacebookService, FBCommentsComponent } from 'ngx-facebook';
 import { AgmCoreModule } from '@agm/core';
 
 import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
@@ -85,7 +85,7 @@ import { AboutProjectComponent } from '../pages/about-project/about-project.comp
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLa-5lnf9Reg-5ysvns1vp2r00QCIQMVk',
       libraries: ['places']
-    })
+    }),
   ],
   providers: [
     AuthService,
@@ -94,7 +94,8 @@ import { AboutProjectComponent } from '../pages/about-project/about-project.comp
     SettingsService,
     DeputyService,
     MainService,
-    AuthSimpleGuard
+    AuthSimpleGuard,
+    FacebookService
   ],
   bootstrap: [AppComponent],
   entryComponents: [NgbdModalContent]

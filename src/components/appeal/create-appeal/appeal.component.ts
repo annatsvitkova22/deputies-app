@@ -62,8 +62,8 @@ export class AppealComponent implements OnInit {
     loadMap(): void {
         this.mapsAPILoader.load().then(() => {
             this.map = new google.maps.Map(this.mapElementRef.nativeElement, {
-                center: {lng: 34.5514169, lat: 49.58826699999999},
-                zoom: 15,
+                center: {lng: 34.5514169, lat: 49.5882669},
+                zoom: 11,
                 disableDefaultUI: true
             });
             const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
@@ -81,6 +81,7 @@ export class AppealComponent implements OnInit {
             lat: place.geometry.location.lat(),
             lng: place.geometry.location.lng()
         };
+        this.map.setZoom(15);
         // tslint:disable-next-line: no-unused-expression
         new google.maps.Marker({
             position: place.geometry.location,

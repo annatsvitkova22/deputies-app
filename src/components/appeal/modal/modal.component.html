@@ -1,6 +1,6 @@
 <div class="modal modal-body container">
     <app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
-    <div [class.d-none]='isLoader' class="modal__wrapper">
+    <div *ngIf="!isLoader" [class.d-none]='isLoader' class="modal__wrapper">
         <div class="d-flex justify-content-between align-items-center modal__main">
             <div>
                 <div class="d-flex align-items-center">
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <fb-comments numposts="3"></fb-comments>
+                <fb-comments href="{{url}}" width="100%" height="300"></fb-comments>
             </div>
             <div class="modal__right-section">
                 <div class="modal__status-block">

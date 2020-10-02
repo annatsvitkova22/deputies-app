@@ -248,6 +248,4 @@ export class AppealService {
 
         return comments;
     }
-
-
 }
