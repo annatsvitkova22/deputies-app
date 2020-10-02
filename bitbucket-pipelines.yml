@@ -15,4 +15,5 @@ pipelines:
           script:
             - pipe: atlassian/firebase-deploy:0.4.0
               variables:
-                KEY_FILE: $KEY_FILE
+                FIREBASE_TOKEN: $FIREBASE_TOKEN
+                FIREBASE_PROJECT: $FIREBASE_PROJECT
