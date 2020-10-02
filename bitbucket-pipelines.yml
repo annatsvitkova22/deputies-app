@@ -1,0 +1,19 @@
+image: node:13.12.0
+
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: Build
+          script:
+            - yarn install && yarn build
+          artifacts:
+            - dist/**
+      - step:
+          name: Deploy
+          deployment: staging
+          script:
+            - pipe: atlassian/firebase-deploy:0.4.0
+              variables:
+                FIREBASE_TOKEN: $FIREBASE_TOKEN
+                FIREBASE_PROJECT: $FIREBASE_PROJECT
