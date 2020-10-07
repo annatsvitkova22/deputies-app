@@ -204,7 +204,10 @@ export class AuthService {
         if (token) {
             await this.getTokenResponse(token).toPromise().then((res) => {
                 isValid = true;
-            }).catch(err => isValid = false);
+            }).catch(err =>  {
+                isValid = false;
+                this.signOut();
+            });
         } else {
             isValid = false;
         }

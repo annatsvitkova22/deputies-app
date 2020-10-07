@@ -1,5 +1,5 @@
 
-<app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
+<app-loader *ngIf="isLoader"></app-loader>
 <div *ngIf="!isLoader">
     <form name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
         <div class="avatar-section d-flex align-items-center mt-24 mb-24">

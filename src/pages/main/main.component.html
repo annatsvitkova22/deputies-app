@@ -39,7 +39,7 @@
                         </ng-select>
                     </div>
                 </div>
-                <infinite-scroll (scrolled)="onDeputyScroll()" style="height: 650px;">
+                <infinite-scroll (scrolled)="onDeputyScroll()" style="height: 650px; overflow: scroll;">
                     <div class="main__deputy-list">
                         <app-deputy-card
                             [deputy]="deputy"

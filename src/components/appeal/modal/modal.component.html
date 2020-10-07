@@ -39,7 +39,7 @@
                         <button (click)="onWork(appeal.id, appeal.status)" class="mb-12 btn btn-green">{{textButton}}</button>
                         <button *ngIf="appeal.status === 'До виконання'" (click)="onComplain(appeal.id)"  class="btn">Поскаржитися</button>
                     </div>
-                    <div *ngIf="appeal.location" class="map" #smallMap></div>
+                    <div *ngIf="appeal.location" class="map mt-10" #smallMap></div>
                 </div>
                 <div class="mb-22">
                     <p class="modal__about mb-2">Опис</p>

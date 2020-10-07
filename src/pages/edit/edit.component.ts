@@ -6,6 +6,7 @@ import { ChangeEmailComponent } from '../../components/settings/change-email/cha
 import { ChangePasswordComponent } from '../../components/settings/change-password/change-password.component';
 import { UserAvatarForm, ChangePassword, ResultModel } from '../../models';
 import { NgbdModalContent } from '../../components/modal/modal.component';
+import { AuthService } from '../../components/auth/auth.service';
 
 @Component({
     selector: 'app-edit',
@@ -21,6 +22,7 @@ export class EditComponent implements OnInit {
 
     constructor(
         private modalService: NgbModal,
+        private authService: AuthService
     ){}
 
     async ngOnInit(): Promise<void> {
@@ -36,15 +38,6 @@ export class EditComponent implements OnInit {
         let isError: boolean = false;
         let isChangePas: boolean = false;
         let isEmailPas: boolean = false;
-        if (email) {
-            // tslint:disable-next-line: no-shadowed-variable
-            const changeInfoResult: boolean = await this.emailChild.onSubmit(email);
-            if (changeInfoResult) {
-                isEmailPas = true;
-            } else {
-                isError = true;
-            }
-        }
         if (oldPassword && password && repeatPassword) {
             if (!isError) {
                 const changePasswordResult: ResultModel = await this.passwordChild.onSubmit(passwords);
@@ -53,6 +46,15 @@ export class EditComponent implements OnInit {
                 } else {
                     isError = true;
                 }
+            }
+        }
+        if (email) {
+            // tslint:disable-next-line: no-shadowed-variable
+            const changeInfoResult: boolean = await this.emailChild.onSubmit(email);
+            if (changeInfoResult) {
+                isEmailPas = true;
+            } else {
+                isError = true;
             }
         }
         if (!isError) {
@@ -68,6 +70,7 @@ export class EditComponent implements OnInit {
                 const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent);
                 modalRef.componentInstance.name = 'Помилка оновлення, спробуйте ще раз.';
             }
+            this.authService.signOut();
         }
     }
 }
