@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../auth/auth.service';
@@ -26,12 +26,24 @@ export class HeaderComponent implements OnInit {
     isDropdown: boolean = false;
     isCreateAppeal: boolean;
     path: string;
+    counter: number = 0;
+    isMobile: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
         private authService: AuthService,
-        private router: Router
-    ){}
+        private router: Router,
+    ){ }
+
+    outside(event) {
+        if(event && this.isDropdown) {
+            this.counter = this.counter + 1;
+            if( this.counter !== 1) {
+                this.isDropdown = false;
+                this.counter = 0;
+            }
+        }
+    }
 
     async ngOnInit(): Promise<void> {
         this.route.url.subscribe(res => {
@@ -40,6 +52,9 @@ export class HeaderComponent implements OnInit {
             }
         });
 
+        if (window.innerWidth < 769) {
+            this.isMobile = true;
+        }
         const userAvatar: UserAvatal = await this.authService.getUserImage();
         if (userAvatar && userAvatar.imageUrl) {
             this.imageUrl = userAvatar.imageUrl;
@@ -55,15 +70,16 @@ export class HeaderComponent implements OnInit {
         }
     }
 
-
-    // @HostListener('document:click', ['$event'])
-    // @HostListener('document:touchstart', ['$event'])
-    // handleOutsideClick(event) {
-    //     const avatar = 'avatar avatar__medium header-avatar';
-    //     if (avatar !== event.target.className && this.isDropdown) {
-    //         this.isDropdown = false;
-    //     }
-    // }
+    @HostListener('window:resize', ['$event'])
+	onResize(event) {
+        const width: number = event.target.innerWidth;
+        console.log('width', width)
+        if (width < 769) {
+            this.isMobile = true;
+        } else {
+            this.isMobile = false;
+        }
+	}
 
     onMobileLink() {
         const bodyElement = document.getElementsByTagName('body');
@@ -88,6 +104,7 @@ export class HeaderComponent implements OnInit {
 
     onOpenDropdown(): void {
         this.isDropdown = !this.isDropdown;
+        this.counter = 0;
     }
 
     onDropdown(link: string): void {

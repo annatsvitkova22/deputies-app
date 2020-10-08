@@ -29,6 +29,8 @@ import { AuthSimpleGuard } from './main/auth-simple.guard';
 import { ConfirmAppealComponent } from '../pages/confirm-appeal/confirm-appeal.component';
 import { FeedbackComponent } from '../pages/feedback/feedback.component';
 import { AboutProjectComponent } from '../pages/about-project/about-project.component';
+import { ClickOutsideDirective } from './header/click-outside.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +62,8 @@ import { AboutProjectComponent } from '../pages/about-project/about-project.comp
     ConfirmAppealComponent,
     FeedbackComponent,
     AboutProjectComponent,
-    InfiniteScrollComponent
+    InfiniteScrollComponent,
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,

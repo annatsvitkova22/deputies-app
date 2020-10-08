@@ -19,7 +19,7 @@
                     </nav>
                     <div class="d-flex align-items-center">
                         <a *ngIf="isCreateAppeal" [routerLink]="['/create-appeal']" class="header__btn btn btn-green header__button">Створити запит</a>
-                        <div class="header__avatar">
+                        <div *ngIf="!isMobile" (clickOutside)="outside($event)" class="header__avatar">
                             <div *ngIf="imageUrl || shortName" (click)="onOpenDropdown()">
                                 <app-avatar  [imageUrl]="imageUrl" [name]="shortName" [class]="'avatar__medium header-avatar'"></app-avatar>
                             </div>
@@ -39,8 +39,8 @@
                     </div>
                 </div>
             </div>
-            <div class="header__mobile">
-                <div class="header__avatar">
+            <div *ngIf="isMobile" class="header__mobile">
+                <div (clickOutside)="outside($event)" class="header__avatar">
                     <div *ngIf="imageUrl || shortName" (click)="onOpenDropdown()" class="header__nav-link">
                         <app-avatar [imageUrl]="imageUrl" [name]="shortName" [class]="'avatar__medium header-avatar'"></app-avatar>
                     </div>
