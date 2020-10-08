@@ -372,7 +372,33 @@ path {
 ngb-datepicker.dropdown-menu {
     left: auto !important;
     right: 0;
-    background-color: azure;
+    background-color: $gray-21;
+    border-radius: 8px;
+}
+
+.custom-select {
+    border: 1px solid #dfdfdf;
+    background-color: transparent;
+
+    &:first-of-type {
+        margin-right: 10px;
+    }
+}
+
+.ngb-dp-day {
+    &:focus {
+        outline: none;
+    }
+    .active {
+        border: 1px solid #cccc;
+        background-color: $white;
+    }
+}
+
+.ngb-dp-navigation-select{
+    &:focus {
+        outline: none;
+    }
 }
 
 .cuppa-dropdown .selected-list .c-btn {
