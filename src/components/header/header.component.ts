@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
         {name: 'Про проект', path: '/about-project'}
     ];
     isOpen: boolean;
-    isDropdown: boolean;
+    isDropdown: boolean = false;
     isCreateAppeal: boolean;
     path: string;
 
@@ -56,14 +56,14 @@ export class HeaderComponent implements OnInit {
     }
 
 
-    @HostListener('document:click', ['$event'])
-    @HostListener('document:touchstart', ['$event'])
-    handleOutsideClick(event) {
-        const avatar = 'avatar avatar__medium header-avatar';
-        if (avatar !== event.target.className && this.isDropdown) {
-            this.isDropdown = false;
-        }
-    }
+    // @HostListener('document:click', ['$event'])
+    // @HostListener('document:touchstart', ['$event'])
+    // handleOutsideClick(event) {
+    //     const avatar = 'avatar avatar__medium header-avatar';
+    //     if (avatar !== event.target.className && this.isDropdown) {
+    //         this.isDropdown = false;
+    //     }
+    // }
 
     onMobileLink() {
         const bodyElement = document.getElementsByTagName('body');
