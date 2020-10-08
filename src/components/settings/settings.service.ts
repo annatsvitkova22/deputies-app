@@ -107,6 +107,7 @@ export class SettingsService {
                     district: data.district,
                     imageUrl: data.imageUrl,
                     date: data.date,
+                    description: data.description ? data.description : null
                 };
             } else {
                 user = {

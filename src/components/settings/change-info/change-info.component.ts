@@ -59,6 +59,7 @@ export class ChangeInfoComponent implements OnInit {
                 name: user.name,
                 surname: user.surname,
                 patronymic: user.patronymic,
+                description: user.description,
                 district: district ? district : null,
                 party: party ? party : null,
             });
