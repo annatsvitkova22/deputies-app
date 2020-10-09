@@ -21,6 +21,11 @@
         transition: all 0.3s;
         cursor: pointer;
 
+        &:hover {
+            background: $gray-15;
+            color: $white;
+        }
+
         &--active {
             background: $white;
             color: $gray-15;

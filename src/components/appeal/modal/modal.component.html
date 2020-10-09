@@ -104,7 +104,7 @@
                         <div class="modal__space">
                             <div class="modal__comments" [class.modal__comments--active]="oneComment.isBackground">
                                 <p class="modal__comments-title">{{oneComment.autorName}}</p>
-                                <div *ngIf="oneComment.type == 'feedback'" class="d-flex align-items-center">
+                                <div *ngIf="oneComment.type == 'feedback'" class="d-flex align-items-center mt-6">
                                     <ngb-rating [(rate)]="oneComment.rating">
                                         <ng-template let-fill="fill" let-index="index">
                                             <span class="star" [class.filled]="fill === 100">&#9733;</span>

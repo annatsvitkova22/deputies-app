@@ -101,6 +101,6 @@ import { ClickOutsideDirective } from './header/click-outside.directive';
     FacebookService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [NgbdModalContent]
+  entryComponents: [NgbdModalContent, ModalComponent]
 })
 export class AppModule { }
