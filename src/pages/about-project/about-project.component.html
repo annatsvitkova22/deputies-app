@@ -2,8 +2,8 @@
 <main class="main">
     <div class="container container__small mt-28">
         <div class="card-shadow confirm wrapper-big">
-            <h2 class="main-title">Про проект</h2>
-            <p class="mt-32 tx-color-5 line-height-146 letter-spacing-001">
+            <h2 class="main-title mb-20">Про проект</h2>
+            <p class="mt-12 tx-color-5 line-height-146 letter-spacing-001" *ngFor="let text of texts">
                 {{text}}
             </p>
         </div>
