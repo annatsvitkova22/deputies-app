@@ -32,6 +32,7 @@ export class ChangeInfoComponent implements OnInit {
     // tslint:disable-next-line: no-inferrable-types
     isLoader: boolean = true;
     class: string;
+    isLoadFile: boolean;
 
     constructor(
         private appealService: AppealService,
@@ -78,11 +79,13 @@ export class ChangeInfoComponent implements OnInit {
     }
 
     async onFileChange(event): Promise<void> {
+        this.isLoadFile = true;
         const file: File = event.target.files[0];
         if (file) {
             const fileInfo: LoadedFile = await this.appealService.uploadFile(file);
             this.userAvatar.imageUrl = fileInfo.imageUrl;
         }
+        this.isLoadFile = false;
     }
 
     async onSubmit(data: UserAvatarForm): Promise<ResultModel> {
