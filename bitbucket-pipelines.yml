@@ -25,7 +25,7 @@ pipelines:
           name: Deploy
           deployment: staging
           script:
-            - #sed -i "s|{{image}}|$DOCKER_HUB_USERNAME/$APPLICATION_NAME:$BITBUCKET_COMMIT|g" deployment.yaml
+            - sed -i "s|{{image}}|$DOCKER_HUB_USERNAME/$APPLICATION_NAME:$BITBUCKET_COMMIT|g" deployment.yaml
             - sed -i "s|{{host}}|$STAGING_URL|g" deployment.yaml
             - sed -i "s|{{dockerconfigjson}}|$dockerconfigjson|g" deployment.yaml
             - sed -i "s|{{env}}|staging|g" deployment.yaml
