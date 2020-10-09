@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zmist
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: regcred
+  namespace: zmist
+data:
+  .dockerconfigjson: {{dockerconfigjson}}
+type: kubernetes.io/dockerconfigjson
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: deputies-app
+    app.kubernetes.io/instance: deputies-app
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/part-of: deputies-app
+    app.kubernetes.io/managed-by: docker
+    environment: {{env}}
+    tier: frontend
+    partition: zmist
+  name: deputies-app
+  namespace: zmist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: deputies-app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: deputies-app
+    spec:
+      containers:
+        - image: vladyslavromanenko/deputies-app:staging
+          imagePullPolicy: "Always"
+          name: deputies-app
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Always
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: deputies-app
+    app.kubernetes.io/instance: deputies-app
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/part-of: deputies-app
+    app.kubernetes.io/managed-by: docker
+    environment: {{env}}
+    tier: frontend
+    partition: zmist
+  name: deputies-app
+  namespace: zmist
+spec:
+  type: ClusterIP
+  ports:
+    - name: "80"
+      port: 80
+      targetPort: 80
+  selector:
+    app.kubernetes.io/name: deputies-app
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: deputies-app-ingress
+  namespace: zmist
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  labels:
+    environment: {{env}}
+    tier: ingress
+    partition: zmist
+spec:
+  tls:
+    - hosts:
+        - {{host}}
+      secretName: deputies-app-main-tls
+  rules:
+    - host: {{host}}
+      http:
+        paths:
+          - backend:
+              serviceName: deputies-app
+              servicePort: 80

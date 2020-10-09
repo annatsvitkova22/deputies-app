@@ -70,7 +70,7 @@ export class EditComponent implements OnInit {
                 const modalRef: NgbModalRef = this.modalService.open(NgbdModalContent);
                 modalRef.componentInstance.name = 'Помилка оновлення, спробуйте ще раз.';
             }
-            if (changeInfoResult.status) {
+            if (isEmailPas) {
                 this.authService.signOut();
             }
         }
