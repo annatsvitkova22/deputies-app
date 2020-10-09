@@ -8,13 +8,13 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
 import { MainState } from '../../store/main.state';
 import { AddAuth, DeleteAuth } from '../../store/auth.action';
 import { AuthState, CreateUser, SocialProfile, UserAvatal, AuthUser, ResultModel, PictureModal } from '../../models';
 
 @Injectable()
 export class AuthService {
-    private checkTokenPath: string = 'https://us-central1-deputy-app.cloudfunctions.net/checkToken';
 
     constructor(
         private authFire: AngularFireAuth,
@@ -216,7 +216,7 @@ export class AuthService {
     }
 
     getTokenResponse(token: string): Observable<any> {
-        return this.httpClient.post(this.checkTokenPath, {
+        return this.httpClient.post(environment.checkTokenPath, {
             token
         }).pipe(catchError(this.errorHandler));
     }

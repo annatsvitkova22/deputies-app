@@ -13,7 +13,10 @@ export const environment = {
     messagingSenderId: '1007048503532',
     appId: '1:1007048503532:web:d31131019442a79b1bf5c9',
     measurementId: 'G-YW0E58STPW'
-  }
+  },
+  checkTokenPath: 'https://us-central1-deputy-app.cloudfunctions.net/checkToken',
+  changeEmail: 'https://us-central1-deputy-app.cloudfunctions.net/updateEmail',
+  blockAppealPath: 'https://us-central1-deputy-app.cloudfunctions.net/blockAppeal'
 };
 
 /*

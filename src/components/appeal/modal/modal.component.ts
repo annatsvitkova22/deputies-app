@@ -70,8 +70,10 @@ export class ModalComponent implements OnInit, OnDestroy {
             if (this.appeal.status === 'Виконано') {
                 const isFeedback = await this.appealService.getFeedbackMessage(this.appeal.id);
                 if (!isFeedback) {
-                    this.router.navigate(['/feedback', this.appeal.id]);
+                    console.log('123123')
+                    console.log('this.appeal.id', this.appeal.id)
                     this.activeModal.dismiss('Cross click');
+                    this.router.navigate(['/feedback', this.appeal.id]);
                 }
             }
         } else if (this.appeal.deputyId === userId) {

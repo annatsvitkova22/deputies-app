@@ -7,12 +7,12 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { transliterate as slugify } from 'transliteration';
 
+import { environment } from '../../environments/environment';
 import { District, Deputy, ResultModel, Appeal, LoadedFile, Comment, ResultComment, BlockAppeal, Location } from '../../models';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class AppealService {
-    private blockAppealPath: string = 'https://us-central1-deputy-app.cloudfunctions.net/blockAppeal';
 
     constructor(
         private db: AngularFirestore,
@@ -51,7 +51,7 @@ export class AppealService {
     }
 
     sendEmailDeputy(data: BlockAppeal): Observable<any> {
-        return this.httpClient.post(this.blockAppealPath, data)
+        return this.httpClient.post(environment.blockAppealPath, data)
             .pipe(catchError(this.errorHandler));
     }
 

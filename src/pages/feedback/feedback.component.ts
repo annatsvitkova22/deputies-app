@@ -38,9 +38,11 @@ export class FeedbackComponent implements OnInit {
     }
 
     async ngOnInit(): Promise<void> {
+        console.log('555555')
         this.currentRate = 1;
         this.route.params.subscribe(params => {
             this.appealId = params['id'];
+            console.log('this.appealId', this.appealId)
         });
         this.appeal = await this.deputyService.getTitleAppeals(this.appealId);
         const userId = await this.authService.getUserId();

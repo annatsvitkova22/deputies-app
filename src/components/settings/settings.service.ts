@@ -5,13 +5,12 @@ import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+import { environment } from '../../environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { ResultModel, ChangeEmail, Party, UserModel, UserFormModel } from '../../models';
 
 @Injectable()
 export class SettingsService {
-    // tslint:disable-next-line: no-inferrable-types
-    private changeEmail: string = 'https://us-central1-deputy-app.cloudfunctions.net/updateEmail';
 
     constructor(
         private authService: AuthService,
@@ -40,7 +39,7 @@ export class SettingsService {
     }
 
     sendEmailDeputy(data: ChangeEmail): Observable<any> {
-        return this.httpClient.post(this.changeEmail, data)
+        return this.httpClient.post(environment.changeEmail, data)
             .pipe(catchError(this.errorHandler));
     }
 

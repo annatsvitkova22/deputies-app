@@ -73,7 +73,6 @@ export class HeaderComponent implements OnInit {
     @HostListener('window:resize', ['$event'])
 	onResize(event) {
         const width: number = event.target.innerWidth;
-        console.log('width', width)
         if (width < 769) {
             this.isMobile = true;
         } else {
