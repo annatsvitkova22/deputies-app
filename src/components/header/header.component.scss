@@ -20,7 +20,7 @@
     }
 
     &__mobile-nav {
-        margin-left: -26px;
+        margin-left: -66px;
     }
 
     &__btn {
@@ -168,10 +168,14 @@
     }
 }
 
-@media only screen and (max-width:1130px) {
+@media only screen and (max-width:1280px) {
     .header {
         &__mobile-nav {
             margin-left: 0;
+        }
+
+        &__link {
+            padding: 5px 12px;
         }
     }
 }
