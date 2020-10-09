@@ -98,7 +98,7 @@ spec:
   tls:
     - hosts:
         - {{host}}
-      secretName: deputies-app-tls
+      secretName: deputies-app-main-tls
   rules:
     - host: {{host}}
       http:
