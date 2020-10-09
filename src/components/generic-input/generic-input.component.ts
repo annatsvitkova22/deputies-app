@@ -24,6 +24,7 @@ export class GenericInputComponent implements ControlValueAccessor, Validator, O
   @Input() id: string;
   @Input() errorMsg: string;
   @Input() placeholder: string;
+  isShowPassword: boolean = false;
 
   constructor(@Self() public controlDir: NgControl) {
     this.controlDir.valueAccessor = this;
@@ -70,5 +71,14 @@ export class GenericInputComponent implements ControlValueAccessor, Validator, O
     }
 
     return validators;
+  }
+
+  onEye(): void {
+    this.isShowPassword = !this.isShowPassword;
+    if (this.isShowPassword) {
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
   }
 }
