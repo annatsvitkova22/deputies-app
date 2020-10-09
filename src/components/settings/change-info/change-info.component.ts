@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 
 import { AppealService } from '../../appeal/appeal.service';
-import { District, ResultModel, UserAvatal, UserAvatarForm, AuthState } from '../../../models';
+import { District, ResultModel, UserAvatal, UserAvatarForm, AuthState, LoadedFile } from '../../../models';
 import { AuthService } from '../../auth/auth.service';
 import { SettingsService } from '../settings.service';
 import { Party } from '../../../models';
@@ -73,17 +73,16 @@ export class ChangeInfoComponent implements OnInit {
         this.isLoader = false;
     }
 
-    onFileChange(event): void {
-        const file = event.target.files[0];
-        const reader: FileReader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            this.userAvatar.imageUrl = reader.result as string;
-        };
-    }
-
     onDeleteFile(): void {
         this.userAvatar.imageUrl = null;
+    }
+
+    async onFileChange(event): Promise<void> {
+        const file: File = event.target.files[0];
+        if (file) {
+            const fileInfo: LoadedFile = await this.appealService.uploadFile(file);
+            this.userAvatar.imageUrl = fileInfo.imageUrl;
+        }
     }
 
     async onSubmit(data: UserAvatarForm): Promise<ResultModel> {
