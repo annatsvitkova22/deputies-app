@@ -42,7 +42,7 @@ spec:
         app.kubernetes.io/name: deputies-app
     spec:
       containers:
-        - image: vladyslavromanenko/deputies-app:staging-4
+        - image: {{image}}
           imagePullPolicy: "Always"
           name: deputies-app
           ports:
