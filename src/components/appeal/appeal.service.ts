@@ -81,6 +81,7 @@ export class AppealService {
         const randomId: string = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 4);
         let appealId: string = title.toLocaleLowerCase().substr(0, 32)  + '-' + randomId;
         appealId = slugify(appealId);
+        appealId = appealId.split(' ').join('-');
         const userId: string = await this.authService.getUserId();
         const urlImages: string[] = [];
         const urlFiles: string[] = [];
