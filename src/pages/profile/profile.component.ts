@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
         }
         this.type = null;
         this.counter = 0;
-        this.count = 3;
+        this.count = 5;
         this.user = await this.authService.getUserById();
         if (this.user.role === 'deputy') {
             this.deputy = await this.deputyService.getDeputy(this.user.userId);
@@ -79,16 +79,26 @@ export class ProfileComponent implements OnInit {
     async onScroll(): Promise<void> {
         if (!this.counter) {
             this.counter++;
-            this.isLoaderAppeal = true;
-            this.count = this.count + 3;
+            let count: number = 0;
             if (this.user.role === 'deputy') {
-                this.appeals = await this.deputyService.getAppeal(this.user.userId, this.deputy, this.count, this.type);
+                count = await this.deputyService.getCountAllAppeals(this.user.userId, this.type);
             } else {
-                this.appeals = await this.deputyService.getAppealByUser(this.user.userId, this.userAvatar,
-                    this.user.name, this.count, this.type);
+                count = await this.deputyService.getCountAppealByUser(this.user.userId, this.type);
             }
-            this.isLoaderAppeal = false;
-            this.counter = 0;
+            if (this.appeals && this.appeals.length === count) {
+                this.counter = 0;
+            } else {
+                this.isLoaderAppeal = true;
+                this.count = this.count + 5;
+                if (this.user.role === 'deputy') {
+                    this.appeals = await this.deputyService.getAppeal(this.user.userId, this.deputy, this.count, this.type);
+                } else {
+                    this.appeals = await this.deputyService.getAppealByUser(this.user.userId, this.userAvatar,
+                        this.user.name, this.count, this.type);
+                }
+                this.isLoaderAppeal = false;
+                this.counter = 0;
+            }
         }
     }
 

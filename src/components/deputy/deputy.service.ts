@@ -68,6 +68,22 @@ export class DeputyService {
         return dataRef;
     }
 
+    filteByUserForCount(ref, userId: string, type: string = null) {
+        let dataRef = ref.where('userId', '==', userId);
+        dataRef = dataRef.where('isBlock', '==', false);
+        if (type) {
+            dataRef = dataRef.where('status', '==', type);
+        }
+
+        return dataRef;
+    }
+
+    async getCountAppealByUser(userId: string, type: string = null): Promise<number> {
+        const appealspans: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
+            = await this.db.collection('appeals', ref => this.filteByUserForCount(ref, userId, type)).get().toPromise();
+        return appealspans.size;
+    }
+
 
     async getAppealByUser(userId: string, userAvatar: UserAvatal, userName: string, count: number, type: string = null ): Promise<AppealCard[]> {
         // tslint:disable-next-line: max-line-length
@@ -144,6 +160,21 @@ export class DeputyService {
         return dataRef;
     }
 
+    filterAppealForCount(ref, deputyId: string, type: string = null) {
+        let dataRef = ref.where('deputyId', '==', deputyId);
+        dataRef = dataRef.where('isBlock', '==', false);
+        if (type) {
+            dataRef = dataRef.where('status', '==', type);
+        }
+
+        return dataRef;
+    }
+
+    async getCountAllAppeals(deputyId: string, type: string = null): Promise<number> {
+        const appealspans: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
+            = await this.db.collection('appeals', ref => this.filterAppealForCount(ref, deputyId, type)).get().toPromise();
+        return appealspans.size;
+    }
 
     async getAppeal(deputyId: string, deputy: UserAccount, count: number, type: string = null): Promise<AppealCard[]> {
         // tslint:disable-next-line: max-line-length
@@ -274,6 +305,19 @@ export class DeputyService {
         const resultSpans = await dateRef.get();
         date = date.concat(resultSpans.docs);
         return date;
+    }
+
+    async getCountDeputy(settings: Settings, type: string = null): Promise<number> {
+        let snapshots;
+        if (type === 'deputies') {
+            const ref = this.db.collection('users').ref;
+            snapshots = await this.setFilter(ref, settings);
+        } else {
+            const deputies = await this.db.collection('users', ref => this.sortingDeputy(ref, settings)).get().toPromise();
+            snapshots = deputies.docs;
+        }
+
+        return snapshots.length;
     }
 
     async getAllDeputy(settings: Settings, count: number, type: string = null): Promise<Deputy[]> {

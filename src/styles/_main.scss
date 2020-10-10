@@ -113,6 +113,10 @@ p {
         opacity: 0.5;
     }
 
+    &:hover {
+        background-color: $gray-24;
+    }
+
     &__small {
         padding: 6px 11px;
         font-weight: 500;
@@ -298,11 +302,7 @@ path {
         display: none;
     }
 
-    .ng-option-selected {
-        color: $black-main;
-    }
-
-    .ng-value {
+    .ng-value, .ng-option-selected, .ng-option-label:hover {
         color: $black-main;
     }
 

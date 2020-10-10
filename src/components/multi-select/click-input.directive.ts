@@ -1,22 +1,27 @@
 import {Directive, ElementRef, Output, EventEmitter, HostListener} from '@angular/core';
 
 @Directive({
-    selector: '[clickOutside]'
+    selector: '[clickSelect]'
 })
-export class ClickOutsideDirective {
+export class ClickSelectDirective {
     constructor(private elementRef: ElementRef) {
     }
 
-    @Output() public clickOutside = new EventEmitter();
+    @Output() public clickSelect = new EventEmitter();
 
     @HostListener('document:click', ['$event.path'])
     @HostListener('document:touchstart', ['$event.path'])
     public onGlobalClick(targetElementPath: Array<any>) {
         let elementRefInPath = targetElementPath.find(e => e === this.elementRef.nativeElement);
         if (!elementRefInPath) {
-            this.clickOutside.emit(true);
+            this.clickSelect.emit(false);
         } else {
-            this.clickOutside.emit(false);
+            const nodeList = this.elementRef.nativeElement.querySelectorAll('.c-angle-down');
+            if (nodeList.length) {
+                this.clickSelect.emit(true);
+            } else {
+                this.clickSelect.emit(false);
+            }
         }
     }
 }

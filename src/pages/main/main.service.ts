@@ -88,6 +88,12 @@ export class MainService {
         return counter;
     }
 
+    async getCountgetAppeal(settings: Settings): Promise<number> {
+        const ref = this.db.collection('appeals').ref;
+        let snapshots = await this.setFilter(ref, settings);
+        return snapshots.length;
+    }
+
 
     async getAppeal(settings: Settings, count: number): Promise<AppealCard[]> {
         const ref = this.db.collection('appeals').ref;

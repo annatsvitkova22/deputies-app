@@ -8,7 +8,7 @@
                     <app-multi [selectedItems]="selectDistricts" (changes)="changeAppeals($event)" [dropdownList]="districts"  [type]="'districts'" [text]="'Район'"></app-multi>
                     <app-multi [selectedItems]="selectedStatus" (changes)="changeAppeals($event)" [type]="'statuses'" [text]="'Статус'"></app-multi>
                     <div class="input-calendar">
-                        <input class="input c-btn" placeholder="Сьогоднi"
+                        <input readonly class="input c-btn" placeholder="Сьогоднi"
                                 formControlName="date" 
                                 name="dp" ngbDatepicker #d="ngbDatepicker" (dateSelect)="onSaveDate()">
                         <div class="input-calendar-append">
@@ -39,7 +39,7 @@
                         </ng-select>
                     </div>
                 </div>
-                <infinite-scroll (scrolled)="onDeputyScroll()" style="height: 650px; overflow: scroll;">
+                <infinite-scroll (scrolled)="onDeputyScroll()" style="height: 650px; overflow-y: scroll;">
                     <div class="main__deputy-list">
                         <app-deputy-card
                             [deputy]="deputy"
