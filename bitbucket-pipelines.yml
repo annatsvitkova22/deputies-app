@@ -37,4 +37,31 @@ pipelines:
                 CLUSTER_NAME: $GCLOUD_CLUSTER_NAME
                 KUBECTL_COMMAND: 'apply'
                 RESOURCE_PATH: 'deployment.yaml'
+    master:
+      - step:
+          name: Build
+          size: 2x
+          script:
+            - export IMAGE_NAME=$DOCKER_HUB_USERNAME/$APPLICATION_NAME:$BITBUCKET_COMMIT
+            - docker build -t $IMAGE_NAME .
+            - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+            - docker push $IMAGE_NAME
+          services:
+            - docker
+      - step:
+          name: Deploy
+          deployment: production
+          script:
+            - sed -i "s|{{image}}|$DOCKER_HUB_USERNAME/$APPLICATION_NAME:$BITBUCKET_COMMIT|g" deployment.yaml
+            - sed -i "s|{{host}}|$PRODUCTION_URL|g" deployment.yaml
+            - sed -i "s|{{dockerconfigjson}}|$dockerconfigjson|g" deployment.yaml
+            - sed -i "s|{{env}}|production|g" deployment.yaml
+            - sed -i "s|letsencrypt-production|letsencrypt-zmist-prod|g" deployment.yaml
+            - pipe: atlassian/kubectl-run:1.2.0
+              variables:
+                KUBE_CONFIG: $PROD_KUBE
+                KUBECTL_COMMAND: 'apply'
+                RESOURCE_PATH: 'deployment.yaml'
+                KUBECTL_ARGS:
+                  - '--namespace=zmist'
 
