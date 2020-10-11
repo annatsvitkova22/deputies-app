@@ -100,12 +100,17 @@ export class DeputiesComponent implements OnInit {
     async onScroll(): Promise<void> {
         if (!this.counter) {
             this.counter++;
-            this.isLoaderDeputy = true;
-            this.count = this.count + 3;
             const settings = await this.mainService.getSettings();
-            this.deputies = await this.deputyService.getAllDeputy(settings, this.count, 'deputies');
-            this.isLoaderDeputy = false;
-            this.counter = 0;
+            const countAllDeputy = await this.deputyService.getCountDeputy(settings, 'deputies');
+            if (this.deputies && countAllDeputy === this.deputies.length) {
+                this.counter = 0;
+            } else {
+                this.isLoaderDeputy = true;
+                this.count = this.count + 5;
+                this.deputies = await this.deputyService.getAllDeputy(settings, this.count, 'deputies');
+                this.isLoaderDeputy = false;
+                this.counter = 0;
+            }
         }
     }
 }

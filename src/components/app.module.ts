@@ -30,6 +30,7 @@ import { ConfirmAppealComponent } from '../pages/confirm-appeal/confirm-appeal.c
 import { FeedbackComponent } from '../pages/feedback/feedback.component';
 import { AboutProjectComponent } from '../pages/about-project/about-project.component';
 import { ClickOutsideDirective } from './header/click-outside.directive';
+import { ClickSelectDirective } from './multi-select/click-input.directive';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { ClickOutsideDirective } from './header/click-outside.directive';
     FeedbackComponent,
     AboutProjectComponent,
     InfiniteScrollComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    ClickSelectDirective
   ],
   imports: [
     BrowserModule,

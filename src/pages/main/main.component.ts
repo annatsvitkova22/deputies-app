@@ -101,21 +101,31 @@ export class MainComponent implements OnInit {
     async onScroll(): Promise<void> {
         if (!this.counter) {
             this.counter++;
-            this.isLoaderAppeal = true;
-            this.count = this.count + 5;
-            const settings = await this.mainService.getSettings();
-            this.appeals = await this.mainService.getAppeal(settings, this.count);
-            this.counter = 0;
-            this.isLoaderAppeal = false;
+            const settings: Settings = await this.mainService.getSettings();
+            const countAppeal = await this.mainService.getCountgetAppeal(settings);
+            if (this.appeals && this.appeals.length === countAppeal) {
+                this.counter = 0;
+            } else {
+                this.isLoaderAppeal = true;
+                this.count = this.count + 5;
+                this.appeals = await this.mainService.getAppeal(settings, this.count);
+                this.counter = 0;
+                this.isLoaderAppeal = false;
+            }
         }
     }
 
     async onDeputyScroll(): Promise<void> {
         if (!this.counter) {
             this.counter++;
-            this.deputyCount = this.deputyCount + 5;
-            this.deputies = await this.deputyService.getAllDeputy(this.settings, this.deputyCount);
-            this.counter = 0;
+            const countAllDeputy = await this.deputyService.getCountDeputy(this.settings);
+            if (this.deputies && this.deputies.length === countAllDeputy) {
+                this.counter = 0;
+            } else {
+                this.deputyCount = this.deputyCount + 5;
+                this.deputies = await this.deputyService.getAllDeputy(this.settings, this.deputyCount);
+                this.counter = 0;
+            }
         }
     }
 

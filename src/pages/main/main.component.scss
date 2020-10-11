@@ -38,7 +38,7 @@
 
     &-append {
         position: absolute;
-        right: 20px;
+        right: 16px;
         top: 11px;
     }
 }
@@ -64,6 +64,9 @@ input {
 
 @media only screen and (max-width: 420px) {
     .input-calendar-append {
-        right: 16px;
+        right: 14px;
+    }
+    input {
+        padding: 8px 15px;
     }
 }

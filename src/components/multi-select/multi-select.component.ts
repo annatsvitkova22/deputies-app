@@ -25,6 +25,7 @@ export class MultiSelectComponent implements OnInit {
     buttonText: string;
     counter: number;
     bottomSection: number;
+    isOnButton: boolean;
 
     constructor(
         private store: Store<MainState>,
@@ -53,14 +54,6 @@ export class MultiSelectComponent implements OnInit {
         this.bottomSection = -90 - this.dropdownList.length * 40;
     }
 
-    handlerOpen(): void {
-        this.isDrop = true;
-    }
-
-    handlerClose(): void {
-        this.isDrop = false;
-    }
-
     onItemSelect(item: any): void {
         this.counter++;
         this.buttonText = 'Очистити(' + this.counter + ')';
@@ -75,6 +68,7 @@ export class MultiSelectComponent implements OnInit {
     }
 
     async resetForm(f: NgForm): Promise<void> {
+        this.isOnButton = true;
         f.reset();
         this.buttonText = 'Очистити';
         this.counter = 0;
@@ -120,6 +114,41 @@ export class MultiSelectComponent implements OnInit {
     }
 
     saveOptions(): void {
+        this.isOnButton = true;
         this.dispatchToStore();
+    }
+
+    onSelect(event): void {
+        if (event && this.isDrop) {
+            this.isDrop = false;
+        } else if (event && !this.isDrop) {
+            this.isDrop = true;
+        }
+    }
+
+    outside(event): void {
+        if (event) {
+            if (this.isDrop) {
+                this.isDrop = false;
+            }
+        } else {
+            if (!this.isDrop) {
+                this.isDrop = true;
+            }
+            if (this.isOnButton) {
+                this.isDrop = false;
+                this.isOnButton = false;
+            }
+        }
+    }
+
+    onButtons(event): void {
+        if (!event) {
+            if (window.innerWidth > 768) {
+                this.isDrop = false;
+            } else {
+                this.isOnButton = true;
+            }
+        }
     }
 }
