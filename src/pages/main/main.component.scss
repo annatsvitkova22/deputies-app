@@ -1,0 +1,72 @@
+@import '../../styles/variables';
+
+.main {
+    &__settings {
+        margin: 28px 0;
+    }
+
+    &__deputy {
+        padding-top: 34px;
+        margin-left: 28px;
+    }
+
+    &__deputy-title {
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.87;
+        letter-spacing: 0.02em;
+        color: $gray-7;
+    }
+
+    .input {
+        max-width: 135px;
+        border: 1px solid $gray-14;
+        box-sizing: border-box;
+        border-radius: 30px;
+        text-align: start;
+
+        &::placeholder {
+            color: $black-main;
+            letter-spacing: 0.01em;
+            font-weight: 500;
+        }
+    }
+}
+
+.input-calendar {
+    position: relative;
+
+    &-append {
+        position: absolute;
+        right: 16px;
+        top: 11px;
+    }
+}
+
+input {
+    padding: 8px 20px;
+}
+
+.calendar {
+    background-image: url('../../static/calendar-small.svg') !important;
+    background-repeat: no-repeat;
+    background-color: $white;
+    width: 16px;
+    height: 20px;
+    padding: 0;
+}
+
+@media only screen and (max-width: 860px) {
+    .main__deputy {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .input-calendar-append {
+        right: 14px;
+    }
+    input {
+        padding: 8px 15px;
+    }
+}

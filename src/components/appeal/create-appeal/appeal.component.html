@@ -1,0 +1,82 @@
+<app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
+<app-header *ngIf="!isLoader"></app-header>
+<div [class.d-none]='isLoader' class="container container__extra-small">
+    <div class="wrapper-form card-shadow">
+        <div name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
+            <h2 class="main-title mb-36">Запит до депутата</h2>
+            <div class="form-group">
+            <input 
+            type="text"
+            class="input"
+            id="title"
+            placeholder="Тема запиту"
+            name="title"
+            [ngClass]="{'is-invalidClass':form.get('title').touched && form.get('title').invalid}"
+            formControlName="title"
+            required
+            />
+            <div *ngIf="form.get('title').touched && form.get('title').invalid"
+                class="invalid-feedback">
+                <p 
+                    *ngIf="form.get('title').errors"
+                    class="is-invalid"
+                >
+                    Обов`язкове поле
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <textarea
+                class="input textarea"
+                placeholder="Опис"
+                formControlName="description"
+                name="description">
+            </textarea
+            >
+        </div>
+        <div class="form-group">
+            <input #search id="search" class="input" placeholder="Адреса" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" />
+            <div class="map" #map></div>
+        </div>
+        <div class="form-group">
+            <ng-select [items]="districts"
+                class="input"
+                bindLabel="name"
+                placeholder="Район"
+                (ngModelChange)="onDistrictsChange($event)"
+                formControlName="district">
+            </ng-select>
+        </div>
+        <div class="form-select">
+            <ng-select [items]="deputies"
+                class="input"
+                bindLabel="name"
+                placeholder="Виберіть депутата"
+                formControlName="deputy"
+                (ngModelChange)="onDeputyChange($event)"
+                >
+            </ng-select>
+        </div>
+        <div *ngIf="loadedFiles.length">
+            <app-uploaded-file 
+                (deleteFileName)="deleteFile($event)"
+                [file]="loadedFile"
+                *ngFor="let loadedFile of loadedFiles"
+            ></app-uploaded-file>
+        </div>
+        <app-loader *ngIf="isLoadFile" [class]="'mb-10 loader-medium'"></app-loader>
+        <div class="form-group">
+            <button  (click)="uploadInput.click()" class="upload-file btn btn__small">Завантажити файли</button>
+            <input 
+                type="file"
+                (change)="onFileChange($event)"
+                #uploadInput
+                style="display: none;"
+            />
+        </div>
+        <div *ngIf="isError" class="is-invalid is-auth">
+            <p>{{message}}</p>
+        </div>
+        <button type="button" (click)="onSubmit()" [disabled]="!form.valid" class="btn btn-green btn-big mt-8">Створити запит</button>
+    </div>
+</div>

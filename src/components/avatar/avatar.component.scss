@@ -1,0 +1,54 @@
+@import '../../styles/variables';
+
+.avatar {
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    object-position: center;
+
+    &-name {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $gray-4;
+        color: $white;
+    }
+
+    &__big {
+        width: 128px;
+        height: 128px;
+        font-size: 24px;
+    }
+
+    &__extra-large {
+        width: 96px;
+        height: 96px;
+    }
+
+    &__large {
+        width: 76px;
+        height: 76px;
+    }
+
+    &__normal {
+        width: 46px;
+        height: 46px;
+    }
+
+    &__medium {
+        width: 42px;
+        height: 42px;
+    }
+
+    &__small {
+        width: 36px;
+        height: 36px;
+    }
+
+    &__extra-small {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+}

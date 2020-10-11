@@ -1,0 +1,38 @@
+<app-header></app-header>
+<app-loader *ngIf="isLoader"></app-loader>
+<main *ngIf="!isLoader" class="main">
+    <div class="container container__small mt-28">
+        <div class="card-shadow confirm wrapper-big">
+            <h2 class="main-title">Підтвердити запит</h2>
+            <p class="confirm__title title-second title font-weight-600">{{title}}</p>
+            <div class="form-group" [formGroup]="form">
+                <textarea
+                    class="input textarea confirm__comment"
+                    placeholder="Опис"
+                    formControlName="comment"
+                    name="comment">
+                </textarea
+                >
+            </div>
+            <div *ngIf="loadedFiles.length">
+                <app-uploaded-file 
+                    (deleteFileName)="deleteFile($event)"
+                    [file]="loadedFile"
+                    *ngFor="let loadedFile of loadedFiles"
+                ></app-uploaded-file>
+            </div>
+            <app-loader *ngIf="isLoadFile" [class]="'mb-10 loader-medium'"></app-loader>
+            <div class="form-group">
+                <button  (click)="uploadInput.click()" class="upload-file btn btn__small">Завантажити файли</button>
+                <input 
+                    type="file"
+                    (change)="onFileChange($event)"
+                    #uploadInput
+                    style="display: none;"
+                />
+            </div>
+            <button (click)="onSave()" [disabled]="!form.valid" type="button" class="btn btn-big btn-green mt-8">Підтвердити</button>
+            <button (click)="onReturn()" type="button" class="btn btn-big mt-12">Відмінити</button>
+        </div>
+    </div>
+</main>

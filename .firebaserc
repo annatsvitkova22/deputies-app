@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "deputy-app",
+    "n": "deputy-app",
+    "staging": "deputy-app"
+  }
+}

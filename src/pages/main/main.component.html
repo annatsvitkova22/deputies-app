@@ -1,0 +1,54 @@
+<app-header></app-header>
+<app-loader *ngIf="isLoader"></app-loader>
+<main *ngIf="!isLoader" class="main">
+    <div class="container">
+        <div [formGroup]="form" class="d-flex justify-content-between">
+            <div class="w-100">
+                <div class="main__settings d-flex">
+                    <app-multi [selectedItems]="selectDistricts" (changes)="changeAppeals($event)" [dropdownList]="districts"  [type]="'districts'" [text]="'Район'"></app-multi>
+                    <app-multi [selectedItems]="selectedStatus" (changes)="changeAppeals($event)" [type]="'statuses'" [text]="'Статус'"></app-multi>
+                    <div class="input-calendar">
+                        <input readonly class="input c-btn" placeholder="Сьогоднi"
+                                formControlName="date" 
+                                name="dp" ngbDatepicker #d="ngbDatepicker" (dateSelect)="onSaveDate()">
+                        <div class="input-calendar-append">
+                            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                <infinite-scroll (scrolled)="onScroll()" >
+                    <app-appeal-card
+                        [appeal]="appeal"
+                        *ngFor="let appeal of appeals"
+                    >
+                    </app-appeal-card>
+                    <app-loader *ngIf="isLoaderAppeal" [class]="'mb-30 loader-medium'" ></app-loader>
+                </infinite-scroll>
+            </div>
+            <div class="main__deputy">
+                <div class="mb-34 d-flex justify-content-between">
+                    <p class="main__deputy-title">Депутати</p>
+                    <div class="d-flex align-items-center">
+                        <ng-select [items]="sorting"
+                            class="main__settings-sort"
+                            bindLabel="name"
+                            placeholder="Сортувати"
+                            (close)="onSaveSorting()"
+                            
+                            formControlName="sort">
+                        </ng-select>
+                    </div>
+                </div>
+                <infinite-scroll (scrolled)="onDeputyScroll()" style="height: 650px; overflow-y: scroll;">
+                    <div class="main__deputy-list">
+                        <app-deputy-card
+                            [deputy]="deputy"
+                            *ngFor="let deputy of deputies"
+                        >
+                        </app-deputy-card>
+                    </div>
+                </infinite-scroll>
+            </div>
+        </div>
+    </div>
+</main>

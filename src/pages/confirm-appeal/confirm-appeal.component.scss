@@ -1,0 +1,14 @@
+@import '../../styles/variables';
+
+.confirm {
+    &__title {
+        margin: 33px 0 24px;
+    }
+
+    &__comment {
+        border: 1px solid #E9EBF0;
+        box-sizing: border-box;
+        border-radius: 4px;
+        height: 156px;
+    }
+}

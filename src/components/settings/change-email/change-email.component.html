@@ -1,0 +1,23 @@
+<form [formGroup]="form">
+    <h3 class="mb-16 mt-36">Пошта</h3>
+    <div class="form-group">
+        <input
+            type="text"
+            class="input"
+            placeholder="Email"
+            [ngClass]="{'is-invalidClass':form.get('email').touched && form.get('email').invalid}"
+            formControlName="email"
+            name="email"
+            required
+        />
+        <div *ngIf="form.get('email').touched && form.get('email').invalid"
+            class="invalid-feedback">
+            <p 
+                *ngIf="form.get('email').errors"
+                class="is-invalid"
+            >
+                Обов`язкове поле
+            </p>
+        </div>
+    </div>
+</form>

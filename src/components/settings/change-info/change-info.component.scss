@@ -1,0 +1,57 @@
+@import '../../../styles/variables';
+
+.avatar {
+    max-width: 100px;
+}
+
+.upload-file {
+    margin: 0 8px 0 25px;
+}
+
+.input-group {
+    position: relative;
+
+    &-append {
+        position: absolute;
+        right: 0;
+        top: 5px;
+    }
+}
+
+.calendar {
+    background-image: url('../../../static/calendar-small.svg') !important;
+    background-repeat: no-repeat;
+    background-color: $white;
+    background-size: 24px;
+    background-position: center;
+    width: 2.75rem;
+    margin-right: 3px;
+    height: 38px;
+    padding: 12px 26px;
+}
+
+.password-title {
+    margin-top: 36px;
+}
+
+.textarea {
+    height: 92px;
+}
+
+@media only screen and (max-width: 560px) {
+    .upload-file {
+        margin: 0 8px 0 0;
+    }
+
+    .avatar-section {
+        flex-direction: column;
+    }
+
+    .avatar-btn {
+        margin-top: 24px;
+    }
+
+    .btn__small {
+        padding: 5px 12px;
+    }
+}

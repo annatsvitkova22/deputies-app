@@ -1,0 +1,54 @@
+@import '../../styles/variables';
+
+.file {
+    &__image {
+        height: 48px;
+        width: 48px;
+        border-radius: 4px;
+    }
+
+    &__info {
+        margin-left: 12px;
+    }
+
+    &__name {
+        line-height: 117%;
+        letter-spacing: 0.02em;
+        color: $black-1;
+        margin-bottom: 5px;
+    }
+
+    &__size {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1.37;
+        color: $gray-20;
+    }
+
+    &__close {
+        position: relative;
+        padding: 11px;
+        height: 32px;
+        width: 32px;
+        border-radius: 100px;
+        background-color: $gray-17;
+        margin-right: 8px;
+        cursor: pointer;
+        &-line {
+            position: absolute;
+            top: 10px;
+            left: 14px;
+            height: 12px;
+            width: 1.5px;
+            background-color: $black-1;
+
+            &:first-child {
+                transform: rotate(45deg); 
+            }
+    
+            &:last-child {
+                transform: rotate(-45deg); 
+            }
+        }
+    }
+}

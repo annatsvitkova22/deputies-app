@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-between align-items-center mb-20">
+    <div class="file d-flex align-items-center">
+        <img class="file__image" [src]="file.imageUrl" [alt]="file.name"/>
+        <div class="file__info">
+            <p class="file__name">{{file.name}}</p>
+            <p class="file__size">{{file.size}}</p>
+        </div>
+    </div>
+    <div class="file__close" (click)="onDelete(file.pathFile)">
+        <span class="file__close-line"></span>
+        <span class="file__close-line"></span>
+    </div>
+</div>

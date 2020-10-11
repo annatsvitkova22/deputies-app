@@ -1,0 +1,23 @@
+@import '../../styles/variables';
+
+.is-invalid {
+    font-size: 14px;
+    padding-top: 5px;
+}
+
+.is-invalidClass {
+    border: 1px solid $red;
+}
+
+.eye {
+    position: absolute;
+    z-index: 10;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.form-group {
+    position: relative;
+}

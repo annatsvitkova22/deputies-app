@@ -1,0 +1,4 @@
+<img *ngIf="imageUrl" [src]="imageUrl" class="avatar" alt="person" [ngClass]="class" />
+<div *ngIf="!imageUrl" [ngClass]="class" class="avatar avatar-name">
+    <span>{{name}}</span>
+</div>

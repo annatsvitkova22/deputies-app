@@ -1,0 +1,111 @@
+
+<app-loader *ngIf="isLoader"></app-loader>
+<div *ngIf="!isLoader">
+    <form name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
+        <div class="avatar-section d-flex align-items-center mt-24 mb-24">
+            <app-loader *ngIf="isLoadFile" [class]="'mb-10 loader-medium'"></app-loader>
+            <app-avatar *ngIf="!isLoadFile" [imageUrl]="userAvatar.imageUrl" [name]="userAvatar.shortName" [class]="'avatar__extra-large'"></app-avatar>
+            <div class="avatar-btn">
+                <button  (click)="fileInput.click()" class="upload-file btn btn__small btn-dark">Завантажити</button>
+                <button (click)="onDeleteFile()" class="btn btn__small">Видалити</button>
+                <input 
+                    type="file"
+                    accept="image/x-png,image/gif,image/jpeg"
+                    (change)="onFileChange($event)"
+                    #fileInput
+                    style="display: none;"
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <input
+            type="text"
+            class="input"
+            id="name"
+            placeholder="Iм`я"
+            name="name"
+            [ngClass]="{'is-invalidClass':form.get('name').touched && form.get('name').invalid}"
+            formControlName="name"
+            required
+            />
+            <div *ngIf="form.get('name').touched && form.get('name').invalid"
+                class="invalid-feedback">
+                <p 
+                    *ngIf="form.get('name').errors"
+                    class="is-invalid"
+                >
+                    Обов`язкове поле
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <input 
+            type="text"
+            class="input"
+            id="surname"
+            placeholder="Прiзвище"
+            name="surname"
+            [ngClass]="{'is-invalidClass':form.get('surname').touched && form.get('surname').invalid}"
+            formControlName="surname"
+            />
+        </div>
+        <div *ngIf="userRole == 'deputy'" class="form-group">
+            <input 
+            type="text"
+            class="input"
+            id="patronymic"
+            placeholder="По батьковi"
+            name="patronymic"
+            [ngClass]="{'is-invalidClass':form.get('patronymic').touched && form.get('patronymic').invalid}"
+            formControlName="patronymic"
+            required
+            />
+            <div *ngIf="form.get('patronymic').touched && form.get('patronymic').invalid"
+                class="invalid-feedback">
+                <p 
+                    *ngIf="form.get('patronymic').errors"
+                    class="is-invalid"
+                >
+                    Обов`язкове поле
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+            <input class="input" placeholder="yyyy-mm-dd"
+                    [minDate]="{year: 1940, month: 1, day: 1}"
+                    [maxDate]="{year: 2020, month: 1, day: 1}"
+                    formControlName="date"
+                    name="dp" ngbDatepicker #d="ngbDatepicker">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+            </div>
+            </div>
+        </div>
+        <div *ngIf="userRole == 'deputy'" class="form-group">
+            <ng-select [items]="parties"
+                class="input"
+                bindLabel="name"
+                placeholder="Партiя"
+                formControlName="party">
+            </ng-select>
+        </div>
+        <div *ngIf="userRole == 'deputy'" class="form-group">
+            <ng-select [items]="districts"
+                class="input"
+                bindLabel="name"
+                placeholder="Район"
+                formControlName="district">
+            </ng-select>
+        </div>
+        <div *ngIf="userRole == 'deputy'">
+            <textarea
+                class="input textarea"
+                placeholder="Короткий опис"
+                formControlName="description"
+                name="description">
+            </textarea
+            >
+        </div>
+    </form>
+</div>

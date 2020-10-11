@@ -1,0 +1,41 @@
+@import '../../styles/variables';
+
+.deputy-info__appeals {
+    margin-top: 24px;
+}
+
+.tab {
+    background: $gray-14;
+    border-radius: 46px;
+    padding: 2px;
+
+    &__item {
+        text-align: center;
+        width: 25%;
+        padding: 6px 0;
+        border-radius: 46px;
+        font-weight: 500;
+        line-height: 1.43;
+        letter-spacing: 0.01em;
+        color: $gray-18;
+        transition: all 0.3s;
+        cursor: pointer;
+
+        &:hover {
+            background: $gray-15;
+            color: $white;
+        }
+
+        &--active {
+            background: $white;
+            color: $gray-15;
+            font-weight: 600;
+        }
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    .tab__item {
+        font-size: 12px;
+    }
+}

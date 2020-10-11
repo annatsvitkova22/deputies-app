@@ -1,0 +1,65 @@
+@import '../../../styles/variables';
+
+.card {
+    width: 100%;
+    margin-bottom: 8px;
+
+    &__wrap {
+        padding: 24px;
+    }
+
+    &__content {
+        width: 100%;
+    }
+
+    &__main {
+        max-width: 342px;
+        width: 100%;
+    }
+
+    &__appeals {
+        padding-top: 20px;
+        width: 100%;
+    }
+
+    &__avatar {
+        margin-right: 24px;
+    }
+
+    &__name {
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.32;
+        letter-spacing: 0.02em;
+        color: $black-1;
+    }
+
+    &__info {
+        font-size: 13px;
+        line-height: 1.2;
+        text-transform: capitalize;
+        color: $gray-16;
+    }
+
+    .appeal-count {
+        font-size: 16px;
+        line-height: 19px;
+    }
+}
+
+@media only screen and (max-width:560px) {
+    .card {
+        &__wrap {
+            display: block;
+        }
+
+        &__main {
+            max-width: 100%;
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 24px;
+        }
+    }
+}

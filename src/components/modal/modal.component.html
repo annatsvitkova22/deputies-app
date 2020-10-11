@@ -1,0 +1,12 @@
+<div class="modal modal-body container container__extra-small card-shadow">
+    <div class="modal-wrapper">
+        <div class="d-flex justify-content-end">
+            <button class="modal__close" (click)="onClose()">
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <h2 class="tx-center font-weight-600 line-height-139">{{name}}</h2>
+        <p *ngIf="message" class="tx-center tx-color-11 tx-small line-height-183 mt-18">{{message}}</p>
+    </div>
+</div>

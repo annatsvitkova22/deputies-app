@@ -1,0 +1,14 @@
+<app-header></app-header>
+<app-loader *ngIf="isLoader" [class]="'loader-animation'" ></app-loader>
+<main *ngIf="!isLoader" class="main">
+    <div class="container container__small">
+        <div class="mt-28 wrapper-big card-shadow">
+            <h2 class="main-title">Налаштування</h2>
+            <p class="title">Загальна iнформацiя</p>
+            <app-change-info #infoChild></app-change-info>
+            <app-change-email #emailChild></app-change-email>
+            <app-change-password #passwordChild></app-change-password>
+            <button (click)="onSave()" type="button" class="btn btn-big btn-green mt-8">Зберегти</button>
+        </div>
+    </div>
+</main>

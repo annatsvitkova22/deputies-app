@@ -1,0 +1,32 @@
+<app-header></app-header>
+<app-loader *ngIf="isLoader" ></app-loader>
+<main *ngIf="!isLoader" class="main">
+    <div class="container container__small">
+        <div [formGroup]="form" class="mt-28 mb-28 d-flex align-items-center justify-content-between">
+            <div class="d-flex">
+                <app-multi [selectedItems]="selectDistricts" (changes)="changeAppeals($event)" [dropdownList]="districts"  [type]="'districts'" [text]="'Район'"></app-multi>
+                <app-multi [selectedItems]="selectParties" (changes)="changeAppeals($event)" [dropdownList]="parties" [type]="'parties'" [text]="'Партія'"></app-multi>
+            </div>
+            <div class="main__deputy d-flex align-items-center">
+                <ng-select [items]="sorting"
+                    class="main__settings-sort"
+                    bindLabel="name"
+                    placeholder="Сортувати"
+                    (close)="onSaveSorting()"
+                    formControlName="sort">
+                </ng-select>
+            </div>
+        </div>
+        <infinite-scroll (scrolled)="onScroll()">
+            <div>
+                <app-small-card
+                        [isCreateAppeal]="isCreateAppeal"
+                        [deputy]="deputy"
+                        *ngFor="let deputy of deputies"
+                >
+                </app-small-card>
+            </div>
+            <app-loader *ngIf="isLoaderDeputy" [class]="'mb-30 loader-medium'" ></app-loader>
+        </infinite-scroll>
+    </div>
+</main>

@@ -1,0 +1,224 @@
+@import '../../styles/variables';
+
+.header {
+    padding: 16px 0;
+    background-color: $white;
+    &__button {
+        margin-right: 36px;
+    }
+
+    &__logo {
+        z-index: 13;  
+    }
+
+    &__item {
+        &:first-of-type {
+            .header__link {
+                padding-left: 0;
+            }
+        }
+    }
+
+    &__mobile-nav {
+        margin-left: -66px;
+    }
+
+    &__btn {
+        padding: 10px 32px;
+        max-height: 42px;
+    }
+
+    &__mobile-menu {
+        display: none;
+        position: fixed;
+        z-index: 12;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100vh;
+        background-color: $white;
+        padding-top: 90px;
+    }
+
+    &__mobile-button {
+        display: none;
+        position: fixed;
+        z-index: 13;
+        bottom: 15px;
+        left: 16px;
+        width: calc(100% - 32px);
+    }
+
+    &__mobile {
+        display: none;
+    }
+
+    &__avatar {
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    &__dropdown {
+        z-index: 15;
+        width: 160px;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        padding: 20px 16px;
+        background: $white;
+        box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
+        border-radius: 16px 18px 18px 18px;
+    }
+
+    &__dropdown-item {
+        &:nth-last-child(2) {
+            padding: 20px 0;
+        }
+
+        &:last-child {
+            .header__dropdown-link {
+                color: $red;
+            }
+        }
+    }
+
+    &__dropdown-link {
+        font-weight: 500;
+        line-height: 1.43;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    &__nav-link {
+        z-index: 13;
+    }
+
+    &__burger {
+        position: relative;
+        z-index: 13;
+        width: 22px;
+        height: 14px;
+        transform: rotate(0deg);
+        cursor: pointer;
+        margin-left: 25px;
+
+        span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #1A212F;
+            border-radius: 2px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        span:nth-child(1) {
+            top: 0px;
+        }
+        
+        span:nth-child(2), span:nth-child(3) {
+            top: 7px;
+        }
+        
+        span:nth-child(4) {
+            top: 14px;
+        }
+        
+        &--active {
+            span:nth-child(1) {
+                top: 7px;
+                width: 0%;
+                left: 50%;
+            }
+
+            span:nth-child(2) {
+                transform: rotate(45deg);
+            }
+
+            span:nth-child(3) {
+                transform: rotate(-45deg);
+            }
+
+            span:nth-child(4) {
+                top: 7px;
+                width: 0%;
+                left: 50%;
+            }
+        }
+        
+    }
+
+    &__link {
+        font-weight: 600;
+        padding: 5px 16px;
+        font-size: 16px;
+        letter-spacing: 0.02em;
+        line-height: 1.75;
+        color: $gray-6;
+
+        &--active {
+            color: $gray-7;
+        }
+
+        &:hover {
+            color: $gray-7;
+        }
+    }
+}
+
+@media only screen and (max-width:1280px) {
+    .header {
+        &__mobile-nav {
+            margin-left: 0;
+        }
+
+        &__link {
+            padding: 5px 12px;
+        }
+    }
+}
+
+@media only screen and (max-width:768px) {
+    .header {
+        &__mobile {
+            display: flex;
+            align-items: center;
+        }
+
+        &__nav {
+            display: none;
+        }
+
+        &__mobile-button {
+            display: block;
+            padding: 15px 20px;
+        }
+
+        &__mobile-menu {
+            display: block;
+        }
+
+        &__item {
+            text-align: center;
+            margin: 26px 0;
+
+            &:first-of-type {
+                .header__link {
+                    padding: 6px 16px;
+                }
+            }
+        }
+
+        &__link {
+            font-size: 20px;
+            line-height: 1.4;
+            padding: 6px 16px;
+        }
+    }
+}

@@ -1,0 +1,23 @@
+<app-header></app-header>
+<app-loader *ngIf="isLoader"></app-loader>
+<main *ngIf="!isLoader" class="main">
+    <div class="container">
+        <div class="deputy">
+            <app-account-card [isButton]="isButton" [link]="'/create-appeal'" [linkName]="'Створити запит'" [countAppeals]="countAppeals" [user]="deputy"></app-account-card>
+            <div class="deputy-info">
+                <div *ngIf="deputy.description" class="deputy-info__wrapper card-shadow">
+                    <h2 class="deputy-info__title font-weight-600">
+                        Загальнi вiдомостi
+                    </h2>
+                    <p class="deputy-info__description tx-medium tx-color-3">
+                        {{deputy.description}}
+                    </p>
+                </div>
+                <infinite-scroll (scrolled)="onScroll()">
+                    <app-tab (selectType)="onFilter($event)" [appeals]="appeals"></app-tab>
+                    <app-loader *ngIf="isLoadAppeal" [class]="'mb-30 loader-medium'" ></app-loader>
+                </infinite-scroll>
+            </div>
+        </div>
+    </div>
+</main>
