@@ -88,6 +88,25 @@ export class MainService {
         return counter;
     }
 
+    filterRating(ref, id: string) {
+        let dataRef = ref.where('appealId', '==', id);
+        dataRef = dataRef.where('type', '==', 'feedback')
+
+        return dataRef;
+    }
+
+    async getRating(id: string): Promise<number> {
+        const snapshots = await this.db.collection('messages', ref => this.filterRating(ref, id)).get().toPromise();
+        let rating: number;
+        if(snapshots.size) {
+            snapshots.forEach(snapshot => {
+                const data = snapshot.data();
+                rating = data.rating;
+            });
+        }
+        return rating;
+    }
+
     async getCountgetAppeal(settings: Settings): Promise<number> {
         const ref = this.db.collection('appeals').ref;
         let snapshots = await this.setFilter(ref, settings);

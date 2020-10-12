@@ -33,14 +33,19 @@
     }
 
     &__status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: $blue-1;
-        border-radius: 4px;
-        padding: 4px 24px;
+        color: $blue;
+        border-radius: 18px;
+        padding: 4px 12px;
         font-size: 12px;
         line-height: 1.63;
         white-space: nowrap;
         text-transform: capitalize;
         margin-left: 10px;
+        min-width: 100px;
 
         &--yellow {
             background-color: $orange-1;
@@ -64,6 +69,17 @@
         display: -webkit-box;
         -webkit-box-orient: vertical;
         overflow: hidden;
+    }
+
+    &__rating-count {
+        padding-left: 4px;
+        font-weight: 500;
+        font-size: 14px;
+        color: $gray-7;
+    }
+
+    &__status-icon {
+        margin-left: 8px;
     }
 
     &__description {
@@ -115,7 +131,8 @@
 @media only screen and (max-width: 540px) {
     .card {
         &__top {
-            flex-direction: column;
+            flex-direction: column-reverse;
+            align-items: flex-start;
         }
     
         &__dep {
@@ -127,10 +144,8 @@
             margin-left: 0;
         }
     
-        &__status-block {
+        &__status {
             margin-bottom: 20px;
-            width: 100%;
-            order: -3;
         }
 
         &__bottom {

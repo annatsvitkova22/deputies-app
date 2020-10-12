@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { AppealCard } from '../../../models';
 import { ModalComponent } from '../modal/modal.component';
+import { MainService } from 'src/pages/main/main.service';
 
 @Component({
     selector: 'app-appeal-card',
@@ -13,17 +14,20 @@ import { ModalComponent } from '../modal/modal.component';
 export class AppealCardComponent implements OnInit {
     @Input () appeal: AppealCard;
     statusColor: string;
+    rating: number;
 
     constructor(
         private modalService: NgbModal,
-        private router: Router
+        private router: Router,
+        private mainService: MainService
     ){}
 
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
         if (this.appeal.status === 'До виконання') {
             this.statusColor = 'card__status--yellow';
         } else if (this.appeal.status === 'Виконано') {
             this.statusColor = 'card__status--green';
+            this.rating = await this.mainService.getRating(this.appeal.id);
         }
     }
 

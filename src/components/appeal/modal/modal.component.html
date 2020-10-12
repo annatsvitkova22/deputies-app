@@ -102,7 +102,7 @@
                     <div *ngFor="let oneComment of comments" class="mb-20 d-flex">
                         <app-avatar [imageUrl]="oneComment.imageUrl" [name]="oneComment.shortName"></app-avatar>
                         <div class="modal__space">
-                            <div class="modal__comments" [class.modal__comments--active]="oneComment.isBackground">
+                            <div *ngIf="oneComment.type !== 'inProgress'" class="modal__comments" [class.modal__comments--active]="oneComment.isBackground">
                                 <p class="modal__comments-title">{{oneComment.autorName}}</p>
                                 <div *ngIf="oneComment.type == 'feedback'" class="d-flex align-items-center mt-6">
                                     <ngb-rating [(rate)]="oneComment.rating">
@@ -115,16 +115,19 @@
                                 <p class="mt-6 mb-8 line-height-146">{{oneComment.message}}</p>
                                 <p class="modal__comments-date">{{oneComment.date}}</p>
                             </div>
-                            <div *ngIf="oneComment.type == 'done'" class="modal__comment-done">
+                            <div *ngIf="oneComment.type == 'done' || oneComment.type == 'inProgress'" class="modal__comment-done" [class.modal__comment-nospace]="oneComment.type == 'inProgress'">
+                                <p *ngIf="oneComment.type == 'inProgress'" class="modal__comments-title mb-6">{{oneComment.autorName}}</p>
                                 <div class="d-flex align-items-center">
                                     <div class="modal__status-block status-work status">
-                                        <p class="modal__status card__status tx-blue font-weight-600">В роботі</p>
+                                        <p *ngIf="oneComment.type == 'done'" class="modal__status card__status tx-blue font-weight-600">В роботі</p>
+                                        <p *ngIf="oneComment.type == 'inProgress'" class="modal__status card__status--yellow font-weight-600">До виконання</p>
                                     </div>
                                     <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path fillRule="evenodd" clipRule="evenodd" d="M10.6402 7.43743L13.7348 4.34277C13.8813 4.19634 13.8813 3.9589 13.7348 3.81243L10.6402 0.717773C10.4039 0.481523 10 0.648836 10 0.98293V3.20262H0.375C0.167906 3.20262 0 3.37052 0 3.57762V4.57762C0 4.78471 0.167906 4.95262 0.375 4.95262H10V7.1723C10 7.50634 10.4039 7.67365 10.6402 7.43743Z" fill="#404957"/>
                                     </svg>
                                     <div class="modal__status-block status-done status">
-                                        <p class="modal__status card__status tx-blue font-weight-600 card__status--green">Виконано</p>
+                                        <p *ngIf="oneComment.type == 'done'" class="modal__status card__status tx-blue font-weight-600 card__status--green">Виконано</p>
+                                        <p *ngIf="oneComment.type == 'inProgress'" class="modal__status card__status tx-blue font-weight-600 card__status--blue">В роботі</p>
                                     </div>
                                 </div>
                                 <p class="modal__comments-date mt-6">{{oneComment.date}}</p>

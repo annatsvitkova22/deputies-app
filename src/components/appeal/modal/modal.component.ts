@@ -157,11 +157,20 @@ export class ModalComponent implements OnInit, OnDestroy {
             await this.router.navigate(['/confirm-appeal', this.appeal.id]);
             this.activeModal.dismiss('Cross click');
         } else {
-            const result = await this.appealService.updateAppeals(id, newStatus);
+            const result = await this.appealService.updateAppeals(id, newStatus, this.appeal.id, this.appeal.deputyId);
             if (result) {
                 this.appeal.status = newStatus;
                 this.onTextButton(newStatus);
                 this.statusColor = '';
+                const commentModal = {
+                    date: moment().format('DD-MM-YYYY hh:mm'),
+                    appealId: this.appeal.id,
+                    imageUrl: this.userAvatal.imageUrl,
+                    shortName: this.userAvatal.shortName,
+                    type: 'inProgress',
+                    isBackground: false
+                }
+                this.comments = [commentModal, ...this.comments];
             }
         }
     }

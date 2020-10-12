@@ -7,8 +7,12 @@
                 <p *ngIf="appeal.party" class="card__party font-weight-500 tx-small tx-color-6">{{appeal.party}}</p>
             </div>
         </div>
-        <div class="card__status-block">
-            <p class="card__status tx-blue font-weight-600" [ngClass]="statusColor">{{appeal.status}}</p>
+        <div class="card__status" [ngClass]="statusColor">
+            <p class="card__status-text font-weight-600">{{appeal.status}}</p>
+            <svg *ngIf="rating" class="card__status-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.08254 1.11573C6.4307 0.312854 7.56929 0.312852 7.91745 1.11573L8.79321 3.13532C9.08301 3.80363 9.71325 4.26153 10.4384 4.33062L12.6298 4.53944C13.5009 4.62245 13.8528 5.70532 13.1968 6.28454L11.5467 7.74153C11.0006 8.22366 10.7599 8.96455 10.9183 9.67557L11.3968 11.8242C11.5871 12.6784 10.666 13.3476 9.91237 12.9027L8.01678 11.7836C7.38951 11.4133 6.61049 11.4133 5.98321 11.7836L4.08762 12.9027C3.33403 13.3476 2.41289 12.6784 2.60314 11.8242L3.08172 9.67557C3.24009 8.96456 2.99936 8.22367 2.45331 7.74153L0.803197 6.28454C0.147199 5.70532 0.499044 4.62245 1.37021 4.53944L3.56158 4.33062C4.28674 4.26153 4.91698 3.80363 5.20678 3.13532L6.08254 1.11573Z" fill="#5BCF0C"/>
+            </svg>
+            <span *ngIf="rating" class="card__rating-count">{{rating}}</span>
         </div>
     </div>
     <div class="card__description mt-20">

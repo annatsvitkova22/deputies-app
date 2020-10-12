@@ -181,11 +181,15 @@
         border-radius: 12px;
         padding: 9px 12px;
         margin-top: 12px;
-        
+    }
+
+    &__comment-nospace {
+        margin-top: 0;
     }
 
     .status {
-        width: 100px;
+        width: 100%;
+        white-space: nowrap;
         margin-bottom: 0;
 
         &-work {

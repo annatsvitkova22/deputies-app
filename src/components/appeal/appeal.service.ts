@@ -137,12 +137,13 @@ export class AppealService {
         this.storage.ref(path).delete();
     }
 
-    async updateAppeals(id: string, status: string): Promise<boolean> {
+    async updateAppeals(id: string, status: string, appealId: string = null, userId: string = null): Promise<boolean> {
         // tslint:disable-next-line: no-inferrable-types
         let isResult: boolean = true;
         const date: number = moment().utc().valueOf();
         try {
             await this.db.collection('appeals').doc(id).update({updateDate: date, status});
+            await this.db.collection('messages').add({appealId, userId, date, type: 'inProgress', isBackground: false});
         }catch (error) {
             isResult = false;
         }
@@ -215,6 +216,7 @@ export class AppealService {
         if (snapshots.size) {
             promises.push(new Promise((resolve) => {
                 snapshots.forEach(async snapshot => {
+                    console.log('isBackground', snapshot.data())
                     const {message, date, appealId, userId, isBackground, type, rating}: firebase.firestore.DocumentData = snapshot.data();
                     if (type !== 'confirm') {
                         await this.db.collection('users').doc(userId).get().toPromise().then(span => {
