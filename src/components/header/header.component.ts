@@ -36,9 +36,9 @@ export class HeaderComponent implements OnInit {
     ){ }
 
     outside(event) {
-        if(event && this.isDropdown) {
+        if (event && this.isDropdown) {
             this.counter = this.counter + 1;
-            if( this.counter !== 1) {
+            if ( this.counter !== 1) {
                 this.isDropdown = false;
                 this.counter = 0;
             }

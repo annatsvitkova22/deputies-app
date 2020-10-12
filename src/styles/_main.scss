@@ -566,6 +566,16 @@ ngb-datepicker.dropdown-menu {
     }
 }
 
+.dropdown-menu.show {
+    z-index: 10;
+}
+
+.custom-select {
+    &:focus {
+        outline: none;
+    }
+}
+
 .deputy {
 
     &-info {
@@ -610,10 +620,10 @@ ngb-datepicker.dropdown-menu {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: $gray-9;
+    padding-top: 3px;
 }
 
 .appeal-count {
-    padding-top: 3px;
     font-size: 24px;
     line-height: 29px;
     letter-spacing: 0.01em;

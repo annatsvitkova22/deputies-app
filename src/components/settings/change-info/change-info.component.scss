@@ -39,6 +39,7 @@
 }
 
 .avatar-btn {
+    transition: .2s ease-in;
     &--active {
         margin-left: 15px;
 

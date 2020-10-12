@@ -14,8 +14,8 @@
         <li 
             *ngFor="let countAppeal of countAppeals"
         >
-            <p class="appeal-name">{{countAppeal.name}}</p>
             <h2 class="appeal-count">{{countAppeal.count}}</h2>
+            <p class="appeal-name">{{countAppeal.name}}</p>
         </li>
     </ul>
     <a *ngIf="isButton" [routerLink]="[link]" class="btn btn-big mt-24">

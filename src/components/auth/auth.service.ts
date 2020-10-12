@@ -67,7 +67,7 @@ export class AuthService {
         const fullName: string = surname + ' ' + name;
         await this.authFire.createUserWithEmailAndPassword(email, password).then(async result => {
             await this.writeUserToCollection(result.user.uid, fullName, email);
-            result.user.sendEmailVerification();
+            // result.user.sendEmailVerification();
             this.router.navigate(['/sign-in']);
         }).catch(() => {
             success = true;
@@ -133,7 +133,7 @@ export class AuthService {
             await this.db.collection('users').doc(userId).set({
                 name,
                 email,
-                role: 'user',
+                role: 'deputy',
                 imageUrl
             });
         } catch (error) {

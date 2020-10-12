@@ -103,7 +103,7 @@ export class AppealService {
             fileUrl: urlFiles.length ? urlFiles : null,
             fileImageUrl: urlImages.length ? urlImages : null,
             isBlock: false,
-            location
+            location: location ? location : null
         };
         let result: ResultModel;
         await this.db.collection('appeals').doc(appealId).set(appeal).then(async () => {
