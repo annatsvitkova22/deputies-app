@@ -90,6 +90,10 @@
         letter-spacing: 0.01em;
         cursor: pointer;
         transition: all 0.3s;
+
+        &:hover {
+            font-weight: 600;
+        }
     }
 
     &__nav-link {

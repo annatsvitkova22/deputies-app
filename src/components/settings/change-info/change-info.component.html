@@ -3,9 +3,18 @@
 <div *ngIf="!isLoader">
     <form name="form" [formGroup]="form" ngSubmit="form.valid && onSubmit()">
         <div class="avatar-section d-flex align-items-center mt-24 mb-24">
-            <app-loader *ngIf="isLoadFile" [class]="'mb-10 loader-medium'"></app-loader>
             <app-avatar *ngIf="!isLoadFile" [imageUrl]="userAvatar.imageUrl" [name]="userAvatar.shortName" [class]="'avatar__extra-large'"></app-avatar>
-            <div class="avatar-btn">
+            <image-cropper
+                *ngIf="imageChangedEvent"
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 4"
+                [resizeToWidth]="128"
+                format="png"
+                class="cropper"
+                (imageCropped)="imageCropped($event)"
+            ></image-cropper>
+            <div class="avatar-btn" [class.avatar-btn--active]="imageChangedEvent">
                 <button  (click)="fileInput.click()" class="upload-file btn btn__small btn-dark">Завантажити</button>
                 <button (click)="onDeleteFile()" class="btn btn__small">Видалити</button>
                 <input 
@@ -72,13 +81,13 @@
         </div>
         <div class="form-group">
             <div class="input-group">
-            <input class="input" placeholder="yyyy-mm-dd"
+            <input readonly class="input" placeholder="yyyy-mm-dd"
+                    (click)="d.toggle()"
                     [minDate]="{year: 1940, month: 1, day: 1}"
-                    [maxDate]="{year: 2020, month: 1, day: 1}"
                     formControlName="date"
                     name="dp" ngbDatepicker #d="ngbDatepicker">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                <button class="btn btn-outline-secondary calendar" type="button"></button>
             </div>
             </div>
         </div>

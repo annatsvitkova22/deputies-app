@@ -31,7 +31,7 @@ import { FeedbackComponent } from '../pages/feedback/feedback.component';
 import { AboutProjectComponent } from '../pages/about-project/about-project.component';
 import { ClickOutsideDirective } from './header/click-outside.directive';
 import { ClickSelectDirective } from './multi-select/click-input.directive';
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,6 +91,7 @@ import { ClickSelectDirective } from './multi-select/click-input.directive';
       apiKey: 'AIzaSyDLa-5lnf9Reg-5ysvns1vp2r00QCIQMVk',
       libraries: ['places']
     }),
+    ImageCropperModule
   ],
   providers: [
     AuthService,

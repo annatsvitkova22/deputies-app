@@ -9,10 +9,11 @@
                     <app-multi [selectedItems]="selectedStatus" (changes)="changeAppeals($event)" [type]="'statuses'" [text]="'Статус'"></app-multi>
                     <div class="input-calendar">
                         <input readonly class="input c-btn" placeholder="Сьогоднi"
+                                (click)="d.toggle()"
                                 formControlName="date" 
                                 name="dp" ngbDatepicker #d="ngbDatepicker" (dateSelect)="onSaveDate()">
                         <div class="input-calendar-append">
-                            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                            <button class="btn btn-outline-secondary calendar" type="button"></button>
                         </div>
                     </div>
                 </div>

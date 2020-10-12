@@ -97,9 +97,9 @@ p {
     padding: 12px 32px;
     border-radius: 8px;
     background-color: $gray-17;
+    border: 1px solid $gray-17;
     font-weight: 600;
     line-height: 1.43;
-    border: none;
     text-align: center;
     transition: all 0.3s;
     cursor: pointer;
@@ -115,6 +115,7 @@ p {
 
     &:hover {
         background-color: $gray-24;
+        border: 1px solid $gray-24;
     }
 
     &__small {
@@ -293,9 +294,18 @@ path {
     }
 }
 
+.calendar {
+    border: none;
+
+    &:hover {
+        border: none;
+    }
+}
+
 .main__deputy {
     .ng-dropdown-panel .scroll-host {
         margin-left: -100px;
+        color: $gray-7;
     }
 
     .ng-arrow-wrapper:before {
@@ -410,8 +420,10 @@ ngb-datepicker.dropdown-menu {
     border-radius: 30px;
     padding: 8px 48px 8px 20px;
     border: 1px solid $gray-14;
+    cursor: pointer;
+    transition: all 0.3s;
 
-    &:focus {
+    &:hover {
         border: 1px solid $gray-11;
     }
 }
@@ -445,6 +457,10 @@ ngb-datepicker.dropdown-menu {
     text-align: center;
     letter-spacing: 0.01em;
     color: $gray-7;
+}
+
+.pure-checkbox input[type=checkbox]:checked+label {
+    font-weight: 600 !important;
 }
 
 .selected-list, .dropdown-list, .cuppa-dropdown, .c-btn {
@@ -643,10 +659,14 @@ ngb-datepicker.dropdown-menu {
     font-weight: 500;
     line-height: 1.43;
     letter-spacing: 0.01em;
+
+    &:hover {
+        font-weight: 600;
+    }
 }
 
 .ng-option-selected {
-    font-weight: 700 !important;
+    font-weight: 600 !important;
 }
 
 .ng-select .ng-clear-wrapper {

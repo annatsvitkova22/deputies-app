@@ -24,11 +24,17 @@
         box-sizing: border-box;
         border-radius: 30px;
         text-align: start;
+        cursor: pointer;
+        transition: all 0.3s;
 
         &::placeholder {
             color: $black-main;
             letter-spacing: 0.01em;
             font-weight: 500;
+        }
+
+        &:hover {
+            border: 1px solid $gray-11;
         }
     }
 }
@@ -54,6 +60,11 @@ input {
     width: 16px;
     height: 20px;
     padding: 0;
+    pointer-events: none;
+}
+
+.input-calendar-append {
+    pointer-events: none;
 }
 
 @media only screen and (max-width: 860px) {

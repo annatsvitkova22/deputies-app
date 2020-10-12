@@ -18,6 +18,10 @@
     }
 }
 
+.input-group-append {
+    pointer-events: none;
+}
+
 .calendar {
     background-image: url('../../../static/calendar-small.svg') !important;
     background-repeat: no-repeat;
@@ -34,6 +38,16 @@
     margin-top: 36px;
 }
 
+.avatar-btn {
+    &--active {
+        margin-left: 15px;
+
+        .upload-file {
+            margin: 0 0 10px;
+        }
+    }
+}
+
 .textarea {
     height: 92px;
 }
@@ -41,6 +55,14 @@
 @media only screen and (max-width: 560px) {
     .upload-file {
         margin: 0 8px 0 0;
+    }
+
+    .avatar-btn {
+        &--active {
+            .upload-file {
+                margin: 0 8px 0 0;
+            }
+        }
     }
 
     .avatar-section {

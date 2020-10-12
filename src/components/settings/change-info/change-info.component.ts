@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import * as moment from 'moment';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { AppealService } from '../../appeal/appeal.service';
 import { District, ResultModel, UserAvatal, UserAvatarForm, AuthState, LoadedFile } from '../../../models';
@@ -11,6 +11,7 @@ import { SettingsService } from '../settings.service';
 import { Party } from '../../../models';
 import { MainState } from '../../../store/main.state';
 import { AddAuth } from '../../../store/auth.action';
+import { base64ToFile } from '../../../utils/blob.utils';
 
 @Component({
     selector: 'app-change-info',
@@ -33,6 +34,8 @@ export class ChangeInfoComponent implements OnInit {
     isLoader: boolean = true;
     class: string;
     isLoadFile: boolean;
+    imageChangedEvent: any = '';
+    file: any;
 
     constructor(
         private appealService: AppealService,
@@ -76,19 +79,24 @@ export class ChangeInfoComponent implements OnInit {
 
     onDeleteFile(): void {
         this.userAvatar.imageUrl = null;
+        this.file = null;
+        this.imageChangedEvent = null;
     }
 
     async onFileChange(event): Promise<void> {
-        this.isLoadFile = true;
-        const file: File = event.target.files[0];
-        if (file) {
-            const fileInfo: LoadedFile = await this.appealService.uploadFile(file);
-            this.userAvatar.imageUrl = fileInfo.imageUrl;
-        }
-        this.isLoadFile = false;
+        this.imageChangedEvent = event;
+    }
+
+    imageCropped(event: ImageCroppedEvent): void {
+        this.userAvatar.imageUrl = event.base64;
+        this.file = base64ToFile(event.base64);
     }
 
     async onSubmit(data: UserAvatarForm): Promise<ResultModel> {
+        if (this.file) {
+            const fileInfo: LoadedFile = await this.appealService.uploadFile(this.file);
+            this.userAvatar.imageUrl = fileInfo.imageUrl;
+        }
         let result: ResultModel;
         if (this.userRole === 'deputy') {
             result = await this.settingsService.updateDeputy(data.userForm, data.userAvatar.imageUrl);
