@@ -37,11 +37,7 @@ export class DeputyComponent implements OnInit {
         private mainService: MainService,
         private meta: Meta,
         private title: Title
-    ){
-        this.title.setTitle('СЛУГА ПОЛТАВИ | ' + this.deputy.name + ' ' + this.deputy.patronymic);
-        this.meta.updateTag({ name: 'og:url', content: this.deputy.imageUrl ? this.deputy.imageUrl : ''});
-        this.meta.updateTag({ name: 'description', content: this.deputy.party});
-    }
+    ){}
 
     async ngOnInit(): Promise<void> {
         this.route.params.subscribe(params => {
@@ -57,6 +53,9 @@ export class DeputyComponent implements OnInit {
         this.type = null;
         this.count = 3;
         this.deputy = await this.deputyService.getDeputy(this.deputyId);
+        this.title.setTitle('СЛУГА ПОЛТАВИ | ' + this.deputy.name + ' ' + this.deputy.patronymic);
+        this.meta.updateTag({ name: 'og:url', content: this.deputy.imageUrl ? this.deputy.imageUrl : ''});
+        this.meta.updateTag({ name: 'description', content: this.deputy.party});
         this.appeals = await this.deputyService.getAppeal(this.deputyId, this.deputy, this.count);
         this.countAppeals = await this.deputyService.getCountAppeal(this.deputyId, 'deputyId');
         const userRole: string = await this.authService.getUserRole();
