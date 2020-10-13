@@ -2,7 +2,7 @@ Arguments:
   /Users/macbookair/.nvm/versions/node/v12.16.0/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js
 
 PATH: 
-  /Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.18.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/macbookair/.nvm/versions/node/v12.18.2/bin
+  /Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.16.0/bin:/Users/macbookair/.nvm/versions/node/v12.18.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/macbookair/.nvm/versions/node/v12.18.2/bin
 
 Yarn version: 
   1.22.4
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/app.auth: Not found
+  Error: https://registry.yarnpkg.com/@agm%2fcore: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:66987:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:140748:22)
       at Request.emit (events.js:321:20)
@@ -33,13 +33,10 @@ npm manifest:
     "scripts": {
       "ng": "ng",
       "start": "ng serve",
-      "build": "ng build",
+      "build": "ng build --prod",
       "test": "ng test",
       "lint": "ng lint",
       "e2e": "ng e2e"
-    },
-    "engines": {
-      "node": "12.16.0"
     },
     "private": true,
     "dependencies": {
@@ -48,6 +45,7 @@ npm manifest:
       "@angular/common": "~10.0.14",
       "@angular/compiler": "~10.0.14",
       "@angular/core": "~10.0.14",
+      "@angular/fire": "^6.0.2",
       "@angular/forms": "~10.0.14",
       "@angular/localize": "^10.1.0",
       "@angular/platform-browser": "~10.0.14",
@@ -61,7 +59,8 @@ npm manifest:
       "angular2-multiselect-dropdown": "^4.6.4",
       "bootstrap": "^4.0.0-beta.2",
       "cyrillic-to-translit-js": "^3.1.0",
-      "app.auth": "^7.23.0",
+      "dotenv": "^8.2.0",
+      "firebase": "^7.19.1",
       "geolib": "^3.3.1",
       "google": "^2.1.0",
       "moment": "^2.28.0",
@@ -69,14 +68,14 @@ npm manifest:
       "ng-multiselect-dropdown": "^0.2.10",
       "ngx-facebook": "^3.0.0-0",
       "ngx-fb": "^1.0.1",
+      "ngx-image-cropper": "^3.2.1",
       "ngx-slick": "^0.2.1",
       "ngx-slickjs": "^1.5.0",
       "rxjs": "~6.5.5",
       "transliteration": "^2.1.11",
       "tslib": "^2.0.0",
       "web-component-essentials": "0.0.4",
-      "zone.js": "~0.10.3",
-      "firebase": "^7.13.1"
+      "zone.js": "~0.10.3"
     },
     "devDependencies": {
       "@angular-devkit/build-angular": "~0.1000.8",
@@ -97,13 +96,7 @@ npm manifest:
       "protractor": "~7.0.0",
       "ts-node": "~8.3.0",
       "tslint": "~6.1.0",
-      "typescript": "~3.9.5",
-      "@angular-devkit/architect": ">= 0.900 < 0.1100",
-      "firebase-tools": "^8.0.0",
-      "fuzzy": "^0.1.3",
-      "inquirer": "^6.2.2",
-      "inquirer-autocomplete-prompt": "^1.0.1",
-      "open": "^7.0.3"
+      "typescript": "~3.9.5"
     }
   }
 

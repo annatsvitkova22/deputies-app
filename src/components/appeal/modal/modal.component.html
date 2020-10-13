@@ -61,7 +61,7 @@
                             download
                             target="_blank"
                             class="modal__file"
-                            [ngStyle]="{backgroundImage: 'url(' + fileImageUrl + ')'}"
+                            [style.background-image]="fileImageUrl == 'assets/images/file.png' ? 'url(' + 'assets/images/file-big.svg' + ')' : 'url(' + fileImageUrl + ')'"
                         >
                         </a>
                         </ng-container>
@@ -159,7 +159,7 @@
                     <button *ngIf="appeal.status === 'До виконання' && !isBlockAppeal && !isLoaderBlock" (click)="onComplain(appeal.id)"  class="btn">Поскаржитися</button>
                     <app-loader *ngIf="isLoaderBlock" [class]="'mb-30 loader-medium'" ></app-loader>
                 </div>
-                <div *ngIf="appeal.location" class="map" #map></div>
+                <div *ngIf="appeal.location" class="map mt-10" #map></div>
             </div>
         </div>
     </div>

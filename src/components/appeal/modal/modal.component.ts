@@ -37,7 +37,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     isBlockAppeal: boolean = false;
     isLoaderBlock: boolean = false;
     config: Slick.Config = {
-        infinite: true,
+        infinite: false,
         slidesToShow: 1,
         swipeToSlide: true,
         arrows: false,

@@ -216,7 +216,6 @@ export class AppealService {
         if (snapshots.size) {
             promises.push(new Promise((resolve) => {
                 snapshots.forEach(async snapshot => {
-                    console.log('isBackground', snapshot.data())
                     const {message, date, appealId, userId, isBackground, type, rating}: firebase.firestore.DocumentData = snapshot.data();
                     if (type !== 'confirm') {
                         await this.db.collection('users').doc(userId).get().toPromise().then(span => {

@@ -68,6 +68,7 @@
         <div class="form-group">
             <button  (click)="uploadInput.click()" class="upload-file btn btn__small">Завантажити файли</button>
             <input 
+                accept="image/x-png,image/gif,image/jpeg,.docs,.doc,.pdf,.docx"
                 type="file"
                 (change)="onFileChange($event)"
                 #uploadInput
