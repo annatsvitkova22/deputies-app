@@ -4,7 +4,7 @@
         (onDeSelect)="OnItemDeSelect($event)" name='selectedItems' ngModel>
             <c-badge>
                 <ng-template let-item="item">
-                    <label class="badge-label">{{dropdownSettings.text}}</label>
+                    <label class="badge-label">{{dropdownSettings.text}} <span *ngIf="selectedItems.length && isSave" class="count-selected">{{selectedItems.length}}</span></label>
                 </ng-template>
             </c-badge>
         </angular2-multiselect>

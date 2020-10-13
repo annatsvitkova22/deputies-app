@@ -26,6 +26,7 @@ export class MultiSelectComponent implements OnInit {
     counter: number;
     bottomSection: number;
     isOnButton: boolean;
+    isSave: boolean;
 
     constructor(
         private store: Store<MainState>,
@@ -41,6 +42,13 @@ export class MultiSelectComponent implements OnInit {
                 {id: 'В роботі', name: 'В роботі'},
                 {id: 'Виконано', name: 'Виконано'},
             ];
+        }
+        if (this.selectedItems.length) {
+            this.isSave = true;
+            this.counter = this.selectedItems.length;
+            this.buttonText = 'Очистити(' + this.counter + ')';
+        } else {
+            this.isSave = false;
         }
         this.dropdownSettings = {
             singleSelection: false,
@@ -73,6 +81,7 @@ export class MultiSelectComponent implements OnInit {
         this.buttonText = 'Очистити';
         this.counter = 0;
         this.dispatchToStore();
+        this.isSave = false;
     }
 
     async dispatchToStore(): Promise<void> {
@@ -114,6 +123,7 @@ export class MultiSelectComponent implements OnInit {
     }
 
     saveOptions(): void {
+        this.isSave = true;
         this.isOnButton = true;
         this.dispatchToStore();
     }

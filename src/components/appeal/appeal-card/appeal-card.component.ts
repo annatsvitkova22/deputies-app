@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 
 import { AppealCard } from '../../../models';
 import { ModalComponent } from '../modal/modal.component';
-import { MainService } from 'src/pages/main/main.service';
+import { MainService } from '../../../pages/main/main.service';
+
 
 @Component({
     selector: 'app-appeal-card',
