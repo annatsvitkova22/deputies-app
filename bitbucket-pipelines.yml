@@ -77,6 +77,7 @@ pipelines:
             - sed -i "s|APP_ID|$APP_ID|g" src/environments/environment.prod.ts
             - sed -i "s|MEASUREMENT_ID|$MEASUREMENT_ID|g" src/environments/environment.prod.ts
             - sed -i "s|BASE_FUNCTIONS_URL|$BASE_FUNCTIONS_URL|g" src/environments/environment.prod.ts
+            - sed -i "s|false|true|g" src/environments/environment.prod.ts
             - cp src/environments/environment.example.ts src/environments/environment.ts
             - sed -i "s|API_KEY|$API_KEY|g" src/environments/environment.ts
             - sed -i "s|AUTH_DOMAIN|$AUTH_DOMAIN|g" src/environments/environment.ts
@@ -87,6 +88,7 @@ pipelines:
             - sed -i "s|APP_ID|$APP_ID|g" src/environments/environment.ts
             - sed -i "s|MEASUREMENT_ID|$MEASUREMENT_ID|g" src/environments/environment.ts
             - sed -i "s|BASE_FUNCTIONS_URL|$BASE_FUNCTIONS_URL|g" src/environments/environment.ts
+            - sed -i "s|false|true|g" src/environments/environment.ts
           artifacts:
             - src/environments/environment.prod.ts
             - src/environments/environment.ts
