@@ -67,7 +67,7 @@ export class AuthService {
         const fullName: string = surname + ' ' + name;
         await this.authFire.createUserWithEmailAndPassword(email, password).then(async result => {
             await this.writeUserToCollection(result.user.uid, fullName, email);
-            // result.user.sendEmailVerification();
+            result.user.sendEmailVerification();
             this.router.navigate(['/sign-in']);
         }).catch(() => {
             success = true;
@@ -133,7 +133,7 @@ export class AuthService {
             await this.db.collection('users').doc(userId).set({
                 name,
                 email,
-                role: 'deputy',
+                role: 'user',
                 imageUrl
             });
         } catch (error) {
@@ -152,7 +152,7 @@ export class AuthService {
 
     async getUserEmail(): Promise<string>  {
         let userEmail: string;
-        this.store.select('authStore').subscribe((data: AuthState) =>  userEmail = data.user.email);
+        this.store.select('authStore').subscribe((data: AuthState) =>  userEmail = data.user ? data.user.email : null);
 
         return userEmail;
     }
@@ -180,7 +180,7 @@ export class AuthService {
 
     async getUserById(): Promise<AuthUser> {
         let userInfo: AuthUser;
-        const userId: string = await this.getUserId()
+        const userId: string = await this.getUserId();
         // tslint:disable-next-line: max-line-length
         await this.db.collection('users').doc(userId).get().toPromise().then(async span => {
             const data: firebase.firestore.DocumentData = span.data();

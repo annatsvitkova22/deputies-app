@@ -21,7 +21,7 @@
     }
 
     &__comment {
-        max-height: 50px;
+        max-height: 54px;
         margin-left: 20px;
         padding: 14px 16px 14px;
     }
@@ -33,7 +33,7 @@
     &__comment-btn {
         position: absolute;
         right: 8px;
-        top: 8px;
+        top: 10px;
         cursor: pointer;
         transition: all 0.3s;
     }
@@ -90,6 +90,11 @@
 
     .arrow-right {
         width: 100%;
+    }
+
+    .name-deputy {
+        cursor: pointer;
+        transition: all 0.3s;
     }
 
     .map {

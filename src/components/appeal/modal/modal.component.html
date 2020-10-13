@@ -31,7 +31,7 @@
                     <div class="modal__person d-flex">
                         <app-avatar [imageUrl]="appeal.deputyImageUrl" [name]="appeal.shortName" [class]="'avatar__extra-small'"></app-avatar>
                         <div class="modal__deputy ml-8">
-                            <a [routerLink]="['/deputy', appeal.deputyId]" class="author-name">{{appeal.deputyName}}</a>
+                            <p (click)="onDeputy()" class="author-name name-deputy">{{appeal.deputyName}}</p>
                             <p class="party-name font-weight-500 tx-small">{{appeal.party}}</p>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                         </ng-container>
                     </div>
                 </div>
-                <div class="d-flex justify-content-between align-items-center">
+                <div *ngIf="isWriteComment || comments.length"  class="d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M18.1823 9.7417C17.3773 13.4414 13.4608 16.2486 8.75047 16.2486C8.071 16.2486 7.40804 16.1902 6.76855 16.0791C8.06654 17.205 9.9667 17.9153 12.0838 17.9153C13.2485 17.9153 14.3476 17.7003 15.3168 17.3194C15.7627 17.1442 17.1941 17.5995 18.1801 17.9554C18.5772 18.0987 18.9878 17.723 18.8818 17.3144C18.6365 16.3686 18.3525 15.0534 18.5611 14.6942C18.9507 14.0231 19.1671 13.2802 19.1671 12.4986C19.1671 11.4919 18.808 10.5493 18.1823 9.7417Z" fill="#2F3640"/>
@@ -84,7 +84,7 @@
                         </button>
                     </div>
                 </div>
-                <div *ngIf="isWriteComment" class="modal__comment-section mt-12 mb-20 d-flex align-items-center">
+                <div *ngIf="isWriteComment && isHidden" class="modal__comment-section mt-12 mb-20 d-flex align-items-center">
                     <app-avatar [imageUrl]="userAvatal.imageUrl" [name]="userAvatal.shortName"></app-avatar>
                     <textarea
                         class="input textarea modal__comment"
@@ -150,7 +150,7 @@
                 <div class="modal__person d-flex">
                     <app-avatar [imageUrl]="appeal.deputyImageUrl" [name]="appeal.shortName" [class]="'avatar__extra-small'"></app-avatar>
                     <div class="modal__deputy ml-8">
-                        <p class="author-name">{{appeal.deputyName}}</p>
+                        <p (click)="onDeputy()" class="author-name name-deputy">{{appeal.deputyName}}</p>
                         <p class="party-name font-weight-500 tx-small">{{appeal.party}}</p>
                     </div>
                 </div>

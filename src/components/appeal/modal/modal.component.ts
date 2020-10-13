@@ -139,6 +139,11 @@ export class ModalComponent implements OnInit, OnDestroy {
         this.isHidden = !this.isHidden;
     }
 
+    onDeputy(): void {
+        this.activeModal.dismiss('Cross click');
+        this.router.navigate(['/deputy', this.appeal.deputyId]);
+    }
+
     async onComplain(id: string): Promise<void> {
         this.isLoaderBlock = true;
         this.isBlockAppeal = await this.appealService.blockAppeal(id);

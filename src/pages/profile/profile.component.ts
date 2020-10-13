@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { DeputyService } from '../../components/deputy/deputy.service';
 import { Deputy, AppealCard, UserAvatal, CountAppeals, AuthUser } from '../../models';
@@ -35,7 +35,8 @@ export class ProfileComponent implements OnInit {
         private route: ActivatedRoute,
         private mainService: MainService,
         private modalService: NgbModal,
-        private meta: Meta
+        private meta: Meta,
+        private title: Title
     ){}
 
     async ngOnInit(): Promise<void> {
@@ -53,11 +54,9 @@ export class ProfileComponent implements OnInit {
             this.deputy = await this.deputyService.getDeputy(this.user.userId);
             this.appeals = await this.deputyService.getAppeal(this.user.userId, this.deputy, this.count);
             this.countAppeals = await this.deputyService.getCountAppeal(this.user.userId, 'deputyId');
-            this.meta.addTags([
-                { property: 'og:url', content: this.deputy.imageUrl ? this.deputy.imageUrl : ''},
-                { name: 'title', content: this.deputy.name + ' ' + this.deputy.patronymic},
-                { name: 'description', content: this.deputy.party + ' ' + this.deputy.description},
-            ]);
+            this.title.setTitle('СЛУГА ПОЛТАВИ | ' + this.deputy.name + ' ' + this.deputy.patronymic);
+            this.meta.updateTag({ name: 'og:url', content: this.deputy.imageUrl ? this.deputy.imageUrl : ''});
+            this.meta.updateTag({ name: 'description', content: '“Партія «' +  this.deputy.party + '»'});
         } else {
             this.userAvatar = await this.authService.getUserImage();
             this.appeals = await this.deputyService.getAppealByUser(this.user.userId, this.userAvatar, this.user.name, this.count);

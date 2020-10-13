@@ -632,6 +632,7 @@ ngb-datepicker.dropdown-menu {
     line-height: 29px;
     letter-spacing: 0.01em;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .account-rating {
@@ -772,9 +773,13 @@ ngb-datepicker.dropdown-menu {
     display: none;
 }
 
+.invalid-feedback {
+    margin-top: 4px;
+}
+
 .modal-open .modal {
     display: block;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .modal.fade .modal-dialog {

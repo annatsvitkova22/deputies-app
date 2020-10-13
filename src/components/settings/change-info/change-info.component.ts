@@ -108,12 +108,12 @@ export class ChangeInfoComponent implements OnInit {
             authStore = {
                 isAuth: data.isAuth,
                 user: {
-                    userId: data.user.userId,
-                    role: data.user.role,
-                    name: data.user.name,
-                    email: data.user.email,
+                    userId: data.user ? data.user.userId : null,
+                    role: data.user ? data.user.role : null,
+                    name: data.user ? data.user.name : null,
+                    email: data.user ? data.user.email : null,
                     imageUrl: this.userAvatar ? this.userAvatar.imageUrl : null,
-                    shortName: data.user.shortName,
+                    shortName: data.user ? data.user.shortName : null,
                 },
             };
         } );
