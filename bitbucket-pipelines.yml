@@ -12,6 +12,19 @@ pipelines:
   branches:
     develop:
       - step:
+          name: Prepare ENV
+          script:
+            - cp src/environments/environment.example.ts src/environments/environment.prod.ts
+            - sed -i "s|API_KEY|$STAGING_API_KEY|g" src/environments/environment.prod.ts
+            - sed -i "s|AUTH_DOMAIN|$STAGING_AUTH_DOMAIN|g" src/environments/environment.prod.ts
+            - sed -i "s|DATABASE_URL|$STAGING_DATABASE_URL|g" src/environments/environment.prod.ts
+            - sed -i "s|PROJECT_ID|$STAGING_PROJECT_ID|g" src/environments/environment.prod.ts
+            - sed -i "s|STORAGE_BUCKET|$STAGING_STORAGE_BUCKET|g" src/environments/environment.prod.ts
+            - sed -i "s|MESSAGING_SENDER_ID|$STAGING_MESSAGING_SENDER_ID|g" src/environments/environment.prod.ts
+            - sed -i "s|APP_ID|$STAGING_APP_ID|g" src/environments/environment.prod.ts
+            - sed -i "s|MEASUREMENT_ID|$STAGING_MEASUREMENT_ID|g" src/environments/environment.prod.ts
+            - sed -i "s|BASE_FUNCTIONS_URL|$STAGING_BASE_FUNCTIONS_URL|g" src/environments/environment.prod.ts
+      - step:
           name: Build
           size: 2x
           script:
