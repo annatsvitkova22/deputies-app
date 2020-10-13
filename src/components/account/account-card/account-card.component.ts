@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 
 import { UserAccount, CountAppeals } from '../../../models';
 
@@ -15,14 +14,7 @@ export class AccountCardComponent implements OnInit {
     @Input() linkName: string;
     @Input() isButton: boolean;
 
-    constructor(
-        private meta: Meta,
-        private title: Title
-    ){
-        this.title.setTitle('СЛУГА ПОЛТАВИ | ' + this.user.name + ' ' + this.user.patronymic);
-        this.meta.updateTag({ name: 'og:url', content: this.user.imageUrl ? this.user.imageUrl : ''});
-        this.meta.updateTag({ name: 'description', content: this.user.party});
-    }
+    constructor(){}
 
     async ngOnInit(): Promise<void> {}
 }
