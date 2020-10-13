@@ -18,11 +18,11 @@ export class AccountCardComponent implements OnInit {
     constructor(
         private meta: Meta,
         private title: Title
-    ){}
-
-    async ngOnInit(): Promise<void> {
+    ){
         this.title.setTitle('СЛУГА ПОЛТАВИ | ' + this.user.name + ' ' + this.user.patronymic);
         this.meta.updateTag({ name: 'og:url', content: this.user.imageUrl ? this.user.imageUrl : ''});
         this.meta.updateTag({ name: 'description', content: this.user.party});
     }
+
+    async ngOnInit(): Promise<void> {}
 }
