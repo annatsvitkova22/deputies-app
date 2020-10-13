@@ -91,3 +91,4 @@ pipelines:
                 KUBECTL_ARGS:
                   - '--namespace=zmist'
 
+
