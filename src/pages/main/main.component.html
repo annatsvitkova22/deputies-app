@@ -10,7 +10,7 @@
                     <div class="input-calendar">
                         <input readonly class="input c-btn" placeholder="Сьогоднi"
                                 (click)="d.toggle()"
-                                formControlName="date" 
+                                formControlName="date"
                                 name="dp" ngbDatepicker #d="ngbDatepicker" (dateSelect)="onSaveDate()">
                         <div class="input-calendar-append">
                             <button class="btn btn-outline-secondary calendar" type="button"></button>
@@ -35,7 +35,7 @@
                             bindLabel="name"
                             placeholder="Сортувати"
                             (close)="onSaveSorting()"
-                            
+
                             formControlName="sort">
                         </ng-select>
                     </div>

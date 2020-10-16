@@ -151,7 +151,7 @@ export class MainService {
                 };
 
                 return appeal;
-            });
+            })
             return Promise.all(snapshots.map(fn => fn()));
         }
         return [];

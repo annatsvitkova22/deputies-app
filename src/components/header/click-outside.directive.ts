@@ -12,6 +12,7 @@ export class ClickOutsideDirective {
     @HostListener('document:click', ['$event.path'])
     @HostListener('document:touchstart', ['$event.path'])
     public onGlobalClick(targetElementPath: Array<any>) {
+        if (!targetElementPath) return
         let elementRefInPath = targetElementPath.find(e => e === this.elementRef.nativeElement);
         if (!elementRefInPath) {
             this.clickOutside.emit(true);
