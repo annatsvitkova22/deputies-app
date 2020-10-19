@@ -27,7 +27,7 @@
             </div>
         </div>
         <div>
-            <a *ngIf="isCreateAppeal" [routerLink]="['/create-appeal']" class="btn btn__small">
+            <a *ngIf="isCreateAppeal" [routerLink]="['/create-appeal', deputy.id]" class="btn btn__small">
                 Створити запит
             </a>
         </div>

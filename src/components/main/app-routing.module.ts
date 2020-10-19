@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'sign-in', component: AuthComponent },
   { path: 'reset-password', component: ResetPasswordComponent},
   { path: 'create-appeal', component: AppealComponent, canActivate: [AuthGuard] },
+  { path: 'create-appeal/:id', component: AppealComponent, canActivate: [AuthGuard] },
   { path: 'deputies', component: DeputiesComponent, canActivate: [AuthSimpleGuard] },
   { path: 'deputy/:id', component: DeputyComponent, canActivate: [AuthSimpleGuard] },
   { path: 'about-project', component: AboutProjectComponent, canActivate: [AuthSimpleGuard] },

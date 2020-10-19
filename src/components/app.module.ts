@@ -30,7 +30,6 @@ import { ConfirmAppealComponent } from '../pages/confirm-appeal/confirm-appeal.c
 import { FeedbackComponent } from '../pages/feedback/feedback.component';
 import { AboutProjectComponent } from '../pages/about-project/about-project.component';
 import { ClickOutsideDirective } from './header/click-outside.directive';
-import { ClickSelectDirective } from './multi-select/click-input.directive';
 import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
   declarations: [
@@ -64,8 +63,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     FeedbackComponent,
     AboutProjectComponent,
     InfiniteScrollComponent,
-    ClickOutsideDirective,
-    ClickSelectDirective
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,

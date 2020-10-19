@@ -93,7 +93,7 @@
         </div>
         <div *ngIf="userRole == 'deputy'" class="form-group">
             <ng-select [items]="parties"
-                class="input"
+                class="input mono-select"
                 bindLabel="name"
                 placeholder="Партiя"
                 formControlName="party">
@@ -101,7 +101,7 @@
         </div>
         <div *ngIf="userRole == 'deputy'" class="form-group">
             <ng-select [items]="districts"
-                class="input"
+                class="input mono-select"
                 bindLabel="name"
                 placeholder="Район"
                 formControlName="district">

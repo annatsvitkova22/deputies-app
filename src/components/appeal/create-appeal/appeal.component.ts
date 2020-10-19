@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MapsAPILoader } from '@agm/core';
 
 import { AppealService } from '.././appeal.service';
@@ -36,6 +36,7 @@ export class AppealComponent implements OnInit {
     @ViewChild('map') mapElementRef: ElementRef;
     map: google.maps.Map;
     addressLocation: Location;
+    deputyId: string;
 
     constructor(
         private appealService: AppealService,
@@ -43,15 +44,29 @@ export class AppealComponent implements OnInit {
         private modalService: NgbModal,
         private router: Router,
         private mapsAPILoader: MapsAPILoader,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private route: ActivatedRoute,
     ){}
 
     async ngOnInit(): Promise<void> {
+        this.route.params.subscribe(params => {
+            this.deputyId = params['id'];
+        });
+
         const userRole = await this.authService.getUserRole();
         if (userRole !== 'deputy') {
             this.districts = await this.appealService.getDistricts();
             this.allDeputies = await this.appealService.getDeputy();
             this.deputies = this.allDeputies;
+            if (this.deputyId) {
+                const deputy = this.allDeputies.find(deputy => deputy.id === this.deputyId);
+                const district = this.districts.find(district => district.id === deputy.district);
+                this.form.patchValue({
+                    district: district ? district : null,
+                    deputy: deputy ? deputy : null,
+                });
+
+            }
         } else {
             this.router.navigate(['/']);
         }

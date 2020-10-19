@@ -18,7 +18,7 @@
             <p class="appeal-name">{{countAppeal.name}}</p>
         </li>
     </ul>
-    <a *ngIf="isButton" [routerLink]="[link]" class="btn btn-big mt-24">
+    <a *ngIf="isButton" [routerLink]="[link , user.id]"  class="btn btn-big mt-24">
         {{linkName}}
     </a>
 </div>

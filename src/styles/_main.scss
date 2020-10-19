@@ -330,6 +330,10 @@ path {
         transform: rotate(180deg);
     }
 
+    .ng-value-container {
+        min-width: 100px;
+    }
+
     .ng-value, .ng-placeholder {
         padding-right: 25px;
     }
@@ -446,6 +450,122 @@ ngb-datepicker.dropdown-menu {
 
 }
 
+.ng-dropdown-panel.ng-select-multiple.multi-select {
+    border: none;
+    width: 243px !important;
+    background-color: $white;
+    border-radius: 16px;
+    box-shadow: 0px 12px 12px rgba(50, 50, 71, 0.08),
+                0px 16px 44px rgba(50, 50, 71, 0.08);
+    padding-top: 10px;
+}
+.multi-select {
+    .ng-value-container {
+        .ng-placeholder {
+            display: block !important;
+            position: static !important;
+            padding-right: 8px;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+    
+        .ng-value:not(:nth-child(2)) {
+            display: none;
+        }
+    
+        .ng-input {
+            width: 20px;
+        }
+    }
+}
+
+.ng-dropdown-panel.ng-select-multiple.multi-select {
+    top: 150px !important
+}
+
+.ng-option {
+    display: flex !important;
+    align-items: center;
+    position: relative;
+
+    input[type=checkbox]+span:before {
+        border: 1px solid $gray-13;
+        border-radius: 4px;
+        width: 18px;
+        height: 18px;
+        content: '';
+        position: absolute;
+        top: 10px;
+        left: 0;
+        text-align: center;
+        transition: .4s;
+    }
+
+    input[type=checkbox]:checked+span:after {
+        content: '';
+        border-style: solid;
+        border-width: 0 0 2px 2px;
+        border-color: $white;
+        position: absolute;
+        top: 14px;
+        left: 3px;
+        width: 12px;
+        height: 6px;
+        transition: transform .2s ease-out;
+        transform: rotate(-45deg) scale(1);
+    }
+
+    input[type=checkbox]+span {
+        padding-left: 14px;
+        font-weight: 500;
+        line-height: 1.43;
+        text-align: center;
+        letter-spacing: 0.01em;
+        color: $gray-7;
+    }
+
+    input[type=checkbox]:checked+span:before {
+        background-color: $gray-7;
+    }
+    
+    input[type=checkbox]:checked+span {
+        font-weight: 600 !important;
+    }
+
+    .drop-input {
+        display: none;
+    }
+
+    span {
+        display: inline-block;
+        margin-left: 8px;
+        line-height: 1.43;
+        text-align: center;
+        letter-spacing: 0.01em;
+        color: $gray-7;
+
+        &:hover {
+            font-weight: 600 !important;
+        }
+    }
+}
+
+.scrollable-content {
+    padding: 0 16px 10px;
+}
+
+.ng-dropdown-footer {
+    padding: 12px 16px;
+    box-shadow: inset 0px 1px 0px #E9EFF6;
+}
+
+.ng-dropdown-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
 .dropdown-list ul li {
     padding: 10px 16px !important;
 }
@@ -469,14 +589,8 @@ ngb-datepicker.dropdown-menu {
     }
 }
 
-.selected-item.pure-checkbox input[type=checkbox]+label:before {
+.selected-item.ng-valid input[type=checkbox]+label:before {
     background-color: $gray-7 !important;
-}
-
-.pure-checkbox input[type=checkbox]+label:after {
-    border-color: $white !important;
-    width: 12px !important;
-    height: 6px !important;
 }
 
 .countplaceholder {
@@ -580,8 +694,21 @@ ngb-datepicker.dropdown-menu {
     }
 }
 
-.deputy {
+.mono-select {
+    .ng-dropdown-panel-items.scroll-host {
+        background: $white;
+        box-shadow: 0 12px 12px rgba(50,50,71,.08), 0 16px 44px rgba(50,50,71,.08);
+        border-radius: 16px 18px 18px 18px;
+        padding: 12px 16px;
+    }
 
+    .ng-option-label {
+        margin-left: 0;
+    }
+}
+
+
+.deputy {
     &-info {
         width: 100%;
 
@@ -662,15 +789,9 @@ ngb-datepicker.dropdown-menu {
     }
 }
 
-.ng-dropdown-panel .scroll-host {
-    background: $white;
-    box-shadow: 0px 12px 12px rgba(50, 50, 71, 0.08), 0px 16px 44px rgba(50, 50, 71, 0.08);
-    border-radius: 16px 18px 18px 18px;
-    padding: 12px 16px;
-}
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-    padding: 8px 0;
+    padding: 10px 0;
     font-weight: 500;
     line-height: 1.43;
     letter-spacing: 0.01em;
@@ -826,8 +947,13 @@ ngb-datepicker.dropdown-menu {
 }
 
 .ng-select .ng-select-container {
+    height: 100%;
     cursor: pointer !important;
     transition: all 0.3s;
+}
+
+.ng-value-container {
+    align-items: center;
 }
 
 .sr-only {

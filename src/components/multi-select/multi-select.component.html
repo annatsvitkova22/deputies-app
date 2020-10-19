@@ -1,17 +1,25 @@
-<div class="select" (clickOutside)="outside($event)">
-    <form class="select-form"  #f='ngForm' (ngSubmit)='resetForm(f)'>
-        <angular2-multiselect (mouseDownSelect)="onMouseDown($event)" (clickSelect)="onSelect($event)" [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
-        (onDeSelect)="OnItemDeSelect($event)" name='selectedItems' ngModel>
-            <c-badge>
-                <ng-template let-item="item">
-                    <label class="badge-label">{{dropdownSettings.text}} <span *ngIf="selectedItems.length && isSave" class="count-selected">{{selectedItems.length}}</span></label>
-                </ng-template>
-            </c-badge>
-        </angular2-multiselect>
-        <div (clickOutside)="onButtons($event)" *ngIf="isDrop" class="select-button d-flex justify-content-between align-items-center"
-        [ngStyle]="{bottom: bottomSection + 'px'}">
+<div class="select">
+    <ng-select [items]="dropdownList"
+        bindLabel="name"
+        [closeOnSelect]="false"
+        [multiple]="true"
+        [virtualScroll]="true"
+        [placeholder]="text"
+        [(ngModel)]="selectedItems"
+        class="multi-select"
+        (change)="onItemSelect()"
+        appendTo="body">
+        <ng-template class="custom-value" ng-label-tmp let-item="item">
+            <span *ngIf="isSave && selectedItems.length" class="count-selected">{{count}}</span>
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+            <input class="drop-input" id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/>&nbsp;
+            <span>{{item.name}}</span>
+        </ng-template>
+        <ng-template ng-footer-tmp class="select-button">
             <button [disabled]="selectedItems==null || selectedItems.length==0 ? true : false" class="select-clear" (click)="resetForm(f)">{{buttonText}}</button>
             <button class="btn btn__small btn-dark" (click)="saveOptions()">Зберегти</button>
-        </div>
-    </form>
+        </ng-template>
+
+    </ng-select>
 </div>

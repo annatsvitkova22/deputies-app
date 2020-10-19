@@ -20,13 +20,11 @@ export class MultiSelectComponent implements OnInit {
     @Input() text: string;
     dropdownSettings = {};
     @Output() changes = new EventEmitter<Settings>();
-    // tslint:disable-next-line: no-inferrable-types
-    isDrop: boolean = false;
     buttonText: string;
     counter: number;
     bottomSection: number;
-    isOnButton: boolean;
     isSave: boolean;
+    count: number;
 
     constructor(
         private store: Store<MainState>,
@@ -45,41 +43,24 @@ export class MultiSelectComponent implements OnInit {
         }
         if (this.selectedItems.length) {
             this.isSave = true;
-            this.counter = this.selectedItems.length;
-            this.buttonText = 'Очистити(' + this.counter + ')';
+            this.count = this.selectedItems.length;
+            this.buttonText = 'Очистити(' + this.selectedItems.length + ')';
         } else {
             this.isSave = false;
         }
-        this.dropdownSettings = {
-            singleSelection: false,
-            text: this.text,
-            enableCheckAll: false,
-            enableSearchFilter: false,
-            labelKey: 'name',
-            classes: 'multi-select',
-            badgeShowLimit: 1
-        };
-        this.bottomSection = -90 - this.dropdownList.length * 40;
     }
 
-    onItemSelect(item: any): void {
-        this.counter++;
-        this.buttonText = 'Очистити(' + this.counter + ')';
-    }
-    OnItemDeSelect(item: any): void {
-        this.counter--;
+    onItemSelect(): void {
         if (this.selectedItems.length) {
-            this.buttonText = 'Очистити(' + this.counter + ')';
+            this.buttonText = 'Очистити(' + this.selectedItems.length + ')';
         } else {
             this.buttonText = 'Очистити';
         }
     }
 
     async resetForm(f: NgForm): Promise<void> {
-        this.isOnButton = true;
-        f.reset();
+        this.selectedItems = [];
         this.buttonText = 'Очистити';
-        this.counter = 0;
         this.dispatchToStore();
         this.isSave = false;
     }
@@ -124,47 +105,7 @@ export class MultiSelectComponent implements OnInit {
 
     saveOptions(): void {
         this.isSave = true;
-        this.isOnButton = true;
+        this.count = this.selectedItems.length;
         this.dispatchToStore();
-    }
-
-    onSelect(event): void {
-        if (event && this.isDrop) {
-            this.isDrop = false;
-        } else if (event && !this.isDrop) {
-            this.isDrop = true;
-        }
-    }
-
-    outside(event): void {
-        if (event) {
-            if (this.isDrop) {
-                this.isDrop = false;
-            }
-        } else {
-            if (!this.isDrop) {
-                this.isDrop = true;
-            }
-            if (this.isOnButton) {
-                this.isDrop = false;
-                this.isOnButton = false;
-            }
-        }
-    }
-
-    onMouseDown(event): void {
-        if (event && !this.isDrop) {
-            this.isDrop = true;
-        }
-    }
-
-    onButtons(event): void {
-        if (!event) {
-            if (window.innerWidth > 768) {
-                this.isDrop = false;
-            } else {
-                this.isOnButton = true;
-            }
-        }
     }
 }
