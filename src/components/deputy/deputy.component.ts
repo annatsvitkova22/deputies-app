@@ -53,7 +53,7 @@ export class DeputyComponent implements OnInit {
         this.type = null;
         this.count = 3;
         this.deputy = await this.deputyService.getDeputy(this.deputyId);
-        this.title.setTitle('СЛУГА ПОЛТАВИ | ' + this.deputy.name + ' ' + this.deputy.patronymic);
+        this.title.setTitle('СЛУГА ПОЛТАВИ | ' + this.deputy.name);
         this.meta.updateTag({ name: 'og:url', content: this.deputy.imageUrl ? this.deputy.imageUrl : ''});
         this.meta.updateTag({ name: 'description', content: this.deputy.party});
         this.appeals = await this.deputyService.getAppeal(this.deputyId, this.deputy, this.count);

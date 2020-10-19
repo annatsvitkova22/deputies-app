@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit {
             }
         });
 
-        if (window.innerWidth < 769) {
+        if (window.innerWidth < 771) {
             this.isMobile = true;
         }
         const userAvatar: UserAvatal = await this.authService.getUserImage();
@@ -73,7 +73,7 @@ export class HeaderComponent implements OnInit {
     @HostListener('window:resize', ['$event'])
 	onResize(event) {
         const width: number = event.target.innerWidth;
-        if (width < 769) {
+        if (width < 771) {
             this.isMobile = true;
         } else {
             this.isMobile = false;

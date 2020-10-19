@@ -152,6 +152,12 @@ export class MultiSelectComponent implements OnInit {
         }
     }
 
+    onMouseDown(event): void {
+        if (event && !this.isDrop) {
+            this.isDrop = true;
+        }
+    }
+
     onButtons(event): void {
         if (!event) {
             if (window.innerWidth > 768) {
