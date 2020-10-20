@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
@@ -50,6 +50,7 @@ export class MainComponent implements OnInit {
         private store: Store<MainState>,
         private route: ActivatedRoute,
         private modalService: NgbModal,
+        private fb: FormBuilder
     ){}
 
     async ngOnInit(): Promise<void> {
@@ -147,9 +148,20 @@ export class MainComponent implements OnInit {
         let date = this.form.value.date;
         date = date.year + '-' + date.month + '-' + date.day + 'T00:00:00';
         date = moment(date, 'YYYY-MM-DDTHH:mm:ss').utc().valueOf();
-        const settings: Settings = {
-            date
-        };
+        const dateToday = moment({h: 0, m: 0, s: 0, ms: 0}).utc().valueOf();
+        let settings: Settings;
+        if (date === dateToday) {
+            settings = {
+                date: null
+            };
+            this.form = this.fb.group({
+                date: null
+            });
+        } else {
+            settings = {
+                date
+            };
+        }
         this.store.dispatch(new EditSettings(settings));
         const setting = await this.mainService.getSettings();
         this.appeals = await this.mainService.getAppeal(setting, this.count);

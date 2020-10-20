@@ -79,3 +79,13 @@
         padding: 6px 11px;
     }
 }
+
+@media only screen and (max-width: 420px) {
+    .multi-select.ng-select-multiple {
+        padding: 8px 10px;
+    }
+
+    .count-selected {
+        margin-left: -7px;
+    }
+}
