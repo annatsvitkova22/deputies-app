@@ -142,6 +142,11 @@ export class MainComponent implements OnInit {
         }
     }
 
+    isToday = (date: any) => {
+        const newdate = date.year + '-' + date.month + '-' + date.day + 'T00:00:00';
+        return moment(newdate, 'YYYY-MM-DDTHH:mm:ss').utc().valueOf() ===  moment({h: 0, m: 0, s: 0, ms: 0}).utc().valueOf();
+    }
+
     async onSaveDate(): Promise<void> {
         this.isLoaderAppeal = true;
         this.appeals = null;

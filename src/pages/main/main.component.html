@@ -8,14 +8,24 @@
                     <app-multi [selectedItems]="selectDistricts" (changes)="changeAppeals($event)" [dropdownList]="districts"  [type]="'districts'" [text]="'Район'"></app-multi>
                     <app-multi [selectedItems]="selectedStatus" (changes)="changeAppeals($event)" [type]="'statuses'" [text]="'Статус'"></app-multi>
                     <div class="input-calendar">
-                        <input readonly class="input c-btn" placeholder="Сьогоднi"
+                        <input readonly class="input c-btn calendar-input" placeholder="Сьогоднi"
                                 (click)="d.toggle()"
                                 formControlName="date"
+<<<<<<< HEAD
+=======
+                                [dayTemplate]="customDay"
+>>>>>>> develop
                                 name="dp" ngbDatepicker #d="ngbDatepicker" (dateSelect)="onSaveDate()">
                         <div class="input-calendar-append">
                             <button class="btn btn-outline-secondary calendar" type="button"></button>
                         </div>
                     </div>
+                    <ng-template #customDay let-date let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled" let-focused="focused">
+                        <span class="custom-day" [class.date-today]="isToday(date)" [class.focused]="focused"
+                            [class.bg-primary]="selected" [class.text-muted]="disabled">
+                            {{ date.day }}
+                        </span>
+                    </ng-template>
                 </div>
                 <infinite-scroll (scrolled)="onScroll()" >
                     <app-appeal-card
