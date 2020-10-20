@@ -799,6 +799,10 @@ ngb-datepicker.dropdown-menu {
     &:hover {
         font-weight: 600;
     }
+
+    &:last-of-type {
+        padding: 10px 0 12px;
+    }
 }
 
 .ng-option-selected {
@@ -956,6 +960,30 @@ ngb-datepicker.dropdown-menu {
     align-items: center;
 }
 
+.ngb-dp-weekday {
+    color: $blue !important;
+}
+
+.bg-primary {
+    background-color: $blue !important;
+    color: $white;
+}
+
+.btn-light, .ngb-dp-day:hover {
+    background-color: $blue-4;
+}
+
+.ngb-dp-today {
+    background-color: $blue-4;
+    border-radius: 1rem;
+}
+
+.ngb-dp-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .sr-only {
     position: absolute;
     width: 1px;
@@ -1053,6 +1081,10 @@ ngb-datepicker.dropdown-menu {
 @media only screen and (max-width: 420px) {
     .selected-list .c-angle-down, .selected-list .c-angle-up {
         right: 16px !important;
+    }
+
+    .ng-select .ng-select-container {
+        position: static !important;
     }
 
     .cuppa-dropdown .selected-list .c-btn {
