@@ -3047,6 +3047,14 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
+angular-social-plugins@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/angular-social-plugins/-/angular-social-plugins-1.3.0.tgz#99ab41d7cf51283bba5e311c2d52d266f9768b95"
+  integrity sha512-nFtSHtiU5cqTPx8b8oKzfZOKPoRBrQZgsMqPzXJbK7/YMF5TJcCqVUIXxTff4mI5qcXx/+joKtj0XrOt8+AqMw==
+  dependencies:
+    angular "^1.8.0"
+    underscore "^1.11.0"
+
 angular2-multiselect-dropdown@^4.6.4:
   version "4.6.4"
   resolved "https://registry.yarnpkg.com/angular2-multiselect-dropdown/-/angular2-multiselect-dropdown-4.6.4.tgz#c5333547af4992723fd5c82e860f94fd9947ca46"
@@ -3054,6 +3062,11 @@ angular2-multiselect-dropdown@^4.6.4:
   dependencies:
     "@tweenjs/tween.js" "^17.4.0"
     tslib "^1.9.0"
+
+angular@^1.8.0:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.8.1.tgz#5a9cd4a99a0a1c4aeeb913d9f4699e2458daf5c1"
+  integrity sha512-eiasF4uFXsmKD8qYpkKEi9rKVxMv0nIDZXsYrwzSbPIbjmTV05bx+18VDbRmMx7p+gL84T9Qw2NCpVe8w1QKHQ==
 
 ansi-colors@4.1.1:
   version "4.1.1"
@@ -10891,6 +10904,11 @@ undeclared-identifiers@^1.1.2:
     get-assigned-identifiers "^1.2.0"
     simple-concat "^1.0.0"
     xtend "^4.0.1"
+
+underscore@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.11.0.tgz#dd7c23a195db34267186044649870ff1bab5929e"
+  integrity sha512-xY96SsN3NA461qIRKZ/+qox37YXPtSBswMGfiNptr+wrt6ds4HaMw23TP612fEyGekRE6LNRiLYr/aqbHXNedw==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"

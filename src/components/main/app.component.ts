@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FacebookService, InitParams } from 'ngx-facebook';
+import { FacebookService } from 'ngx-facebook';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { filter } from 'rxjs/operators';
@@ -27,13 +27,6 @@ export class AppComponent implements OnInit {
         'page_path': event.urlAfterRedirects
       });
     });
-    const initParams: InitParams = {
-      appId: '334443524450569',
-      xfbml: true,
-      version: 'v8.0',
-      status: true
-    };
-    fb.init(initParams);
   }
 
   async ngOnInit(): Promise<void> {

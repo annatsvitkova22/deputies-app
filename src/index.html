@@ -14,12 +14,10 @@
   <link rel="manifest" href="assets/site.webmanifest">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
-  <!-- <script async src="https://cdn.ampproject.org/v0.js"></script>
-  <script custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js" async></script>
-  <script async custom-element="amp-facebook-comments" src="https://cdn.ampproject.org/v0/amp-facebook-comments-0.1.js"></script> -->
-  <!-- <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script> -->
 </head>
 <body>
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/uk_UA/sdk.js#xfbml=1&version=v8.0&appId=349264689823999&autoLogAppEvents=1" nonce="EGyewul0"></script>
   <app-root></app-root>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180301838-1"></script>
@@ -27,18 +25,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-  </script>
-  <!-- Hotjar Tracking Code for https://sluga.pl.ua/ -->
-  <script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:2050582,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-  </script>
-  <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    </script>
 </body>
 </html>
