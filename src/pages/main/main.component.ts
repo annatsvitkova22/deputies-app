@@ -50,7 +50,7 @@ export class MainComponent implements OnInit {
         private store: Store<MainState>,
         private route: ActivatedRoute,
         private modalService: NgbModal,
-        private fb: FormBuilder
+        private fb: FormBuilder,
     ){}
 
     async ngOnInit(): Promise<void> {

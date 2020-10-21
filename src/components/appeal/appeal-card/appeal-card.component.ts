@@ -14,13 +14,15 @@ import { MainService } from '../../../pages/main/main.service';
 })
 export class AppealCardComponent implements OnInit {
     @Input () appeal: AppealCard;
+    @Input () isMainPage: boolean;
     statusColor: string;
     rating: number;
+    url: string;
 
     constructor(
         private modalService: NgbModal,
         private router: Router,
-        private mainService: MainService
+        private mainService: MainService,
     ){}
 
     async ngOnInit(): Promise<void> {

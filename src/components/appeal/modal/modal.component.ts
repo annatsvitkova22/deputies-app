@@ -61,7 +61,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit(): Promise<void> {
-        this.url = window.location.href;
+        this.url = window.location.origin + '/' + this.appeal.id;
         document.getElementById('fb-comments').setAttribute('data-href', this.url);
         this.fb.init({
             appId: '595420217740360',
