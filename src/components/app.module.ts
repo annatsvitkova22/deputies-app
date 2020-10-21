@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {  NgxSlickJsModule } from 'ngx-slickjs';
-import { FacebookModule, FacebookService, FBCommentsComponent } from 'ngx-facebook';
+import { FacebookModule, FacebookService } from 'ngx-facebook';
 import { AgmCoreModule } from '@agm/core';
 
 import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthService,
