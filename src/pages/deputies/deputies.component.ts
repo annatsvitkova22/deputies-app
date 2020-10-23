@@ -9,7 +9,6 @@ import { MainState } from '../../store/main.state';
 import { EditSettings } from '../../store/settings.action';
 import { AppealService } from '../../components/appeal/appeal.service';
 import { AuthService } from '../../components/auth/auth.service';
-import { iif } from 'rxjs';
 
 
 @Component({

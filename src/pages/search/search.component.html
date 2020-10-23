@@ -1,0 +1,21 @@
+<app-header></app-header>
+<app-loader *ngIf="isLoader" ></app-loader>
+<main *ngIf="!isLoader" class="main">
+    <div class="container container__small mt-28">
+        <div *ngIf="deputies && deputies.length" class="mb-28">
+            <app-small-card
+                    [isCreateAppeal]="isCreateAppeal"
+                    [deputy]="deputy"
+                    *ngFor="let deputy of deputies"
+            >
+            </app-small-card>
+        </div>
+        <div *ngIf="appeals && appeals.length">
+            <app-appeal-card
+                    [appeal]="appeal"
+                    *ngFor="let appeal of appeals"
+                >
+            </app-appeal-card>
+        </div>
+    </div>
+</main>

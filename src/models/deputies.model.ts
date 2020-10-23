@@ -24,6 +24,7 @@ export interface UserAccount {
 export interface Deputy {
     id: string;
     name: string;
+    surname?: string;
     patronymic?: string;
     description?: string;
     district?: string;
@@ -53,6 +54,7 @@ export interface Appeal {
     fileImageUrl?: string[];
     isBlock?: boolean;
     location?: Location;
+    id?: string;
 }
 
 export interface AppealCard {
@@ -120,4 +122,10 @@ export interface ResultComment {
 
 export interface BlockAppeal {
     id: string;
+}
+
+export interface ResultData {
+    status: boolean;
+    appeals?: AppealCard[];
+    deputies?: Deputy[];
 }

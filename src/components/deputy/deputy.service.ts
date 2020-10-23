@@ -364,6 +364,7 @@ export class DeputyService {
         return [];
     }
 
+
     async getParties(): Promise<Party[]> {
         const parties: Party[] = [];
         await this.db.collection('parties').get().toPromise().then(async (snapshots) => {

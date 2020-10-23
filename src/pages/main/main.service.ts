@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import * as moment from 'moment';
 
-import { AppealCard, Deputy, Settings } from '../../models';
+import { AppealCard, Deputy, Settings, Appeal } from '../../models';
 import { DeputyService } from '../../components/deputy/deputy.service';
 import { MainState } from '../../store/main.state';
 

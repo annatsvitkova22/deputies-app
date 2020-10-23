@@ -28,6 +28,8 @@ export class HeaderComponent implements OnInit {
     path: string;
     counter: number = 0;
     isMobile: boolean = false;
+    // isSearch: boolean = false;
+    // serchText: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -44,6 +46,10 @@ export class HeaderComponent implements OnInit {
             }
         }
     }
+
+    // handleSearch() {
+    //     this.isSearch = !this.isSearch;
+    // }
 
     async ngOnInit(): Promise<void> {
         this.route.url.subscribe(res => {
@@ -100,6 +106,15 @@ export class HeaderComponent implements OnInit {
             bodyElement[0].style.overflow = 'visible';
         }
     }
+
+    // onSearch(): void {
+    //     this.router.navigate(['search'], {
+    //         queryParams: {
+    //             query: this.serchText
+    //         },
+    //         queryParamsHandling: 'merge',
+    //     });
+    // }
 
     onOpenDropdown(): void {
         this.isDropdown = !this.isDropdown;

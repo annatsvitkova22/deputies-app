@@ -27,3 +27,4 @@ export * from './deputy/small-card/small-card.component';
 export * from './uploaded-file/uploaded-file.component';
 export * from './appeal/modal/modal.component';
 export * from './infinite-scroll/infinite-scroll.component';
+export * from './header/search.component';

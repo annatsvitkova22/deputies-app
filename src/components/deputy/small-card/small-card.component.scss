@@ -13,7 +13,6 @@
     }
 
     &__main {
-        max-width: 342px;
         width: 100%;
     }
 
@@ -39,6 +38,10 @@
         line-height: 1.2;
         text-transform: capitalize;
         color: $gray-16;
+    }
+    
+    .btn__small {
+        white-space: nowrap;
     }
 
     .appeal-count {

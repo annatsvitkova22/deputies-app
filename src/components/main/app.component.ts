@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FacebookService } from 'ngx-facebook';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { filter } from 'rxjs/operators';
@@ -14,7 +13,6 @@ export class AppComponent implements OnInit {
   title = 'deputies-app';
 
   constructor(
-    fb: FacebookService,
     private router: Router
   ) {
     const navEndEvents$ = this.router.events

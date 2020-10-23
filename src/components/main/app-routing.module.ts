@@ -15,6 +15,7 @@ import { AuthSimpleGuard } from './auth-simple.guard';
 import { ConfirmAppealComponent } from '../../pages/confirm-appeal/confirm-appeal.component';
 import { FeedbackComponent } from '../../pages/feedback/feedback.component';
 import { AboutProjectComponent } from '../../pages/about-project/about-project.component';
+import { SearchComponent } from '../../pages/search/search.component';
 
 const routes: Routes = [
   { path: 'sign-up', component: SingUpComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent},
   { path: 'create-appeal', component: AppealComponent, canActivate: [AuthGuard] },
   { path: 'create-appeal/:id', component: AppealComponent, canActivate: [AuthGuard] },
+  { path: 'search', component: SearchComponent, canActivate: [AuthSimpleGuard] },
   { path: 'deputies', component: DeputiesComponent, canActivate: [AuthSimpleGuard] },
   { path: 'deputy/:id', component: DeputyComponent, canActivate: [AuthSimpleGuard] },
   { path: 'about-project', component: AboutProjectComponent, canActivate: [AuthSimpleGuard] },

@@ -15,7 +15,7 @@ import { AppRoutingModule, AppComponent, AuthComponent, SingUpComponent, AuthSer
   GenericInputComponent, ResetPasswordComponent, AuthGuard, AppealComponent, ChangeEmailComponent,
   AppealService, NgbdModalContent, SettingsService, ChangePasswordComponent, ChangeInfoComponent,
   LoaderComponent, DeputyComponent, DeputyService, AppealCardComponent, AvatarComponent, HeaderComponent, MultiSelectComponent,
-  TabComponent, AccountCardComponent, SmallCardComponent, UploadedFileComponent, ModalComponent, InfiniteScrollComponent } from './index';
+  TabComponent, AccountCardComponent, SmallCardComponent, UploadedFileComponent, ModalComponent, InfiniteScrollComponent, SearchHeaderComponent } from './index';
 import { environment } from '../environments/environment';
 import { authReducer } from '../store/auth.reducer';
 import { MainComponent } from '../pages/main/main.component';
@@ -31,6 +31,8 @@ import { FeedbackComponent } from '../pages/feedback/feedback.component';
 import { AboutProjectComponent } from '../pages/about-project/about-project.component';
 import { ClickOutsideDirective } from './header/click-outside.directive';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { SearchComponent } from '../pages/search/search.component';
+import { SearchService } from '../pages/search/search.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,6 +65,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     FeedbackComponent,
     AboutProjectComponent,
     InfiniteScrollComponent,
+    SearchComponent,
+    SearchHeaderComponent,
     ClickOutsideDirective
   ],
   imports: [
@@ -76,6 +80,12 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     HttpClientModule,
     StoreModule.forRoot({authStore: authReducer, settingsStore: settingsReducer}),
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    FacebookModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDLa-5lnf9Reg-5ysvns1vp2r00QCIQMVk',
+      libraries: ['places']
+    }),
+    ImageCropperModule,
     NgxSlickJsModule.forRoot({
       links: {
         jquery: 'https://code.jquery.com/jquery-3.4.0.min.js',
@@ -84,12 +94,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
         slickThemeCss: 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css'
       }
     }),
-    FacebookModule.forRoot(),
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDLa-5lnf9Reg-5ysvns1vp2r00QCIQMVk',
-      libraries: ['places']
-    }),
-    ImageCropperModule
   ],
   providers: [
     AuthService,
@@ -99,7 +103,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     DeputyService,
     MainService,
     AuthSimpleGuard,
-    FacebookService
+    FacebookService,
+    SearchService
   ],
   bootstrap: [AppComponent],
   entryComponents: [NgbdModalContent, ModalComponent]

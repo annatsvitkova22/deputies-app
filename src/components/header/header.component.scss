@@ -21,11 +21,13 @@
 
     &__mobile-nav {
         margin-left: -66px;
+        position: relative;
     }
 
     &__btn {
         padding: 10px 32px;
         max-height: 42px;
+        white-space: nowrap;
     }
 
     &__mobile-menu {
@@ -52,6 +54,10 @@
 
     &__mobile {
         display: none;
+    }
+
+    &__nav {
+        position: relative;
     }
 
     &__avatar {
@@ -174,7 +180,64 @@
             color: $gray-7;
         }
     }
+
+    &__search {
+        margin-right: 36px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        z-index: 10;
+    }
+
+    &__searchbox {
+        display: block;
+        text-align: center;
+        width: 100%;
+        position: absolute;
+        top: -25px;
+        left: 0;
+    }
+
+    &__search-form {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        right: 300px;
+        transition: all 0.5s;
+
+        &--active {
+            opacity: 1;
+            width: calc(100% - 300px);
+        }
+    }
+
+    &__search-input {
+        width: 100%;
+        padding-left: 35px;
+        position: relative;
+    }
+
+    &__close-icon {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-left: 8px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    &__search-icon {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-right: 8px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: all 0.3s;
+    }
 }
+
 
 @media only screen and (max-width:1280px) {
     .header {
