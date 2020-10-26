@@ -1,6 +1,5 @@
-<div class="header__search" (click)="handleSearch()">
+<div [class.header__search--active]="!isSearch" class="header__search" (click)="handleSearch()">
     <svg
-        *ngIf="!isSearch"
         width="28"
         height="28"
         viewBox="0 0 28 28"

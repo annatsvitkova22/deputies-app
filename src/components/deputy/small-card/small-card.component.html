@@ -13,9 +13,10 @@
                 </div>
             </div>
             <div class="card__content">
-                <a [routerLink]="['/deputy', deputy.id]" class="card__name">{{deputy.name + ' ' + deputy.patronymic}}</a>
-                <p *ngIf="deputy.district" class="card__info mt-6 mb-8">{{deputy.district}}</p>
-                <p *ngIf="deputy.party" class="card__info">{{deputy.party}}</p>
+                <a *ngIf="!isSearch" [routerLink]="['/deputy', deputy.id]" class="card__name">{{deputy.name + ' ' + deputy.patronymic}}</a>
+                <a *ngIf="isSearch" [innerHTML]="deputy.name" [routerLink]="['/deputy', deputy.id]" class="card__name"></a>
+                <p *ngIf="deputy.district" [innerHTML]="deputy.district" class="card__info mt-6 mb-8"></p>
+                <p *ngIf="deputy.party" [innerHTML]="deputy.party" class="card__info"></p>
                 <ul *ngIf="!isLoader" class="card__appeals list-reset d-flex justify-content-between">
                     <li 
                         *ngFor="let countAppeal of countAppeals"

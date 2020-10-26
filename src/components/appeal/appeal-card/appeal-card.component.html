@@ -3,8 +3,8 @@
         <div class="card__dep d-flex align-items-center">
             <app-avatar [imageUrl]="appeal.deputyImageUrl" [name]="appeal.shortName"></app-avatar>
             <div class="card__deputy">
-                <p class="card__name">{{appeal.deputyName}}</p>
-                <p *ngIf="appeal.party" class="card__party font-weight-500 tx-small tx-color-6">{{appeal.party}}</p>
+                <p [innerHTML]="appeal.deputyName" class="card__name"></p>
+                <p *ngIf="appeal.party" [innerHTML]="appeal.party" class="card__party font-weight-500 tx-small tx-color-6"></p>
             </div>
         </div>
         <div class="card__status" [ngClass]="statusColor">
@@ -16,8 +16,8 @@
         </div>
     </div>
     <div class="card__description mt-20">
-        <p class="card__description-title line-height-128 tx-normal tx-color-2">{{appeal.title}}</p>
-        <p class="card__content">{{appeal.description}}</p>
+        <p [innerHTML]="appeal.title" class="card__description-title line-height-128 tx-normal tx-color-2"></p>
+        <p [innerHTML]="appeal.description" class="card__content"></p>
     </div>
     <div class="card__bottom d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
